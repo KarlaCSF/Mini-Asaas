@@ -11,7 +11,7 @@ buildscript {
 }
 
 version "0.1"
-group "com.mini.assas"
+group "com.mini.asaas"
 
 apply plugin:"eclipse"
 apply plugin:"idea"

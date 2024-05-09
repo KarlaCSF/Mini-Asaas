@@ -1,4 +1,4 @@
-package com.mini.assas
+package com.mini.asaas
 
 class UrlMappings {
 
