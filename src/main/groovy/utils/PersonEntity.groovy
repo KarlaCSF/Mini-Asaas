@@ -2,10 +2,7 @@ package com.mini.asaas
 
 import com.mini.asaas.PersonType
 
-abstract class PersonEntity {
-    Date dateCreated
-    Date lastUpdated
-    Boolean deleted = false
+abstract class PersonEntity extends BaseEntity {
     String name
     String email
     PersonType personType
