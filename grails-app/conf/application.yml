@@ -102,9 +102,9 @@ dataSource:
   jmxExport: true
   username: 'root'
   password: '12345678'
-  driverClassName: 'org.mariadb.jdbc.Driver'
-  dialect: org.hibernate.dialect.MariaDBDialect
-  url: 'jdbc:mariadb://localhost:3306/mini_asaas'
+  driverClassName: 'com.mysql.cj.jdbc.Driver'
+  dialect: org.hibernate.dialect.MySQL8Dialect
+  url: 'jdbc:mysql://localhost:3306/mini_asaas'
 
 
 
@@ -112,16 +112,16 @@ environments:
   development:
     dataSource:
       dbCreate: update
-      url: jdbc:mariadb://localhost:3306/mini_asaas
+      url: jdbc:mysql://localhost:3306/mini_asaas
   test:
     dataSource:
       dbCreate: update
-      url: jdbc:mariadb://localhost:3306/mini_asaas
+      url: jdbc:mysql://localhost:3306/mini_asaas
    
   production:
     dataSource:
-      dbCreate: none
-      url: jdbc:mariadb://localhost:3306/mini_asaas
+      dbCreate: update
+      url: jdbc:mysql://localhost:3306/mini_asaas
       properties:
         jmxEnabled: true
         initialSize: 5
