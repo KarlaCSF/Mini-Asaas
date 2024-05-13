@@ -1,6 +1,6 @@
 package com.mini.asaas.utils
 
-class Endereco extends BaseEntity {
+class Address extends BaseEntity {
    String cep
    String district
    String city
