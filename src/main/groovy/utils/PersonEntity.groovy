@@ -1,4 +1,4 @@
-package com.mini.asaas
+package com.mini.asaas.utils
 
 import com.mini.asaas.PersonType
 
