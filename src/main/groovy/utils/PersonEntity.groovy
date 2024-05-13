@@ -2,7 +2,7 @@ package com.mini.asaas
 
 import com.mini.asaas.PersonType
 
-abstract class Person {
+abstract class PersonEntity {
     Date dateCreated
     Date lastUpdated
     Boolean deleted = false
