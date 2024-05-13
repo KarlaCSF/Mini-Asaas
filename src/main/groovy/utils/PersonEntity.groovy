@@ -16,7 +16,7 @@ abstract class Person {
       name nullable: false
       email nullable: false, email: true
       personType nullable: true
-      cpfCnpj nullable: false
+      cpfCnpj nullable: false, minSize: 11, maxSize: 14, unique: true
       endereco nullable: true
     }
 
