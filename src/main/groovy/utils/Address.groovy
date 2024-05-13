@@ -2,9 +2,10 @@ package com.mini.asaas.utils
 
 class Address extends BaseEntity {
    String cep
-   String district
    String city
    String state
+   String district
+   String street
    String number
    String complement
 
