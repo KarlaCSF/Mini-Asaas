@@ -7,14 +7,14 @@ abstract class PersonEntity extends BaseEntity {
     String email
     PersonType personType
     String cpfCnpj
-    String endereco
+    Address address
 
     static constraints = {
       name nullable: false
       email nullable: false, email: true
       personType nullable: true
       cpfCnpj nullable: false, minSize: 11, maxSize: 14, unique: true
-      endereco nullable: true
+      address nullable: true
     }
 
     static mapping = {
