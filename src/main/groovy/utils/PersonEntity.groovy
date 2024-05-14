@@ -3,6 +3,7 @@ package com.mini.asaas.utils
 import com.mini.asaas.PersonType
 
 abstract class PersonEntity extends BaseEntity {
+
     String name
     
     String email
