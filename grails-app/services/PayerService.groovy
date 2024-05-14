@@ -10,7 +10,7 @@ class PayerService {
         payer.name = name
         payer.email = email
         payer.cpfCnpj = cpfCnpj
-        payer.personType = PersonType.NATURAL // set per default natural while don't have verification what is the type// 
+        payer.personType = PersonType.NATURAL //TODO: set per default natural while don't have verification what is the type// 
 
         return payer.save(failOnError: true)
     }
