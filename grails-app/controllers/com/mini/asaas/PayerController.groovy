@@ -3,7 +3,7 @@ import com.mini.asaas.Payer
 
 class PayerController {
 
-    def PayerService
+    PayerService payerService
 
     def index() {
         
