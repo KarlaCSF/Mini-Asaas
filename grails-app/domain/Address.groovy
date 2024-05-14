@@ -4,11 +4,17 @@ import com.mini.asaas.utils.BaseEntity
 
 class Address extends BaseEntity {
    String cep
+
    String city
+
    String state
+
    String district
+
    String street
+
    String number
+   
    String complement
 
    static constraints = {

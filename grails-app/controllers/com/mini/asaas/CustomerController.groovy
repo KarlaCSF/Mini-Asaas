@@ -5,8 +5,9 @@ import com.mini.asaas.Address
 
 class CustomerController {
 
-   def customerService
-   def addressService
+   CustomerService customerService
+   
+   AddressService addressService
 
    def index() {}
 
