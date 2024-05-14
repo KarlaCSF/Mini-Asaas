@@ -13,7 +13,7 @@ abstract class PersonEntity extends BaseEntity {
       name nullable: false
       email nullable: false, email: true
       personType nullable: true
-      cpfCnpj nullable: false, minSize: 11, maxSize: 14, unique: true
+      cpfCnpj nullable: false, minSize: 11, maxSize: 14
       address nullable: true
     }
 
