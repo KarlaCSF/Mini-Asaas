@@ -1,4 +1,6 @@
-package com.mini.asaas.utils
+package com.mini.asaas
+
+import com.mini.asaas.utils.BaseEntity
 
 class Address extends BaseEntity {
    String cep
