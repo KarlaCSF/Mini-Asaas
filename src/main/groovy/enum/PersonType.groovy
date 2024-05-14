@@ -8,7 +8,7 @@ enum PersonType {
 
    public static PersonType convert(String personType) {
        try {
-           if (personType instanceof String) personType = personType.toUpperCase()
+           personType = personType.toUpperCase()
            return personType as PersonType
        } catch(Exception e) {
            return null
