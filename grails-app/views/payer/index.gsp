@@ -16,7 +16,7 @@
     <input type="text" placeholder="Insira seu Nome" name="name" id="name">
 
     <label for="address">Endereço</label>
-    <input type="text" placeholder="Insira seu endereco" name="address" id="address">
+    <input type="text" placeholder="Insira seu endereço" name="address" id="address">
 
     <label for="password">Senha</label>
     <input type="password" placeholder="Insira uma Senha" name="password" id="password">
