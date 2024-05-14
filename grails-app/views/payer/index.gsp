@@ -5,7 +5,7 @@
 </head>
 
 <body>
-<form action="${createLink(controller: "payer", action: "save")}">
+<form action="${createLink(controller: "payer", action: "save")}" method="POST">
     <label for="email">Email</label>
     <input type="text" placeholder="Insira seu Email" name="email"  id="email">
 
@@ -14,12 +14,6 @@
 
     <label for="name">Nome</label>
     <input type="text" placeholder="Insira seu Nome" name="name" id="name">
-
-    <label for="address">Endereço</label>
-    <input type="text" placeholder="Insira seu endereço" name="address" id="address">
-
-    <label for="password">Senha</label>
-    <input type="password" placeholder="Insira uma Senha" name="password" id="password">
 
     <input type="submit" value="Cadastrar">
 </form>

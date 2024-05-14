@@ -14,9 +14,7 @@ class PayerController {
             String name = params.name
             String email = params.email
             String cpfCnpj = params.cpfCnpj
-            String address = params.address
-            String password = params.password
-            Payer payer = payerService.save(name, email, cpfCnpj, address, password)
+            Payer payer = payerService.save(name, email, cpfCnpj)
             redirect(action: "show", id: payer.id)
         } catch (Exception e) {
             redirect(action: "index", params: params)
