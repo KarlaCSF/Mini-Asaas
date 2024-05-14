@@ -1,6 +1,7 @@
 package com.mini.asaas.utils
 
 abstract class BaseEntity {
+
    Date dateCreated
    
    Date lastUpdated
