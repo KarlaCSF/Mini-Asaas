@@ -5,10 +5,6 @@ class PayerController {
 
     PayerService payerService
 
-    def index() {
-        
-    }
-
     def save() {
         try {
             String name = params.name
@@ -16,7 +12,7 @@ class PayerController {
             String cpfCnpj = params.cpfCnpj
             Payer payer = payerService.save(name, email, cpfCnpj)
             redirect(action: "show", id: payer.id)
-        } catch (Exception e) {
+        } catch (Exception exception) {
             redirect(action: "index", params: params)
         }
     }
@@ -28,7 +24,7 @@ class PayerController {
                 render "Pagador não encontrado"
             }
             return [payer: payer]
-        } catch (Exception e) {
+        } catch (Exception exception) {
             render "Pagador não encontrado"
         }
     }
