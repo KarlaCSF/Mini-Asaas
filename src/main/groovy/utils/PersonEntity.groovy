@@ -1,6 +1,7 @@
 package com.mini.asaas.utils
 
 import com.mini.asaas.PersonType
+import com.mini.asaas.Address
 
 abstract class PersonEntity extends BaseEntity {
     String name
@@ -13,8 +14,8 @@ abstract class PersonEntity extends BaseEntity {
       name nullable: false
       email nullable: false, email: true
       personType nullable: true
-      cpfCnpj nullable: false, minSize: 11, maxSize: 14, unique: true
-      address nullable: true
+      cpfCnpj nullable: false, minSize: 11, maxSize: 14
+      address nullable: false
     }
 
     static mapping = {
