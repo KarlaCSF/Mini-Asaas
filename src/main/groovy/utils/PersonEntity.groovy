@@ -11,8 +11,6 @@ abstract class PersonEntity extends BaseEntity {
     PersonType personType
     
     String cpfCnpj
-    
-    Address address
 
     static constraints = {
       email email: true
