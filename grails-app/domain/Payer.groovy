@@ -1,12 +1,5 @@
 package com.mini.asaas
-import com.mini.asaas.utils.BaseEntity
+import com.mini.asaas.utils.PersonEntity
 
-class Payer extends BaseEntity {
-    String name;
-    String email;
-    String cpfCnpj;
-    String address;
-    String password;
-    static constraints = {
-    }
+class Payer extends PersonEntity {
 }
