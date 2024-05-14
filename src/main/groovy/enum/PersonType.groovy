@@ -3,6 +3,7 @@ package com.mini.asaas
 import grails.util.Holders
 
 enum PersonType {
+
    NATURAL,
    LEGAL
 
