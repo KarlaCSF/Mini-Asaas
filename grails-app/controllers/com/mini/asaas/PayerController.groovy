@@ -26,8 +26,7 @@ class PayerController {
         try {
             Payer payer = Payer.get(params.id)
             if (!payer) {
-                log.error("PayerController.show >> Não foi possível buscar o Payer ${params.id}", exception) //  Todo: switch to throw a new exception
-                render "Pagador não encontrado"
+                throw new Exception("Payer não encontrado")
             }
             return [payer: payer]
         } catch (Exception exception) {
