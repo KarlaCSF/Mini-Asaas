@@ -10,7 +10,6 @@ class PayerController {
     }
 
     def save() {
-        log.info("Starting the save the payer")
         try {
             String name = params.name
             String email = params.email
@@ -24,7 +23,6 @@ class PayerController {
     }
 
     def show() {
-        log.info("Starting to show the payer")
         try {
             Payer payer = Payer.get(params.id)
             if (!payer) {
