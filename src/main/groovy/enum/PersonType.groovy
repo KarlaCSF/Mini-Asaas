@@ -11,7 +11,7 @@ enum PersonType {
        try {
            personType = personType.toUpperCase()
            return personType as PersonType
-       } catch(Exception e) {
+       } catch(Exception ignored) {
            return null
        }
    }

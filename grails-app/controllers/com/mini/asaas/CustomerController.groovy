@@ -28,21 +28,17 @@ class CustomerController {
          
          Customer customer = customerService.save(name, email, cpfCnpj, address)
          redirect(action: "show", id: customer.id)
-      } catch (Exception e) {
-         println(e)
-         render "Não foi possível salvar"
+      } catch (Exception exception) {
+         log.error("CustomerController.save >> Não foi possível salvar o Customer", exception)
       }
    }
 
    def show() {
       try {
          Customer customer = Customer.get(params.id)
-         if (!customer) {
-               render "Cliente não encontrado"
-         }
          return [customer: customer]
-      } catch (Exception e) {
-         render "Cliente não encontrado"
+      } catch (Exception exception) { 
+         log.error("CustomerController.show >> Não foi possível buscar o Customer ${params.id}", exception)
       }
    }
 }
