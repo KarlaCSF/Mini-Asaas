@@ -18,7 +18,7 @@ class PayerController {
             redirect(action: "show", id: payer.id)
         } catch (Exception exception) {
             log.error("PayerController.save >> Não foi possível salvar o Payer ${params.id}", exception)
-            params.errorMessage = "Não foi possível salvar o pagador"
+            params.errorMessage = "Não foi possível salvar o pagador, existem campos inválidos"
             render(view: "index", params: params)
         }
     }
