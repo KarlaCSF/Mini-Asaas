@@ -7,14 +7,14 @@
 <body>
 
 <form>
-    <label for="name">Nome</label>
-    <input type="text" value="${payer.name}" disabled="true">
-
     <label for="email">Email</label>
     <input type="text" value="${payer.email}" disabled="true">
 
     <label for="cpfCnpj">CPF/CPNJ</label>
     <input type="text" value="${payer.cpfCnpj}" disabled="true">
+
+    <label for="name">Nome</label>
+    <input type="text" value="${payer.name}" disabled="true">
 </form>
 </body>
 </html>
