@@ -6,7 +6,7 @@ class PayerController {
     PayerService payerService
 
     def index() {
-        render(view: "index")
+        render(view: "index", params: params)
     }
 
     def save() {
@@ -18,7 +18,8 @@ class PayerController {
             redirect(action: "show", id: payer.id)
         } catch (Exception exception) {
             log.error("PayerController.save >> Não foi possível salvar o Payer ${params.id}", exception)
-            redirect(action: "index", params: params)
+            params.errorMessage = "Não foi possível salvar o pagador"
+            render(view: "index", params: params)
         }
     }
 
