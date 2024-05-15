@@ -17,7 +17,7 @@ class PayerController {
             Payer payer = payerService.save(name, email, cpfCnpj)
             redirect(action: "show", id: payer.id)
         } catch (Exception exception) {
-            log.error("Error in save payer:", exception)
+            log.error("PayerController.save >> Não foi possível salvar o Payer ${params.id}", exception)
             redirect(action: "index", params: params)
         }
     }
@@ -26,12 +26,12 @@ class PayerController {
         try {
             Payer payer = Payer.get(params.id)
             if (!payer) {
-                log.error("Error in catch payer:", exception)
+                log.error("PayerController.show >> Não foi possível buscar o Payer ${params.id}", exception) //  Todo: switch to throw a new exception
                 render "Pagador não encontrado"
             }
             return [payer: payer]
         } catch (Exception exception) {
-            log.error("Error in catch payer:", exception)
+            log.error("PayerController.show >> Não foi possível buscar o Payer ${params.id}", exception)
             render "Pagador não encontrado"
         }
     }
