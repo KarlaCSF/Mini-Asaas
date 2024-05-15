@@ -17,8 +17,8 @@ class PayerController {
             Payer payer = payerService.save(name, email, cpfCnpj)
             redirect(action: "show", id: payer.id)
         } catch (Exception exception) {
-            redirect(action: "index", params: params)
             log.error("Error in save payer:", exception)
+            redirect(action: "index", params: params)
         }
     }
 
