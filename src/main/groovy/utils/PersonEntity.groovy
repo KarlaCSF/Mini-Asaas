@@ -1,6 +1,7 @@
 package com.mini.asaas.utils
 
 import com.mini.asaas.PersonType
+import com.mini.asaas.Address
 
 abstract class PersonEntity extends BaseEntity {
 
@@ -11,6 +12,8 @@ abstract class PersonEntity extends BaseEntity {
     PersonType personType
     
     String cpfCnpj
+
+    Address address
 
     static constraints = {
       email email: true
