@@ -19,13 +19,13 @@ class Address extends BaseEntity {
    String complement
 
    static constraints = {
-      cep blank:false, maxSize: 8
-      city blank:false
-      state blank:false, maxSize: 2
-      district blank:false
-      street blank:false
-      number blank:false
-      complement blank:true
+      cep blank: false, maxSize: 8
+      city blank: false
+      state blank: false, maxSize: 2
+      district blank: false
+      street blank: false
+      number blank: false
+      complement blank: true
    }
 
    static mapping = {
