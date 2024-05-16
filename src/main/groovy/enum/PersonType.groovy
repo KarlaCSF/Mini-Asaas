@@ -3,15 +3,15 @@ package com.mini.asaas
 import grails.util.Holders
 
 enum PersonType {
-
-   NATURAL,
-   LEGAL
+    
+    NATURAL,
+    LEGAL
 
    public static PersonType convert(String personType) {
        try {
            personType = personType.toUpperCase()
            return personType as PersonType
-       } catch(Exception ignored) {
+       } catch (Exception ignored) {
            return null
        }
    }
