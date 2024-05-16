@@ -16,8 +16,10 @@ abstract class PersonEntity extends BaseEntity {
     Address address
 
     static constraints = {
-      email email: true
-      cpfCnpj minSize: 11, maxSize: 14
+      name  blank: false
+      email blank: false, email: true 
+      personType blank: false
+      cpfCnpj blank: false, minSize: 11, maxSize: 14
     }
 
     static mapping = {
