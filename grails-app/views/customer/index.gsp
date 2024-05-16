@@ -4,7 +4,7 @@
     <meta name="layout" content="main"/>
 </head>
 <body>
-    <form action="${ createLink(controller: "customer", action: "save")}">
+    <form action="${createLink(controller: "customer", action: "save")}">
         <label for="name">Nome:</label><br>
         <input type="text" name="name"><br>
         
