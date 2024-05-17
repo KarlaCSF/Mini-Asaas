@@ -13,7 +13,12 @@
                         
         <fieldset>
             <legend>Dados do Pagador</legend>
-
+            
+            <div>
+                <label for="name">Vinculado ao Cliente</label><br>
+                <input type="text" value="${payer.customer.name}" disabled="true"><br>
+            </div><br>
+            
             <div>
                 <label for="name">Nome</label><br>
                 <input type="text" value="${payer.name}" disabled="true"><br>
@@ -70,10 +75,8 @@
             </div><br>
             
         </fieldset>
-
+        
     </fieldset>
-
-    <input type="submit" value="Cadastrar">
 </form>
 </body>
 </html>

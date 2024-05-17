@@ -19,6 +19,7 @@ class PayerController {
             String name = params.name
             String email = params.email
             String cpfCnpj = params.cpfCnpj
+            String customerId = params.customerId
 
             String cep = params.cep
             String city = params.city
@@ -29,12 +30,12 @@ class PayerController {
             String complement = params.complement
             Address address = addressService.save(cep, city, state, district, street, number, complement)
 
-            Payer payer = payerService.save(name, email, cpfCnpj,address)
+            Payer payer = payerService.save(name, email, customerId, cpfCnpj,address)
             redirect(action: "show", id: payer.id)
         } catch (Exception exception) {
             log.error("PayerController.save >> Não foi possível salvar o Payer ${params.id}", exception)
             params.errorMessage = "Não foi possível salvar o pagador, existem campos inválidos"
-            render(view: "index", params: params)
+            redirect(view: "index", params: params)
         }
     }
 
