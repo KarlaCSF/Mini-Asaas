@@ -2,18 +2,25 @@ package com.mini.asaas
 
 import com.mini.asaas.Customer
 import com.mini.asaas.Address
+import com.mini.asaas.AddressService
 import grails.gorm.transactions.Transactional
+import com.mini.asaas.dto.CustomerDto
 
 @Transactional
 class CustomerService {
-   public Customer save(String name, String email, String cpfCnpj, Address address) {
-       Customer customer = new Customer()
-       customer.name = name
-       customer.email = email
-       customer.cpfCnpj = cpfCnpj
-       customer.address = address
-       customer.personType = PersonType.NATURAL
-       
-       return customer.save(failOnError: true)
+
+    AddressService addressService
+
+    public Customer save(CustomerDto customerDto) {
+        Customer customer = new Customer()
+        
+        customer.name = customerDto.name
+        customer.email = customerDto.email
+        customer.cpfCnpj = customerDto.cpfCnpj
+        customer.personType = PersonType.NATURAL
+        
+        customer.address = addressService.save(customerDto.addressDto)
+        
+        return customer.save(failOnError: true)
    }
 }
