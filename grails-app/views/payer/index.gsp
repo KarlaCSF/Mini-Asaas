@@ -8,10 +8,11 @@
 <form action="${createLink(controller: "payer", action: "save")}" method="POST">
 
     <fieldset>
-            <legend>Cadastro</legend>
-            <g:if test="${params.errorMessage}">
-                    <span>${params.errorMessage}</span>
-            </g:if>
+        <legend>Cadastro</legend>
+        
+        <g:if test="${params.errorMessage}">
+            <span>${params.errorMessage}</span>
+        </g:if>
             
         <fieldset>
             <legend>Dados do Pagador</legend>
