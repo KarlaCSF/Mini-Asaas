@@ -7,7 +7,7 @@ import com.mini.asaas.Customer
 
 @Transactional
 class PayerService {
-    public Payer save(String name, String email, String customerId, String cpfCnpj, Address address) {
+    public Payer save(String name, String email, BigInteger customerId, String cpfCnpj, Address address) {
         Payer payer = new Payer()
         payer.name = name
         payer.email = email

@@ -18,7 +18,7 @@ class PayerController {
             String name = params.name
             String email = params.email
             String cpfCnpj = params.cpfCnpj
-            String customerId = params.customerId
+            BigInteger customerId = new BigInteger(params.customerId)
 
             String cep = params.cep
             String city = params.city
