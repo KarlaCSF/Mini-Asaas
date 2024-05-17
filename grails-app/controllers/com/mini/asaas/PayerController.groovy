@@ -1,4 +1,5 @@
 package com.mini.asaas
+
 import com.mini.asaas.Payer
 import com.mini.asaas.Customer
 import com.mini.asaas.dto.PayerDto
@@ -6,6 +7,7 @@ import com.mini.asaas.dto.PayerDto
 class PayerController {
 
     PayerService payerService
+
     AddressService addressService
     
     def index() {

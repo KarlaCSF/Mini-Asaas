@@ -1,5 +1,5 @@
 package com.mini.asaas.dto
-import com.mini.asaas.Address
+
 import com.mini.asaas.dto.AddressDto
 
 class PayerDto {
