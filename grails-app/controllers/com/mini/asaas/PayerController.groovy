@@ -11,7 +11,6 @@ class PayerController {
     def index() {
 
         List<Customer> customerList = Customer.list()
-        log.info("Lista de clientes: ${customerList}")
         return[params: params, customerList:customerList]
     }
 
