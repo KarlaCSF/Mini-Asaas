@@ -10,7 +10,7 @@ class PayerController {
     
     def index() {
         List<Customer> customerList = Customer.list()
-        return[params: params, customerList: customerList]
+        return [params: params, customerList: customerList]
     }
 
     def save() {
