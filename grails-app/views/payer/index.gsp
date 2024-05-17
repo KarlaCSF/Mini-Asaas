@@ -74,7 +74,7 @@
 
             <div>
                 <label for="complement">Complemento</label><br>
-                <input type="text" placeholder="Insira o complemento" name="complement" value="${params.complement}" id="complement" required><br>
+                <input type="text" placeholder="Insira o complemento" name="complement" value="${params.complement}" id="complement"><br>
             </div><br>
             
         </fieldset>
