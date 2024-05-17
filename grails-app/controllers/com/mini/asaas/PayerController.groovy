@@ -1,7 +1,7 @@
 package com.mini.asaas
 import com.mini.asaas.Payer
 import com.mini.asaas.Customer
-import com.mini.asaas.Address
+import com.mini.asaas.dto.PayerDto
 
 class PayerController {
 
@@ -15,21 +15,8 @@ class PayerController {
 
     def save() {
         try {
-            String name = params.name
-            String email = params.email
-            String cpfCnpj = params.cpfCnpj
-            BigInteger customerId = new BigInteger(params.customerId)
-
-            String cep = params.cep
-            String city = params.city
-            String state = params.state
-            String district = params.district
-            String street = params.street
-            String number = params.number
-            String complement = params.complement
-            Address address = addressService.save(cep, city, state, district, street, number, complement)
-
-            Payer payer = payerService.save(name, email, customerId, cpfCnpj,address)
+            PayerDto payerDto = new PayerDto(params)
+            Payer payer = payerService.save(payerDto)
             redirect(action: "show", id: payer.id)
         } catch (Exception exception) {
             log.error("PayerController.save >> Não foi possível salvar o Payer ${params.id}", exception)
