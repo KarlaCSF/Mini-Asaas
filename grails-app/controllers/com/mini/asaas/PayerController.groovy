@@ -7,6 +7,7 @@ class PayerController {
 
     PayerService payerService
     AddressService addressService
+    
     def index() {
 
         List<Customer> customerList = Customer.list()
