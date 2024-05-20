@@ -17,7 +17,7 @@ class CustomerService {
         customer.name = customerDto.name
         customer.email = customerDto.email
         customer.cpfCnpj = customerDto.cpfCnpj
-        customer.personType = PersonType.NATURAL
+        customer.personType = customer.cpfCnpj.size() > 11 ? PersonType.LEGAL : PersonType.NATURAL
         
         customer.address = addressService.save(customerDto.addressDto)
         

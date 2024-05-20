@@ -18,8 +18,8 @@ class PayerService {
         payer.email = payerDto.email
         payer.cpfCnpj = payerDto.cpfCnpj
         payer.customer = Customer.get(payerDto.customerId)
-        payer.personType = PersonType.NATURAL //TODO: set per default natural while don't have verification what is the type// 
-        
+        payer.personType = payer.cpfCnpj.size() > 11 ? PersonType.LEGAL : PersonType.NATURAL
+
         payer.address = addressService.save(payerDto.addressDto)
         
         return payer.save(failOnError: true)
