@@ -1,12 +1,16 @@
 package com.mini.asaas
 import com.mini.asaas.Payer
+import com.mini.asaas.Customer
+import com.mini.asaas.Address
 
 class PayerController {
 
     PayerService payerService
-
+    AddressService addressService
+    
     def index() {
-        render(view: "index", params: params)
+        List<Customer> customerList = Customer.list()
+        return [params: params, customerList: customerList]
     }
 
     def save() {
@@ -14,12 +18,23 @@ class PayerController {
             String name = params.name
             String email = params.email
             String cpfCnpj = params.cpfCnpj
-            Payer payer = payerService.save(name, email, cpfCnpj)
+            Long customerId = new Long(params.customerId)
+
+            String cep = params.cep
+            String city = params.city
+            String state = params.state
+            String district = params.district
+            String street = params.street
+            String number = params.number
+            String complement = params.complement
+            Address address = addressService.save(cep, city, state, district, street, number, complement)
+
+            Payer payer = payerService.save(name, email, customerId, cpfCnpj,address)
             redirect(action: "show", id: payer.id)
         } catch (Exception exception) {
             log.error("PayerController.save >> Não foi possível salvar o Payer ${params.id}", exception)
             params.errorMessage = "Não foi possível salvar o pagador, existem campos inválidos"
-            render(view: "index", params: params)
+            redirect(view: "index", params: params)
         }
     }
 
