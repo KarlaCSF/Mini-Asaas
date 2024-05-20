@@ -17,12 +17,12 @@ class AddressDTO {
     String complement
             
     AddressDTO(Map params){
-            this.cep = params.cep
-            this.city = params.city
-            this.state = params.state
-            this.district = params.district
-            this.street = params.street
-            this.number = params.number
-            this.complement = params.complement
+        this.cep = params.cep
+        this.city = params.city
+        this.state = params.state
+        this.district = params.district
+        this.street = params.street
+        this.number = params.number
+        this.complement = params.complement
     } 
 }
