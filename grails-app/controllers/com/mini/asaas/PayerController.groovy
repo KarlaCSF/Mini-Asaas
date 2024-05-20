@@ -2,7 +2,7 @@ package com.mini.asaas
 
 import com.mini.asaas.Payer
 import com.mini.asaas.Customer
-import com.mini.asaas.dto.PayerDto
+import com.mini.asaas.dto.PayerDTO
 
 class PayerController {
 
@@ -17,8 +17,8 @@ class PayerController {
 
     def save() {
         try {
-            PayerDto payerDto = new PayerDto(params)
-            Payer payer = payerService.save(payerDto)
+            PayerDTO payerDTO = new PayerDTO(params)
+            Payer payer = payerService.save(payerDTO)
             redirect(action: "show", id: payer.id)
         } catch (Exception exception) {
             log.error("PayerController.save >> Não foi possível salvar o Payer ${params.id}", exception)

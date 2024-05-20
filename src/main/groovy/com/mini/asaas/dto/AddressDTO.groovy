@@ -1,6 +1,6 @@
 package com.mini.asaas.dto
 
-class AddressDto {
+class AddressDTO {
   
     String cep
 
@@ -16,7 +16,7 @@ class AddressDto {
 
     String complement
             
-    AddressDto(Map params){
+    AddressDTO(Map params){
             this.cep = params.cep
             this.city = params.city
             this.state = params.state

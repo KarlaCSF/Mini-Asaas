@@ -1,8 +1,8 @@
 package com.mini.asaas.dto
 
-import com.mini.asaas.dto.AddressDto
+import com.mini.asaas.dto.AddressDTO
 
-class PayerDto {
+class PayerDTO {
   
     String name
     
@@ -12,13 +12,13 @@ class PayerDto {
 
     Long customerId
 
-    AddressDto addressDto
+    AddressDTO addressDTO
 
-    PayerDto(Map params){
+    PayerDTO(Map params){
             this.name = params.name
             this.email = params.email
             this.cpfCnpj = params.cpfCnpj
             this.customerId = new Long(params.customerId)
-            this.addressDto = new AddressDto(params)     
+            this.addressDTO = new AddressDTO(params)     
     } 
 }
