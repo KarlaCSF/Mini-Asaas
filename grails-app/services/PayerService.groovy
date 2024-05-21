@@ -11,13 +11,13 @@ import com.mini.asaas.dto.PayerDTO
 class PayerService {
     AddressService addressService
 
-    public Payer save(PayerDTO payerDTO) {
+    public Payer save(PayerDTO payerDTO, Long customerId) {
         Payer payer = new Payer()
 
         payer.name = payerDTO.name
         payer.email = payerDTO.email
         payer.cpfCnpj = payerDTO.cpfCnpj
-        payer.customer = Customer.get(payerDTO.customerId)
+        payer.customer = Customer.get(customerId)
         payer.personType = PersonType.NATURAL //TODO: set per default natural while don't have verification what is the type// 
         
         payer.address = addressService.save(payerDTO.addressDTO)

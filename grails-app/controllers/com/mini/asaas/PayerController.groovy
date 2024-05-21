@@ -18,7 +18,8 @@ class PayerController {
     def save() {
         try {
             PayerDTO payerDTO = new PayerDTO(params)
-            Payer payer = payerService.save(payerDTO)
+            Long customerId = new Long(1) // todo: fix customer Id in 1 while don't have authentication
+            Payer payer = payerService.save(payerDTO, customerId)
             redirect(action: "show", id: payer.id)
         } catch (Exception exception) {
             log.error("PayerController.save >> Não foi possível salvar o Payer ${params.id}", exception)
