@@ -2,19 +2,19 @@ package com.mini.asaas
 
 import com.mini.asaas.Address
 import grails.gorm.transactions.Transactional
+import com.mini.asaas.dto.AddressDTO
 
 @Transactional
 class AddressService {
-   public Address save(String cep, String city, String state, String district, String street, String number, String complement) {
-       Address address = new Address()
-       address.cep = cep
-       address.city = city
-       address.state = state
-       address.district = district
-       address.street = street
-       address.number = number
-       address.complement = complement
-       
+   public Address save(AddressDTO addressDTO) {
+        Address address = new Address() 
+        address.cep = addressDTO.cep
+        address.city = addressDTO.city
+        address.state = addressDTO.state
+        address.district = addressDTO.district
+        address.street = addressDTO.street
+        address.number = addressDTO.number
+        address.complement = addressDTO.complement
        return address.save(failOnError: true)
    }
 }

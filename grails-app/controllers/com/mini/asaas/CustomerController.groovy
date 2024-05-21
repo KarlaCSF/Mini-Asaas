@@ -1,7 +1,7 @@
 package com.mini.asaas
 
 import com.mini.asaas.Customer
-import com.mini.asaas.Address
+import com.mini.asaas.dto.CustomerDTO
 
 class CustomerController {
 
@@ -13,20 +13,8 @@ class CustomerController {
 
    def save() {
       try {
-         String name = params.name
-         String email = params.email
-         String cpfCnpj = params.cpfCnpj
-
-         String cep = params.cep
-         String city = params.city
-         String state = params.state
-         String district = params.district
-         String street = params.street
-         String number = params.number
-         String complement = params.complement
-         Address address = addressService.save(cep, city, state, district, street, number, complement)
-         
-         Customer customer = customerService.save(name, email, cpfCnpj, address)
+         CustomerDTO customerDTO = new CustomerDTO(params)
+         Customer customer = customerService.save(customerDTO)
          redirect(action: "show", id: customer.id)
       } catch (Exception exception) {
          log.error("CustomerController.save >> Não foi possível salvar o Customer", exception)
