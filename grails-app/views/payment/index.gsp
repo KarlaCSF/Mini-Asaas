@@ -37,7 +37,7 @@
             </div><br>
         </fieldset>
         
-        <input type="submit" value="Cadastrar">
+        <input type="submit" value="Criar Cobrança">
     </fieldset>
 </form>
 </body>
