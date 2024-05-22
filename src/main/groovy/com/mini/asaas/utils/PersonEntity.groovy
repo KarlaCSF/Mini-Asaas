@@ -1,7 +1,7 @@
 package com.mini.asaas.utils
 
-import com.mini.asaas.PersonType
 import com.mini.asaas.Address
+import com.mini.asaas.enums.PersonType
 
 abstract class PersonEntity extends BaseEntity {
 
