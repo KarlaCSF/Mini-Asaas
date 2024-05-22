@@ -32,9 +32,15 @@
             </div><br>
  
             <div>
-                <label for="paymentType">Tipo de Pagamento</label><br>
-                <input type="text" value="${payment.paymentType}" disabled><br>
+                <label for="billingType">Tipo de Pagamento</label><br>
+                <input type="text" value="${payment.billingType.getMessage()}" disabled><br>
             </div><br>
+    
+            <div>
+                <label for="paymentStatus">Estado da cobrança</label><br>
+                <input type="text" value="${payment.paymentStatus.getMessage()}" disabled><br>
+            </div><br>
+
         </fieldset>
      
     </fieldset>

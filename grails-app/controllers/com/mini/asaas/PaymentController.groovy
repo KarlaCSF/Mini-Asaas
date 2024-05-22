@@ -1,8 +1,8 @@
 package com.mini.asaas
 
 import com.mini.asaas.Payer
-import com.mini.asaas.enums.PaymentType
-import com.mini.asaas.dto.PaymentDTO
+import com.mini.asaas.enums.payment.BillingType
+import com.mini.asaas.dto.payment.CreatePaymentDTO
 import com.mini.asaas.PaymentService
 
 class PaymentController {
@@ -10,15 +10,14 @@ class PaymentController {
     PaymentService paymentService
 
     def index() {  
-        List<Payer> payerList = Payer.list()
-        return [params: params, payerList: payerList, paymentTypes: PaymentType.values()]
+        return [params: params]
     }
 
     def save() {
         try {
-            PaymentDTO paymentDTO = new PaymentDTO(params)
+            CreatePaymentDTO createPaymentDTO = new CreatePaymentDTO(params)
             Long customerId = new Long(1) // todo: fix customer Id in 1 while don't have authentication
-            Payment payment = paymentService.save(paymentDTO,customerId)
+            Payment payment = paymentService.save(createPaymentDTO, customerId)
             redirect(action: "show", id: payment.id)
         } catch (Exception exception) {
             log.error("PaymentController.save >> Não foi possível salvar a Payment ${params.id}", exception)
@@ -30,10 +29,10 @@ class PaymentController {
     def show() {
         try {
             Payment payment = Payment.get(params.id)
-            if (!payment) throw new Exception("Payment não encontrado")
+            if (!payment) throw new Exception("PaymentController.show >> Não foi possível buscar o Payment ${params.id}")
             return [payment: payment]
         } catch (Exception exception) {
-            log.error("PaymentController.show >> Não foi possível buscar o Payment ${params.id}", exception)
+            log.error(exception.message, exception)
             render "Cobrança não encontrada"
         }
     }

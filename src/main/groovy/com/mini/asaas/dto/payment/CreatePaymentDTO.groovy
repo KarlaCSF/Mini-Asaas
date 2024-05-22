@@ -1,10 +1,11 @@
-package com.mini.asaas.dto
+package com.mini.asaas.dto.payment
 
-import com.mini.asaas.enums.PaymentType
+import com.mini.asaas.enums.payment.BillingType
+import com.mini.asaas.enums.payment.PaymentStatus
 import java.math.BigDecimal
 import java.text.SimpleDateFormat
 
-class PaymentDTO {
+class CreatePaymentDTO {
   
     Long payerId
 
@@ -12,13 +13,16 @@ class PaymentDTO {
 
     Date dueDate
 
-    PaymentType paymentType
+    BillingType billingType
 
-    PaymentDTO(Map params) {
+    PaymentStatus paymentStatus
+
+    CreatePaymentDTO(Map params) {
         this.payerId = params.payerId as Long
         this.value = new BigDecimal(params.value)
         this.dueDate = parseDate(params.dueDate)
-        this.paymentType = PaymentType.valueOf(params.paymentType)
+        this.billingType = BillingType.valueOf(params.billingType)
+        this.paymentStatus = PaymentStatus.WAITING
     } 
     
     private Date parseDate(String dateString) {
