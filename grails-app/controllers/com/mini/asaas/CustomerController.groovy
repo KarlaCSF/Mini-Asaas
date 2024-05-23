@@ -2,6 +2,7 @@ package com.mini.asaas
 
 import com.mini.asaas.Customer
 import com.mini.asaas.dto.CustomerDto
+import grails.validation.ValidationException
 
 class CustomerController {
 
@@ -18,6 +19,7 @@ class CustomerController {
          redirect(action: "show", id: customer.id)
       } catch (Exception exception) {
          log.error("CustomerController.save >> Não foi possível salvar o Customer", exception)
+         render("Não foi possível salvar a conta, ocorreram os seguintes erros: " + exception.errors.allErrors.defaultMessage.join(", "))
       }
    }
 
