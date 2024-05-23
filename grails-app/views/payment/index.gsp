@@ -1,4 +1,7 @@
-<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ page 
+import="com.mini.asaas.Payer"
+import="com.mini.asaas.enums.payment.BillingType"
+contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
     <title></title>
@@ -18,7 +21,7 @@
         <fieldset>         
             <div>
                 <label for="payerId">Escolha o Pagador</label><br>
-                <g:select name="payerId" from="${com.mini.asaas.Payer.list()}" optionKey="id" optionValue="name" noSelection="['':'Selecione um pagador']" required="true"/><br>
+                <g:select name="payerId" from="${Payer.list()}" optionKey="id" optionValue="name" noSelection="['':'Selecione um pagador']" required="true"/><br>
             </div><br>
 
             <div>
@@ -33,7 +36,7 @@
  
             <div>
                 <label for="billingType">Tipo de Pagamento</label><br>
-                <g:select name="billingType" from="${com.mini.asaas.enums.payment.BillingType.listBillingTypes()}" optionKey="id" optionValue="name" noSelection="['':'Selecione uma forma de pagamento']" required="true"/>
+                <g:select name="billingType" from="${BillingType.values()}" valueMessagePrefix="BillingType" noSelection="['':'Selecione uma forma de pagamento']" required="true"/>
             </div><br>
         </fieldset>
         

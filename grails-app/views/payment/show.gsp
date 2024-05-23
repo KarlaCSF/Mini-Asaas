@@ -41,6 +41,8 @@
                 <input type="text" value="${payment.paymentStatus.getMessage()}" disabled><br>
             </div><br>
 
+            <a href="${createLink(controller: 'payment', action: 'edit', id: payment.id)}">Editar Cobrança</a>
+            <a href="">Excluir Cobrança</a>
         </fieldset>
      
     </fieldset>
