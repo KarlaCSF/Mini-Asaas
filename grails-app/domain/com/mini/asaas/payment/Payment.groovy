@@ -28,4 +28,10 @@ class Payment extends BaseEntity {
         billingType blank:false
         paymentStatus blank:false
     }
+    
+    def softDelete() {
+        this.lastUpdated = new Date()
+        this.deleted = true
+        save(flush: true)
+    }
 }

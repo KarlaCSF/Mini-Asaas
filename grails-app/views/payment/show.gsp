@@ -42,7 +42,7 @@
             </div><br>
 
             <a href="${createLink(controller: 'payment', action: 'edit', id: payment.id)}">Editar Cobrança</a>
-            <a href="">Excluir Cobrança</a>
+            <a href="${createLink(controller: 'payment', action: 'delete', id: payment.id)}">Excluir Cobrança</a>
         </fieldset>
      
     </fieldset>

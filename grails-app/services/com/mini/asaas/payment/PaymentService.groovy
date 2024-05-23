@@ -10,10 +10,10 @@ import grails.gorm.transactions.Transactional
 
 @Transactional
 class PaymentService {
-    public Payment save(CreatePaymentDTO createPaymentDTO, Long customerId) {
+    public Payment save(CreatePaymentDTO createPaymentDTO, Customer customer) {
         Payment payment = new Payment()
         
-        payment.customer = Customer.get(customerId)
+        payment.customer = customer
         payment.payer = Payer.get(createPaymentDTO.payerId)
         payment.value = createPaymentDTO.value
         payment.dueDate = createPaymentDTO.dueDate
@@ -30,5 +30,9 @@ class PaymentService {
         payment.billingType = updatePaymentDTO.billingType
 
         return payment.save(failOnError: true)
+    }
+
+    public void delete(Payment payment) {
+        payment.softDelete()        
     }
 }

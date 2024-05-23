@@ -17,6 +17,10 @@ contentType="text/html;charset=UTF-8" %>
         <g:if test="${params.errorMessage}">
             <span>${params.errorMessage}</span>
         </g:if>
+        
+        <g:if test="${params.successfulMessage}">
+            <span>${params.successfulMessage}</span>
+        </g:if>
             
         <fieldset>         
             <div>
