@@ -1,4 +1,4 @@
-package com.mini.asaas
+package com.mini.asaas.payment
 
 import com.mini.asaas.Payer
 import com.mini.asaas.Customer

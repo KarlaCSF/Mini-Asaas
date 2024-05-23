@@ -1,7 +1,8 @@
-package com.mini.asaas
+package com.mini.asaas.payment
 
-import com.mini.asaas.Payment
+import com.mini.asaas.payment.Payment
 import com.mini.asaas.Customer
+import com.mini.asaas.Payer
 import com.mini.asaas.dto.payment.CreatePaymentDTO
 import com.mini.asaas.dto.payment.UpdatePaymentDTO
 import com.mini.asaas.enums.payment.PaymentStatus

@@ -1,10 +1,10 @@
-package com.mini.asaas
+package com.mini.asaas.payment
 
 import com.mini.asaas.Payer
 import com.mini.asaas.enums.payment.BillingType
 import com.mini.asaas.dto.payment.CreatePaymentDTO
 import com.mini.asaas.dto.payment.UpdatePaymentDTO
-import com.mini.asaas.PaymentService
+import com.mini.asaas.payment.PaymentService
 
 class PaymentController {
 
