@@ -1,8 +1,8 @@
 package com.mini.asaas.dto
 
-import com.mini.asaas.dto.AddressDto
+import com.mini.asaas.dto.AddressDTO
 
-class CustomerDto {
+class CustomerDTO {
   
     String name
     
@@ -10,12 +10,12 @@ class CustomerDto {
     
     String cpfCnpj
 
-    AddressDto addressDto
+    AddressDTO addressDTO
 
-    CustomerDto(Map params){
+    CustomerDTO(Map params){
             this.name = params.name
             this.email = params.email
             this.cpfCnpj = params.cpfCnpj
-            this.addressDto = new AddressDto(params)
+            this.addressDTO = new AddressDTO(params)
     } 
 }

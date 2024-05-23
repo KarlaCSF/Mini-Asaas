@@ -16,11 +16,7 @@
             
         <fieldset>
             <legend>Dados do Pagador</legend>
-            <div>
-                <label for="customerId">Cliente Vinculado</label><br>
-                <g:select name="customerId" from="${customerList}" optionKey="id" optionValue="name" noSelection="['':'Selecione um cliente']"/><br>
-            </div><br>
-
+            
             <div>
                 <label for="name">Nome</label><br>
                 <input type="text" placeholder="Insira seu Nome" name="name" value="${params.name}" id="name" required><br>
