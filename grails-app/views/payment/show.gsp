@@ -33,7 +33,7 @@
  
             <div>
                 <label for="billingType">Tipo de Pagamento</label><br>
-                <input type="text" value="${payment.billingType.getMessage()}" disabled><br>
+                <input type="text" value="${payment.billingType.getMessage()}" disabled><br>        
             </div><br>
     
             <div>

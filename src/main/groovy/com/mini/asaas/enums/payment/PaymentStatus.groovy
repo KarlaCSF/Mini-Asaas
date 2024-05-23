@@ -4,9 +4,9 @@ import grails.util.Holders
 import java.util.Locale
 
 enum PaymentStatus {
-    WAITING,
+    OVERDUE,
     PAYED,
-    OVERDUE
+    WAITING
      
     String getMessage() {
         def messageSource = Holders.applicationContext.getBean("messageSource")
