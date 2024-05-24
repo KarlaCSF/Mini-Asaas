@@ -7,7 +7,9 @@ import com.mini.asaas.dto.payment.CreatePaymentDTO
 import com.mini.asaas.dto.payment.UpdatePaymentDTO
 import com.mini.asaas.enums.payment.PaymentStatus
 import grails.gorm.transactions.Transactional
+import grails.compiler.GrailsCompileStatic
 
+@GrailsCompileStatic
 @Transactional
 class PaymentService {
     public Payment save(CreatePaymentDTO createPaymentDTO, Long customerId) {
