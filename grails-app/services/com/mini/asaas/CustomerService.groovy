@@ -15,7 +15,7 @@ class CustomerService {
     AddressService addressService
 
     public Customer save(CustomerDTO customerDTO) {
-        Customer customerValues = validateCustomer(customerDTO)
+        Customer customerValues = validateSave(customerDTO)
 
         if (customerValues.hasErrors()) {
             throw new ValidationException("Erro ao salvar conta", customerValues.errors)
@@ -32,10 +32,10 @@ class CustomerService {
         return customer.save(failOnError: true)
    }
 
-    private Customer validateCustomer(CustomerDTO customerDTO) {
+    private Customer validateSave(CustomerDTO customerDTO) {
         Customer customer = new Customer()
         
-        if (!Validators.validateByType(customerDTO.cpfCnpj)) {
+        if (!CpfCnpjUtils.validate(customerDTO.cpfCnpj)) {
             customer.errors.reject("cpfCnpj", null, "CPF ou CNPJ inválido.")
         }
         

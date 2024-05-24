@@ -1,13 +1,15 @@
 package com.mini.asaas
 
-class Validators {
+class CpfCnpjUtils {
+    static final int maxLengthCpf = 11
+    static final int maxLengthCnpj = 14
 
-    static boolean validateByType(String cpfCnpj) {
+    static boolean validate(String cpfCnpj) {
         
         cpfCnpj = cpfCnpj.replaceAll("[^\\d]", "")
 
-        if (cpfCnpj.length() == 11) return isValidCPF(cpfCnpj)
-        if (cpfCnpj.length() == 14) return isValidCNPJ(cpfCnpj)
+        if (cpfCnpj.length() == maxLengthCpf) return isValidCPF(cpfCnpj)
+        if (cpfCnpj.length() == maxLengthCnpj) return isValidCNPJ(cpfCnpj)
 
         return false
     }
