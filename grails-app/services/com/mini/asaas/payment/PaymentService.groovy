@@ -10,29 +10,59 @@ import grails.gorm.transactions.Transactional
 
 @Transactional
 class PaymentService {
-    public Payment save(CreatePaymentDTO createPaymentDTO, Customer customer) {
+    public Payment save(CreatePaymentDTO createPaymentDTO, Long customerId) {
         Payment payment = new Payment()
         
-        payment.customer = customer
-        payment.payer = Payer.get(createPaymentDTO.payerId)
+        payment.customer = Customer.where{
+            id == customerId
+            && deleted == false
+        }.first()
+        
+        payment.payer = Payer.where{
+            id == createPaymentDTO.payerId
+            && customer.id == customerId
+            && deleted == false
+        }.first()
+        
         payment.value = createPaymentDTO.value
         payment.dueDate = createPaymentDTO.dueDate
         payment.billingType = createPaymentDTO.billingType
-        payment.paymentStatus = createPaymentDTO.paymentStatus
+        payment.status = createPaymentDTO.status
         
         return payment.save(failOnError: true)
     }
 
-    public Payment update(UpdatePaymentDTO updatePaymentDTO, Payment payment ) {
+    public Payment update(UpdatePaymentDTO updatePaymentDTO, Long paymentId, Long customerId ) {
+        Payment payment = Payment.where{
+            id == paymentId 
+            && customer.id == customerId 
+            && deleted == false
+        }.first()
+        
         payment.lastUpdated = new Date()
         payment.value = updatePaymentDTO.value
         payment.dueDate = updatePaymentDTO.dueDate
         payment.billingType = updatePaymentDTO.billingType
-
+ 
         return payment.save(failOnError: true)
     }
 
-    public void delete(Payment payment) {
-        payment.softDelete()        
+    public Payment show(Long paymentId, Long customerId) {
+        Payment payment = Payment.where{
+            id == paymentId 
+            && customer.id == customerId 
+            && deleted == false
+        }.first()
+        return payment
+    }
+    
+    public void delete(Long paymentId, Long customerId) {
+        Payment payment = Payment.where{
+            id == paymentId 
+            && customer.id == customerId 
+            && deleted == false
+        }.first()
+
+        payment.softDelete(failOnError:true)
     }
 }

@@ -18,7 +18,7 @@ class Payment extends BaseEntity {
 
     BillingType billingType 
 
-    PaymentStatus paymentStatus
+    PaymentStatus status
 
     static constraints = {
         customer blank:false
@@ -26,12 +26,7 @@ class Payment extends BaseEntity {
         value blank:false
         dueDate blank:false
         billingType blank:false
-        paymentStatus blank:false
+        status blank:false
     }
     
-    def softDelete() {
-        this.lastUpdated = new Date()
-        this.deleted = true
-        save(flush: true)
-    }
 }

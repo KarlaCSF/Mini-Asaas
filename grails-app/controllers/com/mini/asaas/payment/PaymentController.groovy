@@ -17,10 +17,30 @@ class PaymentController {
         return [params: params]
     }
 
+    def edit() {
+        try {
+            Payment payment = paymentService.show(params.getLong("id"), customer.id)
+            return [payment: payment, id: payment.id]  
+        } catch (Exception exception) {
+            log.error(exception.message, exception)
+            render "Cobrança não encontrada"
+        }
+    }
+
+    def show() {
+        try {
+            Payment payment = paymentService.show(params.getLong("id"), customer.id)
+            return [payment: payment]
+        } catch (Exception exception) {
+            log.error(exception.message, exception)
+            render "Cobrança não encontrada"
+        }
+    }
+    
     def save() {
         try {
             CreatePaymentDTO createPaymentDTO = new CreatePaymentDTO(params)
-            Payment payment = paymentService.save(createPaymentDTO, customer)
+            Payment payment = paymentService.save(createPaymentDTO, customer.id)
             redirect(action: "show", id: payment.id)
         } catch (Exception exception) {
             log.error("PaymentController.save >> Não foi possível salvar a Payment ${params.id}", exception)
@@ -29,23 +49,10 @@ class PaymentController {
         }
     }
     
-    def edit(){
-        try {
-            Payment payment = Payment.get(params.id)
-            if (!payment || (payment.customer.id != customer.id)) throw new Exception("PaymentController.edit >> Não foi possível achar o Payment ${params.id} vinculado ao Customer ${customer.id} para edição")
-            return [payment: payment, id:payment.id]  
-        } catch (Exception exception) {
-            log.error(exception.message, exception)
-            render "Cobrança não encontrada"
-        }
-    }
-    
     def update() {
         try {
-            Payment payment = Payment.get(params.id)
-            if (!payment || (payment.customer.id != customer.id)) throw new Exception("PaymentController.update >> Não foi possível editar o Payment ${params.id} vinculado ao Customer ${customer.id} para edição")
             UpdatePaymentDTO updatePaymentDTO = new UpdatePaymentDTO(params)
-            payment = paymentService.update(updatePaymentDTO, payment)
+            Payment payment = paymentService.update(updatePaymentDTO, params.getLong("id"), customer.id)
             redirect(action: "show", id: payment.id)
         } catch (Exception exception) {
             log.error(exception.message, exception)
@@ -54,23 +61,10 @@ class PaymentController {
         }
     }
 
-    def show() {
-        try {
-            Payment payment = Payment.get(params.id)
-            if (!payment || (payment.customer.id != customer.id)) throw new Exception("PaymentController.show >> Não foi possível buscar o Payment ${params.id} vinculado ao Customer ${customer.id}")
-            return [payment: payment]
-        } catch (Exception exception) {
-            log.error(exception.message, exception)
-            render "Cobrança não encontrada"
-        }
-    }
-
     def delete(){
         try {
-            Payment payment = Payment.get(params.id)
-            if (!payment || (payment.customer.id != customer.id)) throw new Exception("PaymentController.delete >> Não foi possível excluir o Payment ${params.id} vinculado ao Customer ${customer.id} para edição")
-            paymentService.delete(payment)
-            redirect(action: "index", params: params)
+            paymentService.delete(params.getLong("id"), customer.id)
+            redirect(view: "index")
         } catch (Exception exception) {
             log.error(exception.message, exception)
             params.errorMessage = "Não foi possível apagar a cobrança"

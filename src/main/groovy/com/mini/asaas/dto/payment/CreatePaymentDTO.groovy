@@ -2,8 +2,8 @@ package com.mini.asaas.dto.payment
 
 import com.mini.asaas.enums.payment.BillingType
 import com.mini.asaas.enums.payment.PaymentStatus
+import com.mini.asaas.utils.ParseUtil
 import java.math.BigDecimal
-import java.text.SimpleDateFormat
 
 class CreatePaymentDTO {
   
@@ -15,19 +15,13 @@ class CreatePaymentDTO {
 
     BillingType billingType
 
-    PaymentStatus paymentStatus
+    PaymentStatus status
 
     CreatePaymentDTO(Map params) {
         this.payerId = params.payerId as Long
         this.value = new BigDecimal(params.value)
-        this.dueDate = parseDate(params.dueDate)
+        this.dueDate = ParseUtil.date(params.dueDate)
         this.billingType = BillingType.valueOf(params.billingType)
-        this.paymentStatus = PaymentStatus.WAITING
+        this.status = PaymentStatus.WAITING
     } 
-    
-    private Date parseDate(String dateString) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd")
-        dateFormat.setLenient(false)
-        return dateFormat.parse(dateString)
-    }
 }

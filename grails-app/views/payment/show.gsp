@@ -37,8 +37,8 @@
             </div><br>
     
             <div>
-                <label for="paymentStatus">Estado da cobrança</label><br>
-                <input type="text" value="${payment.paymentStatus.getMessage()}" disabled><br>
+                <label for="status">Estado da cobrança</label><br>
+                <input type="text" value="${payment.status.getMessage()}" disabled><br>
             </div><br>
 
             <a href="${createLink(controller: 'payment', action: 'edit', id: payment.id)}">Editar Cobrança</a>
