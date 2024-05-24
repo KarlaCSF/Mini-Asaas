@@ -8,7 +8,9 @@ import com.mini.asaas.dto.PayerDTO
 import com.mini.asaas.enums.PersonType
 
 import javax.transaction.Transactional
+import grails.compiler.GrailsCompileStatic
 
+@GrailsCompileStatic
 @Transactional
 class PayerService {
     

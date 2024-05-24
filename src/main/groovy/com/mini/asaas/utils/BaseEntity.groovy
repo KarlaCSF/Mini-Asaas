@@ -1,5 +1,7 @@
 package com.mini.asaas.utils
+import grails.compiler.GrailsCompileStatic
 
+@GrailsCompileStatic
 abstract class BaseEntity {
 
     Date dateCreated
@@ -7,8 +9,4 @@ abstract class BaseEntity {
     Date lastUpdated
     
     Boolean deleted = false
-
-    static mapping = {
-        tablePerHierarchy false
-    }
 }
