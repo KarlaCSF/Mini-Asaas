@@ -6,8 +6,6 @@ grails.plugin.springsecurity.userLookup.authorityJoinClassName = 'com.mini.asaas
 grails.plugin.springsecurity.authority.className = 'com.mini.asaas.Role'
 
 grails.plugin.springsecurity.logout.postOnly = false //REMOVER
-grails.plugin.springsecurity.failureHandler.defaultFailureUrl = "/customer"
-grails.plugin.springsecurity.apf.filterProcessesUrl = "/customer"
 
 grails.plugin.springsecurity.controllerAnnotations.staticRules = [
 	[pattern: '/',               access: ['permitAll']],
@@ -20,7 +18,6 @@ grails.plugin.springsecurity.controllerAnnotations.staticRules = [
 	[pattern: '/**/css/**',      access: ['permitAll']],
 	[pattern: '/**/images/**',   access: ['permitAll']],
 	[pattern: '/**/favicon.ico', access: ['permitAll']],
-	[pattern: '/customer', access: ['permitAll']]
 ]
 
 grails.plugin.springsecurity.filterChain.chainMap = [
