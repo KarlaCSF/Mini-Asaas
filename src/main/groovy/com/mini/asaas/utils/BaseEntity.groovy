@@ -1,6 +1,6 @@
 package com.mini.asaas.utils
-import grails.compiler.GrailsCompileStatic
 
+import grails.compiler.GrailsCompileStatic
 import grails.gorm.dirty.checking.DirtyCheck
 
 @DirtyCheck
