@@ -2,7 +2,9 @@ package com.mini.asaas
 
 import com.mini.asaas.Customer
 import com.mini.asaas.dto.CustomerDTO
+import grails.compiler.GrailsCompileStatic
 
+@GrailsCompileStatic
 class CustomerController {
 
    CustomerService customerService
@@ -24,7 +26,7 @@ class CustomerController {
 
    def show() {
       try {
-         Customer customer = Customer.get(params.id)
+         Customer customer = Customer.get(params.getLong("id"))
          return [customer: customer]
       } catch (Exception exception) { 
          log.error("CustomerController.show >> Não foi possível buscar o Customer ${params.id}", exception)

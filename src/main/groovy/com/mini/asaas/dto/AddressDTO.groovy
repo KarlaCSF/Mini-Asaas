@@ -1,5 +1,8 @@
 package com.mini.asaas.dto
 
+import grails.compiler.GrailsCompileStatic
+
+@GrailsCompileStatic
 class AddressDTO {
   
     String cep

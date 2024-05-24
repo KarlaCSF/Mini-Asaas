@@ -1,7 +1,11 @@
 package com.mini.asaas.enums
 
 import grails.util.Holders
+import java.util.Locale
+import grails.compiler.GrailsCompileStatic
+import groovy.transform.CompileDynamic
 
+@GrailsCompileStatic
 enum PersonType {
     
     NATURAL,
@@ -16,6 +20,7 @@ enum PersonType {
        }
    }
 
+    @CompileDynamic
     public String getLabel() {
         return Holders.applicationContext.getBean("messageSource").getMessage("PersonType.${this}.label", null, "", new Locale("pt", "BR"))
     }

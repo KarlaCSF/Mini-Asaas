@@ -8,7 +8,9 @@ import com.mini.asaas.enums.PersonType
 
 import grails.gorm.transactions.Transactional
 import grails.validation.ValidationException
+import grails.compiler.GrailsCompileStatic
 
+@GrailsCompileStatic
 @Transactional
 class CustomerService {
 

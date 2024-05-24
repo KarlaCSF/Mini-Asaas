@@ -1,4 +1,6 @@
-<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ page 
+import="com.mini.asaas.enums.States"
+contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
     <title></title>
@@ -46,7 +48,7 @@
             
             <div>
                 <label for="state">Estado</label><br>
-                <input type="text" placeholder="Insira o seu Estado" name="state" value="${params.state}" id="state" maxlength="2" required><br>
+                <g:select name="state" from="${States.values()}" noSelection="['':'Selecione um estado']" required="true"/><br><br>
             </div><br>
                         
             <div>
