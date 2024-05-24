@@ -1,7 +1,9 @@
 package com.mini.asaas.dto
 
 import com.mini.asaas.dto.AddressDTO
+import grails.compiler.GrailsCompileStatic
 
+@GrailsCompileStatic
 class PayerDTO {
   
     String name

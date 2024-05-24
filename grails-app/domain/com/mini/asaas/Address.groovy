@@ -1,7 +1,9 @@
 package com.mini.asaas
 
 import com.mini.asaas.utils.BaseEntity
+import grails.compiler.GrailsCompileStatic
 
+@GrailsCompileStatic
 class Address extends BaseEntity {
    
    String cep

@@ -7,7 +7,9 @@ import com.mini.asaas.dto.CustomerDTO
 import com.mini.asaas.enums.PersonType
 
 import grails.gorm.transactions.Transactional
+import grails.compiler.GrailsCompileStatic
 
+@GrailsCompileStatic
 @Transactional
 class CustomerService {
 
