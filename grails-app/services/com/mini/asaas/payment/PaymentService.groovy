@@ -63,6 +63,7 @@ class PaymentService {
             && deleted == false
         }.first()
 
-        payment.softDelete(failOnError:true)
+        payment.deleted = true 
+        payment.save(failOnError: true)
     }
 }
