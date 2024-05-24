@@ -1,8 +1,10 @@
 package com.mini.asaas.utils
 
-import com.mini.asaas.PersonType
 import com.mini.asaas.Address
+import com.mini.asaas.enums.PersonType
+import grails.compiler.GrailsCompileStatic
 
+@GrailsCompileStatic
 abstract class PersonEntity extends BaseEntity {
 
     String name
@@ -20,9 +22,5 @@ abstract class PersonEntity extends BaseEntity {
       email blank: false, email: true 
       personType blank: false
       cpfCnpj blank: false, minSize: 11, maxSize: 14
-    }
-
-    static mapping = {
-        tablePerHierarchy false
     }
 }

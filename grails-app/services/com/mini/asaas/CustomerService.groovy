@@ -3,9 +3,13 @@ package com.mini.asaas
 import com.mini.asaas.Customer
 import com.mini.asaas.Address
 import com.mini.asaas.AddressService
-import grails.gorm.transactions.Transactional
 import com.mini.asaas.dto.CustomerDTO
+import com.mini.asaas.enums.PersonType
 
+import grails.gorm.transactions.Transactional
+import grails.compiler.GrailsCompileStatic
+
+@GrailsCompileStatic
 @Transactional
 class CustomerService {
 

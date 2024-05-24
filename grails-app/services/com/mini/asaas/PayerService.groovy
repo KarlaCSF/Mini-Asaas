@@ -1,14 +1,19 @@
 package com.mini.asaas
 
-import javax.transaction.Transactional
 import com.mini.asaas.Payer
 import com.mini.asaas.Address
-import com.mini.asaas.AddressService
 import com.mini.asaas.Customer
+import com.mini.asaas.AddressService
 import com.mini.asaas.dto.PayerDTO
+import com.mini.asaas.enums.PersonType
 
+import javax.transaction.Transactional
+import grails.compiler.GrailsCompileStatic
+
+@GrailsCompileStatic
 @Transactional
 class PayerService {
+    
     AddressService addressService
 
     public Payer save(PayerDTO payerDTO, Long customerId) {

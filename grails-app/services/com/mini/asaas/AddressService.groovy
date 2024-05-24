@@ -1,9 +1,12 @@
 package com.mini.asaas
 
 import com.mini.asaas.Address
-import grails.gorm.transactions.Transactional
 import com.mini.asaas.dto.AddressDTO
 
+import grails.gorm.transactions.Transactional
+import grails.compiler.GrailsCompileStatic
+
+@GrailsCompileStatic
 @Transactional
 class AddressService {
    public Address save(AddressDTO addressDTO) {
