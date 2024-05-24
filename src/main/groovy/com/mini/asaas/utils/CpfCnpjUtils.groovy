@@ -1,5 +1,8 @@
-package com.mini.asaas
+package com.mini.asaas.CpfCnpjUtils
 
+import grails.compiler.GrailsCompileStatic
+
+@GrailsCompileStatic
 class CpfCnpjUtils {
     static final int maxLengthCpf = 11
     static final int maxLengthCnpj = 14
