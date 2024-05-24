@@ -1,4 +1,4 @@
-package com.mini.asaas
+package com.mini.asaas.enums
 
 import grails.util.Holders
 

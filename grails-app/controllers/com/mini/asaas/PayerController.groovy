@@ -1,25 +1,29 @@
 package com.mini.asaas
+
 import com.mini.asaas.Payer
+import com.mini.asaas.Customer
+import com.mini.asaas.dto.PayerDTO
 
 class PayerController {
 
     PayerService payerService
 
+    AddressService addressService
+    
     def index() {
-        render(view: "index", params: params)
+        return [params: params]
     }
 
     def save() {
         try {
-            String name = params.name
-            String email = params.email
-            String cpfCnpj = params.cpfCnpj
-            Payer payer = payerService.save(name, email, cpfCnpj)
+            PayerDTO payerDTO = new PayerDTO(params)
+            Long customerId = new Long(1) // todo: fix customer Id in 1 while don't have authentication
+            Payer payer = payerService.save(payerDTO, customerId)
             redirect(action: "show", id: payer.id)
         } catch (Exception exception) {
             log.error("PayerController.save >> Não foi possível salvar o Payer ${params.id}", exception)
             params.errorMessage = "Não foi possível salvar o pagador, existem campos inválidos"
-            render(view: "index", params: params)
+            redirect(view: "index", params: params)
         }
     }
 
