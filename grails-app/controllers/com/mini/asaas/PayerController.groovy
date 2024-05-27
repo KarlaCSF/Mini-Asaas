@@ -3,7 +3,9 @@ package com.mini.asaas
 import com.mini.asaas.Payer
 import com.mini.asaas.Customer
 import com.mini.asaas.dto.PayerDTO
+import grails.compiler.GrailsCompileStatic
 
+@GrailsCompileStatic
 class PayerController {
 
     PayerService payerService
@@ -29,7 +31,7 @@ class PayerController {
 
     def show() {
         try {
-            Payer payer = Payer.get(params.id)
+            Payer payer = Payer.get(params.getLong("id"))
             if (!payer) throw new Exception("Payer não encontrado")
             return [payer: payer]
         } catch (Exception exception) {

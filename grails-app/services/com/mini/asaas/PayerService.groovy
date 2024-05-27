@@ -8,7 +8,9 @@ import com.mini.asaas.dto.PayerDTO
 import com.mini.asaas.utils.CpfCnpjUtils
 
 import javax.transaction.Transactional
+import grails.compiler.GrailsCompileStatic
 
+@GrailsCompileStatic
 @Transactional
 class PayerService {
     
