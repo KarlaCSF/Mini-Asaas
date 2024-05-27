@@ -4,7 +4,9 @@ import com.mini.asaas.enums.payment.BillingType
 import com.mini.asaas.enums.payment.PaymentStatus
 import com.mini.asaas.utils.ParseUtil
 import java.math.BigDecimal
+import grails.compiler.GrailsCompileStatic
 
+@GrailsCompileStatic
 class CreatePaymentDTO {
   
     Long payerId
@@ -19,9 +21,9 @@ class CreatePaymentDTO {
 
     CreatePaymentDTO(Map params) {
         this.payerId = params.payerId as Long
-        this.value = new BigDecimal(params.value)
-        this.dueDate = ParseUtil.date(params.dueDate)
-        this.billingType = BillingType.valueOf(params.billingType)
+        this.value = new BigDecimal(params.value.toString())
+        this.dueDate = ParseUtil.date(params.dueDate.toString())
+        this.billingType = params.billingType as BillingType
         this.status = PaymentStatus.WAITING
     } 
 }
