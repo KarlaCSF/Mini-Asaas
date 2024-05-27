@@ -15,15 +15,6 @@ enum BillingType {
     MONEY,
     PIX
     
-    public static BillingType convert(String billingType) {
-        try {
-            billingType = billingType.toUpperCase()
-            return billingType as BillingType
-        } catch (Exception ignored) {
-            return null
-        }
-    }
-
     @CompileDynamic
     String getMessage() {
         Locale locale = RequestContextHolder.currentRequestAttributes().getLocale()

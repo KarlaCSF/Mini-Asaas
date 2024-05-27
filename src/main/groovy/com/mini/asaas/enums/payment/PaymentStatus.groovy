@@ -12,15 +12,6 @@ enum PaymentStatus {
     OVERDUE,
     PAYED,
     WAITING
-
-    public static PaymentStatus convert(String paymentStatus) {
-        try {
-            paymentStatus = paymentStatus.toUpperCase()
-            return paymentStatus as PaymentStatus
-        } catch (Exception ignored) {
-            return null
-        }
-    }
     
     @CompileDynamic
     String getMessage() {
