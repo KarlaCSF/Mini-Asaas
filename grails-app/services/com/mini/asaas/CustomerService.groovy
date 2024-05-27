@@ -17,15 +17,14 @@ class CustomerService {
     AddressService addressService
 
     public Customer save(CustomerDTO customerDTO) {
-        Customer customerValues = validateSave(customerDTO)
+        Customer customer = validateSave(customerDTO)
 
-        if (customerValues.hasErrors()) throw new ValidationException("Erro ao salvar conta", customerValues.errors)
-        
-        Customer customer = new Customer()
+        if (customer.hasErrors()) throw new ValidationException("Erro ao salvar conta", customer.errors)
+ 
         customer.name = customerDTO.name
         customer.email = customerDTO.email
         customer.cpfCnpj = customerDTO.cpfCnpj
-        customer.personType = CpfCnpjUtils.setPersonType(customer.cpfCnpj)
+        customer.personType = CpfCnpjUtils.getPersonType(customer.cpfCnpj)
         
         customer.address = addressService.save(customerDTO.addressDTO)
         

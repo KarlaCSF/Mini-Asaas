@@ -3,6 +3,7 @@ package com.mini.asaas
 import com.mini.asaas.Customer
 import com.mini.asaas.dto.CustomerDTO
 import grails.compiler.GrailsCompileStatic
+import grails.validation.ValidationException
 
 @GrailsCompileStatic
 class CustomerController {
@@ -18,7 +19,7 @@ class CustomerController {
          CustomerDTO customerDTO = new CustomerDTO(params)
          Customer customer = customerService.save(customerDTO)
          redirect(action: "show", id: customer.id)
-      } catch (Exception exception) {
+      } catch (ValidationException exception) {
          log.error("CustomerController.save >> Não foi possível salvar o Customer", exception)
          render("Não foi possível salvar a conta, ocorreram os seguintes erros: " + exception.errors.allErrors.defaultMessage.join(", "))
       }

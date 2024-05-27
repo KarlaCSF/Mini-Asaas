@@ -8,7 +8,7 @@ class CpfCnpjUtils {
     static final int maxLengthCpf = 11
     static final int maxLengthCnpj = 14
 
-    static boolean validate(String cpfCnpj) {
+    public static boolean validate(String cpfCnpj) {
         
         cpfCnpj = cpfCnpj.replaceAll("[^\\d]", "")
 
@@ -18,7 +18,7 @@ class CpfCnpjUtils {
         return false
     }
 
-    static boolean isValidCPF(String cpf) {
+    public static boolean isValidCPF(String cpf) {
 
         if (cpf ==~ /(\d)\1{10}/) {
             return false
@@ -47,7 +47,7 @@ class CpfCnpjUtils {
         return cpf[9].toInteger() == firstDigit && cpf[10].toInteger() == secondDigit
     }
 
-    static boolean isValidCNPJ(String cnpj) {
+    public static boolean isValidCNPJ(String cnpj) {
 
         if (cnpj ==~ /(\d)\1{13}/) {
             return false
@@ -76,7 +76,7 @@ class CpfCnpjUtils {
         return cnpj[12].toInteger() == firstDigit && cnpj[13].toInteger() == secondDigit
     }
 
-    static PersonType setPersonType(String cpfCnpj) {
+    public static PersonType getPersonType(String cpfCnpj) {
         return cpfCnpj.size() > maxLengthCpf ? PersonType.LEGAL : PersonType.NATURAL
     }
 }
