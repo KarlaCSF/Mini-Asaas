@@ -19,9 +19,7 @@ class CustomerService {
     public Customer save(CustomerDTO customerDTO) {
         Customer customerValues = validateSave(customerDTO)
 
-        if (customerValues.hasErrors()) {
-            throw new ValidationException("Erro ao salvar conta", customerValues.errors)
-        }
+        if (customerValues.hasErrors()) throw new ValidationException("Erro ao salvar conta", customerValues.errors)
         
         Customer customer = new Customer()
         customer.name = customerDTO.name
