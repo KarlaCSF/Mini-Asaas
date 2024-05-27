@@ -1,6 +1,7 @@
-package com.mini.asaas.CpfCnpjUtils
+package com.mini.asaas.utils
 
 import grails.compiler.GrailsCompileStatic
+import com.mini.asaas.enums.PersonType
 
 @GrailsCompileStatic
 class CpfCnpjUtils {
@@ -73,5 +74,9 @@ class CpfCnpjUtils {
         secondDigit = secondDigit < 2 ? 0 : 11 - secondDigit
         
         return cnpj[12].toInteger() == firstDigit && cnpj[13].toInteger() == secondDigit
+    }
+
+    static PersonType setPersonType(String cpfCnpj) {
+        return cpfCnpj.size() > maxLengthCpf ? PersonType.LEGAL : PersonType.NATURAL
     }
 }

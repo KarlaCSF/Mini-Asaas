@@ -4,7 +4,7 @@ import com.mini.asaas.Customer
 import com.mini.asaas.Address
 import com.mini.asaas.AddressService
 import com.mini.asaas.dto.CustomerDTO
-import com.mini.asaas.enums.PersonType
+import com.mini.asaas.utils.CpfCnpjUtils
 
 import grails.gorm.transactions.Transactional
 import grails.validation.ValidationException
@@ -25,7 +25,7 @@ class CustomerService {
         customer.name = customerDTO.name
         customer.email = customerDTO.email
         customer.cpfCnpj = customerDTO.cpfCnpj
-        customer.personType = customer.cpfCnpj.size() > 11 ? PersonType.LEGAL : PersonType.NATURAL
+        customer.personType = CpfCnpjUtils.setPersonType(customer.cpfCnpj)
         
         customer.address = addressService.save(customerDTO.addressDTO)
         

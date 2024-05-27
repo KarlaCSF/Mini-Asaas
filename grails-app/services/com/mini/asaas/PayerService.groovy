@@ -5,7 +5,7 @@ import com.mini.asaas.Address
 import com.mini.asaas.Customer
 import com.mini.asaas.AddressService
 import com.mini.asaas.dto.PayerDTO
-import com.mini.asaas.enums.PersonType
+import com.mini.asaas.utils.CpfCnpjUtils
 
 import javax.transaction.Transactional
 
@@ -21,7 +21,7 @@ class PayerService {
         payer.email = payerDTO.email
         payer.cpfCnpj = payerDTO.cpfCnpj
         payer.customer = Customer.get(customerId)
-        payer.personType = payer.cpfCnpj.size() > 11 ? PersonType.LEGAL : PersonType.NATURAL
+        payer.personType = CpfCnpjUtils.setPersonType(payer.cpfCnpj)
         
         payer.address = addressService.save(payerDTO.addressDTO)
         
