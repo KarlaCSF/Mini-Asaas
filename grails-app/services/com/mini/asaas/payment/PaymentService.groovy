@@ -35,11 +35,8 @@ class PaymentService {
     }
 
     public Payment update(UpdatePaymentDTO updatePaymentDTO, Long paymentId, Long customerId ) {
-        Payment payment = Payment.where{
-            id == paymentId 
-            && customer.id == customerId 
-            && deleted == false
-        }.first()
+        Payment payment = (Payment) Payment.byCustomerAndPayment(paymentId, customerId).get()
+        if(!payment) throw new Exception("PaymentService.update >> Não foi possível encontrar o Payment ${paymentId} do Customer ${customerId}")
         
         payment.lastUpdated = new Date()
         payment.value = updatePaymentDTO.value
@@ -50,21 +47,16 @@ class PaymentService {
     }
 
     public Payment show(Long paymentId, Long customerId) {
-        Payment payment = Payment.where{
-            id == paymentId 
-            && customer.id == customerId 
-            && deleted == false
-        }.first()
+        Payment payment = (Payment) Payment.byCustomerAndPayment(paymentId, customerId).get()
+        if(!payment) throw new Exception("PaymentService.show >> Não foi possível encontrar o Payment ${paymentId} do Customer ${customerId}")       
+        
         return payment
     }
     
     public void delete(Long paymentId, Long customerId) {
-        Payment payment = Payment.where{
-            id == paymentId 
-            && customer.id == customerId 
-            && deleted == false
-        }.first()
-
+        Payment payment = (Payment) Payment.byCustomerAndPayment(paymentId, customerId).get()
+        if(!payment) throw new Exception("PaymentService.delete >> Não foi possível encontrar o Payment ${paymentId} do Customer ${customerId}")
+        
         payment.deleted = true 
         payment.save(failOnError: true)
     }
