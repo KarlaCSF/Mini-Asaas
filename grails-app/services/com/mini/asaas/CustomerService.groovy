@@ -31,6 +31,23 @@ class CustomerService {
         return customer.save(failOnError: true)
    }
 
+    public Customer update(CustomerDTO customerDTO, Long customerId) {
+        println(customerId)
+        Customer customer = Customer.where{
+            id == customerId 
+            && deleted == false
+        }.first()
+        
+        customer.lastUpdated = new Date()
+        customer.name = customerDTO.name
+        customer.email = customerDTO.email
+        customer.cpfCnpj = customerDTO.cpfCnpj
+        customer.personType = CpfCnpjUtils.getPersonType(customer.cpfCnpj)
+        customer.address = addressService.update(customerDTO.addressDTO, customer.address.id)
+        
+        return customer.save(failOnError: true)
+    }
+
     private Customer validateSave(CustomerDTO customerDTO) {
         Customer customer = new Customer()
         
