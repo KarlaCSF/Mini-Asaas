@@ -14,7 +14,7 @@ class UpdateCustomerDTO {
 
     AddressDTO addressDTO
 
-    UpdateCustomerDTO(Map params){
+    public UpdateCustomerDTO(Map params){
             this.name = params.name
             this.email = params.email
             this.cpfCnpj = params.cpfCnpj
