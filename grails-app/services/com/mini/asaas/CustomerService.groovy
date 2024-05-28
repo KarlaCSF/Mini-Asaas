@@ -32,7 +32,6 @@ class CustomerService {
    }
 
     public Customer update(CustomerDTO customerDTO, Long customerId) {
-        println(customerId)
         Customer customer = Customer.where{
             id == customerId 
             && deleted == false
