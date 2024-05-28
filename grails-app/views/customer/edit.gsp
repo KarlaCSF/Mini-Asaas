@@ -1,10 +1,13 @@
+<%@ page 
+import="com.mini.asaas.enums.States"
+contentType="text/html;charset=UTF-8" %>
 <!doctype html>
 <html>
 <head>
     <meta name="layout" content="main"/>
 </head>
 <body>
-    <form action="${createLink(controller: "customer", action: "show")}">
+    <form action="${createLink(controller: "customer", action: "update", id: customer.id)}" method="POST">
         <label for="name">Name:</label><br>
         <input type="text" name="name" value="${customer.name}"><br>
         
@@ -25,7 +28,7 @@
             <input type="text" name="city" value="${customer.address.city}"><br><br>
 
             <label for="state">Estado:</label><br>
-            <input type="text" name="state" value="${customer.address.state}"><br><br>
+            <g:select name="state" from="${States.values()}" value="${customer.address.state}" noSelection="['':'Selecione um estado']" required="true"/><br><br>
 
             <label for="district">Bairro:</label><br>
             <input type="text" name="district" value="${customer.address.district}"><br><br>
@@ -38,9 +41,9 @@
 
             <label for="complement">Complemento:</label><br>
             <input type="text" name="complement" value="${customer.address.complement}"><br><br>
-
-            <a href="${createLink(controller: 'customer', action: 'edit', id: customer.id)}">Editar Cliente</a>
         </div>
+
+        <input type="submit" value="Atualizar">
     </form>
 </body>
 </html>
