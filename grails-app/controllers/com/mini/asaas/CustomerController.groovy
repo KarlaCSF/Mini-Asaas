@@ -39,7 +39,7 @@ class CustomerController {
          Customer customer = Customer.get(params.getLong("id"))
          return [customer: customer]
       } catch (Exception exception) { 
-         log.error("CustomerController.show >> Não foi possível buscar o Customer ${params.id}", exception)
+         log.error("CustomerController.edit >> Não foi possível buscar o Customer ${params.id}", exception)
       }
    }
 
