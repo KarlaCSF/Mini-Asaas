@@ -19,7 +19,7 @@ class AddressService {
         address.street = addressDTO.street
         address.number = addressDTO.number
         address.complement = addressDTO.complement
-       return address.save(failOnError: true)
+        return address.save(failOnError: true)
     }
 
     public Address update(AddressDTO addressDTO, Long addressId) {
@@ -37,6 +37,6 @@ class AddressService {
         address.number = addressDTO.number
         address.complement = addressDTO.complement
         
-       return address.save(failOnError: true)
+        return address.save(failOnError: true)
     }
 }
