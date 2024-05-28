@@ -7,6 +7,10 @@ contentType="text/html;charset=UTF-8" %>
     <meta name="layout" content="main"/>
 </head>
 <body>
+    <g:if test="${params.errorMessage}">
+        <span>${params.errorMessage}</span>
+    </g:if>
+
     <form action="${createLink(controller: "customer", action: "update", id: customer.id)}" method="POST">
         <label for="name">Name:</label><br>
         <input type="text" name="name" value="${customer.name}"><br>

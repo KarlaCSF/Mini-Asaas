@@ -51,7 +51,6 @@ class CustomerController {
       } catch (Exception exception) {
          log.error(exception.message, exception)
          params.errorMessage = "Não foi possível editar a cobrança"
-         render(exception)
          redirect(view: "index", params: params)
       }
    }
