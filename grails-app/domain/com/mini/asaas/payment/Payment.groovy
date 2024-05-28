@@ -4,11 +4,10 @@ import com.mini.asaas.Payer
 import com.mini.asaas.Customer
 import com.mini.asaas.enums.payment.BillingType
 import com.mini.asaas.enums.payment.PaymentStatus
-import com.mini.asaas.namedqueries.NamedQueries
+import com.mini.asaas.repositories.PaymentRepository
 import com.mini.asaas.utils.BaseEntity
 import grails.compiler.GrailsCompileStatic
 
-@GrailsCompileStatic
 class Payment extends BaseEntity {
 
     Customer customer
@@ -30,15 +29,5 @@ class Payment extends BaseEntity {
         dueDate blank:false
         billingType blank:false
         status blank:false
-    }
-
-    static namedQueries = {
-        byCustomerAndPayment { Long paymentId, Long customerId ->
-            NamedQueries.applyDefaultQuery(delegate)
-            customer {
-                eq('id', customerId)
-            }
-            eq('id', paymentId)
-        }
-    }
+    }   
 }
