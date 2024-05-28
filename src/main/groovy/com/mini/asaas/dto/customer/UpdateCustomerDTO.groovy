@@ -1,10 +1,10 @@
-package com.mini.asaas.dto
+package com.mini.asaas.dto.customer
 
 import com.mini.asaas.dto.AddressDTO
 import grails.compiler.GrailsCompileStatic
 
 @GrailsCompileStatic
-class CustomerDTO {
+class UpdateCustomerDTO {
   
     String name
     
@@ -14,7 +14,7 @@ class CustomerDTO {
 
     AddressDTO addressDTO
 
-    CustomerDTO(Map params){
+    UpdateCustomerDTO(Map params){
             this.name = params.name
             this.email = params.email
             this.cpfCnpj = params.cpfCnpj

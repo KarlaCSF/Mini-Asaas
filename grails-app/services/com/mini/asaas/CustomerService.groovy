@@ -3,7 +3,8 @@ package com.mini.asaas
 import com.mini.asaas.Customer
 import com.mini.asaas.Address
 import com.mini.asaas.AddressService
-import com.mini.asaas.dto.CustomerDTO
+import com.mini.asaas.dto.customer.CreateCustomerDTO
+import com.mini.asaas.dto.customer.UpdateCustomerDTO
 import com.mini.asaas.utils.CpfCnpjUtils
 
 import grails.gorm.transactions.Transactional
@@ -16,41 +17,41 @@ class CustomerService {
 
     AddressService addressService
 
-    public Customer save(CustomerDTO customerDTO) {
-        Customer customer = validateSave(customerDTO)
+    public Customer save(CreateCustomerDTO createCustomerDTO) {
+        Customer customer = validateSave(createCustomerDTO)
 
         if (customer.hasErrors()) throw new ValidationException("Erro ao salvar conta", customer.errors)
  
-        customer.name = customerDTO.name
-        customer.email = customerDTO.email
-        customer.cpfCnpj = customerDTO.cpfCnpj
+        customer.name = createCustomerDTO.name
+        customer.email = createCustomerDTO.email
+        customer.cpfCnpj = createCustomerDTO.cpfCnpj
         customer.personType = CpfCnpjUtils.getPersonType(customer.cpfCnpj)
         
-        customer.address = addressService.save(customerDTO.addressDTO)
+        customer.address = addressService.save(createCustomerDTO.addressDTO)
         
         return customer.save(failOnError: true)
    }
 
-    public Customer update(CustomerDTO customerDTO, Long customerId) {
+    public Customer update(UpdateCustomerDTO updateCustomerDTO, Long customerId) {
         Customer customer = Customer.where{
             id == customerId 
             && deleted == false
         }.first()
         
         customer.lastUpdated = new Date()
-        customer.name = customerDTO.name
-        customer.email = customerDTO.email
-        customer.cpfCnpj = customerDTO.cpfCnpj
+        customer.name = updateCustomerDTO.name
+        customer.email = updateCustomerDTO.email
+        customer.cpfCnpj = updateCustomerDTO.cpfCnpj
         customer.personType = CpfCnpjUtils.getPersonType(customer.cpfCnpj)
-        customer.address = addressService.update(customerDTO.addressDTO, customer.address.id)
+        customer.address = addressService.update(updateCustomerDTO.addressDTO, customer.address.id)
         
         return customer.save(failOnError: true)
     }
 
-    private Customer validateSave(CustomerDTO customerDTO) {
+    private Customer validateSave(CreateCustomerDTO createCustomerDTO) {
         Customer customer = new Customer()
         
-        if (!CpfCnpjUtils.validate(customerDTO.cpfCnpj)) {
+        if (!CpfCnpjUtils.validate(createCustomerDTO.cpfCnpj)) {
             customer.errors.reject("cpfCnpj", null, "CPF ou CNPJ inválido.")
         }
         

@@ -1,7 +1,8 @@
 package com.mini.asaas
 
 import com.mini.asaas.Customer
-import com.mini.asaas.dto.CustomerDTO
+import com.mini.asaas.dto.customer.CreateCustomerDTO
+import com.mini.asaas.dto.customer.UpdateCustomerDTO
 import grails.compiler.GrailsCompileStatic
 import grails.validation.ValidationException
 
@@ -16,8 +17,8 @@ class CustomerController {
 
    def save() {
       try {
-         CustomerDTO customerDTO = new CustomerDTO(params)
-         Customer customer = customerService.save(customerDTO)
+         CreateCustomerDTO createCustomerDTO = new CreateCustomerDTO(params)
+         Customer customer = customerService.save(createCustomerDTO)
          redirect(action: "show", id: customer.id)
       } catch (ValidationException exception) {
          log.error("CustomerController.save >> Não foi possível salvar o Customer", exception)
@@ -45,8 +46,8 @@ class CustomerController {
 
    def update() {
       try {
-         CustomerDTO customerDTO = new CustomerDTO(params)
-         Customer customer = customerService.update(customerDTO, params.getLong("id"))
+         UpdateCustomerDTO updateCustomerDTO = new UpdateCustomerDTO(params)
+         Customer customer = customerService.update(updateCustomerDTO, params.getLong("id"))
          redirect(action: "show", id: customer.id)
       } catch (Exception exception) {
          log.error(exception.message, exception)
