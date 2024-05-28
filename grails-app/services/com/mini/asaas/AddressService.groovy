@@ -9,6 +9,7 @@ import grails.compiler.GrailsCompileStatic
 @GrailsCompileStatic
 @Transactional
 class AddressService {
+
     public Address save(AddressDTO addressDTO) {
         Address address = new Address() 
         address.cep = addressDTO.cep
