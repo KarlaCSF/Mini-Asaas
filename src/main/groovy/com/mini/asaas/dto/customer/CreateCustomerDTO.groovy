@@ -14,7 +14,7 @@ class CreateCustomerDTO {
 
     AddressDTO addressDTO
 
-    CreateCustomerDTO(Map params){
+    public CreateCustomerDTO(Map params){
             this.name = params.name
             this.email = params.email
             this.cpfCnpj = params.cpfCnpj
