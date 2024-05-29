@@ -7,6 +7,7 @@ import com.mini.asaas.enums.payment.PaymentStatus
 import com.mini.asaas.utils.BaseEntity
 import grails.compiler.GrailsCompileStatic
 
+@GrailsCompileStatic
 class Payment extends BaseEntity {
 
     Customer customer
