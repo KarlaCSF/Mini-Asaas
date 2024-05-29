@@ -10,9 +10,21 @@ import groovy.transform.CompileDynamic
 @GrailsCompileStatic
 enum PaymentStatus {
     OVERDUE,
-    PAYED,
+    PAID,
     WAITING
+
+    public Boolean isOverdue(){
+        return this == PaymentStatus.OVERDUE
+    }   
     
+    public Boolean isPaid(){
+        return this == PaymentStatus.PAID
+    }
+       
+    public Boolean isWaiting(){
+        return this == PaymentStatus.WAITING
+    }
+
     @CompileDynamic
     String getMessage() {
         Locale locale = RequestContextHolder.currentRequestAttributes().getLocale()
