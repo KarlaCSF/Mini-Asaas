@@ -40,7 +40,7 @@ class PaymentRepository implements BaseEntityRepository {
     }
     
     public static Long validateCustomerAndRetrieveId(Long id, Long customerId) {
-        Long paymentId = (Long) PaymentRepository.query([customerId: customerId, id: id, deleted: true, column: "id"]).get()
+        Long paymentId = PaymentRepository.query([customerId: customerId, id: id, deleted: true, column: "id"]).get() as Long
         if (!paymentId) throw new Exception("Cobrança inexistente.")
         return paymentId
     }
