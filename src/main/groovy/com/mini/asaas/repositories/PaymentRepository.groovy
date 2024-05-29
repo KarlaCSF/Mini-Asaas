@@ -42,7 +42,7 @@ class PaymentRepository implements Repository {
         return payment
     }
 
-    public static List<Payment> listOfACustomer(Long customerId){
+    public static List<Payment> listByCustomer(Long customerId){
         List<Payment> list = PaymentRepository.query([customerId: customerId]).list()
         if (list == null || list.isEmpty()) throw new Exception("Nenhuma cobrança vinculada a esse customer")
         return list

@@ -56,7 +56,7 @@ class PaymentService {
         payment.save(failOnError: true)
     }
 
-    public List<Payment> listOfACustomer(Long customerId){
-        return PaymentRepository.listOfACustomer(customerId)
+    public List<Payment> listByCustomer(Long customerId){
+        return PaymentRepository.listByCustomer(customerId)
     }
 }
