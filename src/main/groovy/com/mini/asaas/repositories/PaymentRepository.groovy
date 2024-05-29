@@ -45,7 +45,13 @@ class PaymentRepository implements Repository {
         if (!payment) throw new Exception("Cobrança inexistente.")
         return payment
     }
-    
+
+    public static List<Payment> listOfACustomer(Long customerId){
+        List<Payment> list = PaymentRepository.query([customerId: customerId]).list()
+        if (list == null || list.isEmpty()) throw new Exception("Nenhuma cobrança vinculada a esse customer")
+        return list
+    }
+
     private static List<String> allowedFilters() {
         return [
             "id",

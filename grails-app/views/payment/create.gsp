@@ -25,7 +25,7 @@ contentType="text/html;charset=UTF-8" %>
         <fieldset>         
             <div>
                 <label for="payerId">Escolha o Pagador</label><br>
-                <g:select name="payerId" from="${Payer.list()}" optionKey="id" optionValue="name" noSelection="['':'Selecione um pagador']" required="true"/><br>
+                <g:select name="payerId" from="${listOfPayer}" optionKey="id" optionValue="name" noSelection="['':'Selecione um pagador']" required="true"/><br>
             </div><br>
 
             <div>

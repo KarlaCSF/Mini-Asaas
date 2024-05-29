@@ -2,6 +2,7 @@ package com.mini.asaas.payment
 
 import com.mini.asaas.Payer
 import com.mini.asaas.Customer
+import com.mini.asaas.payment.Payment
 import com.mini.asaas.enums.payment.BillingType
 import com.mini.asaas.dto.payment.CreatePaymentDTO
 import com.mini.asaas.dto.payment.UpdatePaymentDTO
@@ -19,7 +20,10 @@ class PaymentController {
 
     def create() {  
         try{
-            return [params: params]
+            List<Payer> listOfPayer = Payer.where{
+            customer.id == customer.id
+            }.list() // while don't have a payerservice to give a list of payer from a customer 
+            return [view: "create", listOfPayer: listOfPayer]
         } catch (Exception exception) {
             log.error(exception.message, exception)
         }
@@ -27,7 +31,7 @@ class PaymentController {
 
     def edit() {
         try {
-            Payment payment = paymentService.show(params.getLong("id"), customer.id)
+            Payment payment = paymentService.findByIdAndCustomerId(params.getLong("id"), customer.id)
             return [payment: payment, id: payment.id]  
         } catch (Exception exception) {
             log.error(exception.message, exception)
@@ -37,7 +41,7 @@ class PaymentController {
 
     def show() {
         try {
-            Payment payment = paymentService.show(params.getLong("id"), customer.id)
+            Payment payment = paymentService.findByIdAndCustomerId(params.getLong("id"), customer.id)
             return [payment: payment]
         } catch (Exception exception) {
             log.error(exception.message, exception)

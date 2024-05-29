@@ -37,7 +37,6 @@ class PaymentService {
 
     public Payment update(UpdatePaymentDTO updatePaymentDTO, Long paymentId, Long customerId ) {
         Payment payment = PaymentRepository.findByIdAndCustomerId(paymentId, customerId)
-        if(!payment) throw new Exception("PaymentService.update >> Não foi possível encontrar o Payment ${paymentId} do Customer ${customerId}")
         
         payment.lastUpdated = new Date()
         payment.value = updatePaymentDTO.value
@@ -47,18 +46,18 @@ class PaymentService {
         return payment.save(failOnError: true)
     }
 
-    public Payment show(Long paymentId, Long customerId) {
-        Payment payment = PaymentRepository.findByIdAndCustomerId(paymentId, customerId)
-        if(!payment) throw new Exception("PaymentService.show >> Não foi possível encontrar o Payment ${paymentId} do Customer ${customerId}")       
-        
-        return payment
+    public Payment findByIdAndCustomerId(Long paymentId, Long customerId) {
+        return PaymentRepository.findByIdAndCustomerId(paymentId, customerId)
     }
     
     public void delete(Long paymentId, Long customerId) {
         Payment payment = PaymentRepository.findByIdAndCustomerId(paymentId, customerId)
-        if(!payment) throw new Exception("PaymentService.delete >> Não foi possível encontrar o Payment ${paymentId} do Customer ${customerId}")
-        
+        if(payment.status == PaymentStatus.PAYED) throw new Exception("Cobranças pagas não devem ser excluidas")
         payment.deleted = true 
         payment.save(failOnError: true)
+    }
+
+    public List<Payment> listOfACustomer(Long customerId){
+        return PaymentRepository.listOfACustomer(customerId)
     }
 }
