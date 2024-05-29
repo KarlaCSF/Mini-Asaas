@@ -38,7 +38,6 @@ class CustomerService {
             && deleted == false
         }.first()
         
-        customer.lastUpdated = new Date()
         customer.name = updateCustomerDTO.name
         customer.email = updateCustomerDTO.email
         customer.cpfCnpj = updateCustomerDTO.cpfCnpj

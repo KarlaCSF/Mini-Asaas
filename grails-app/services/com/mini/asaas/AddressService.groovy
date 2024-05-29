@@ -28,7 +28,6 @@ class AddressService {
             && deleted == false
         }.first()
         
-        address.lastUpdated = new Date()
         address.cep = addressDTO.cep
         address.city = addressDTO.city
         address.state = addressDTO.state
