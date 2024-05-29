@@ -3,6 +3,7 @@ package com.mini.asaas
 import com.mini.asaas.Payer
 import com.mini.asaas.Customer
 import com.mini.asaas.dto.PayerDTO
+import grails.validation.ValidationException
 import grails.compiler.GrailsCompileStatic
 
 @GrailsCompileStatic
@@ -22,9 +23,9 @@ class PayerController {
             Long customerId = new Long(1) // todo: fix customer Id in 1 while don't have authentication
             Payer payer = payerService.save(payerDTO, customerId)
             redirect(action: "show", id: payer.id)
-        } catch (Exception exception) {
+        } catch (ValidationException exception) {
             log.error("PayerController.save >> Não foi possível salvar o Payer ${params.id}", exception)
-            params.errorMessage = "Não foi possível salvar o pagador, existem campos inválidos"
+            params.errorMessage = "Não foi possível salvar o pagador, ocorreram os seguintes erros: " + exception.errors.allErrors.defaultMessage.join(", ")
             redirect(view: "index", params: params)
         }
     }
