@@ -1,5 +1,4 @@
 <%@ page 
-import="com.mini.asaas.Payer"
 import="com.mini.asaas.enums.payment.BillingType"
 contentType="text/html;charset=UTF-8" %>
 <html>
