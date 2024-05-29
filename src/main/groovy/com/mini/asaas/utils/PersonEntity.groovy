@@ -2,6 +2,7 @@ package com.mini.asaas.utils
 
 import com.mini.asaas.Address
 import com.mini.asaas.enums.PersonType
+import com.mini.asaas.utils.BaseEntity
 import grails.compiler.GrailsCompileStatic
 
 @GrailsCompileStatic
