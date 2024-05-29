@@ -4,7 +4,6 @@ import com.mini.asaas.Payer
 import com.mini.asaas.Customer
 import com.mini.asaas.enums.payment.BillingType
 import com.mini.asaas.enums.payment.PaymentStatus
-import com.mini.asaas.repositories.PaymentRepository
 import com.mini.asaas.utils.BaseEntity
 import grails.compiler.GrailsCompileStatic
 
