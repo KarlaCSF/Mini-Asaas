@@ -45,7 +45,7 @@ class PaymentRepository implements BaseEntityRepository {
         return paymentId
     }
 
-    public static Payment find(Long paymentId, Long customerId){
+    public static Payment findByIdAndCustomerId(Long paymentId, Long customerId){
         return Payment.get(validateCustomerAndRetrieveId(paymentId,customerId))
     }
     
