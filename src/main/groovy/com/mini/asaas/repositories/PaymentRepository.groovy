@@ -10,10 +10,6 @@ class PaymentRepository implements Repository {
         DetachedCriteria<Payment> query = Payment.where(defaultQuery(search))
     
         query = query.where {
-            if (search.containsKey("id")) {
-                eq("id", search.id)
-            }
-            
             if (search.containsKey("customerId")) {
                 customer{
                     eq("id", search.customerId)
