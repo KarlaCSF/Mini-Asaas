@@ -1,4 +1,4 @@
-package com.mini.asaas
+package com.mini.asaas.payer
 
 import com.mini.asaas.utils.PersonEntity
 import com.mini.asaas.Customer

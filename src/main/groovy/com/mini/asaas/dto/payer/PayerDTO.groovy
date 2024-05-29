@@ -1,4 +1,4 @@
-package com.mini.asaas.dto
+package com.mini.asaas.dto.payer
 
 import com.mini.asaas.dto.AddressDTO
 import grails.compiler.GrailsCompileStatic
