@@ -20,7 +20,7 @@ class PaymentController {
 
     def create() {  
         try{
-            List<Payer> listOfPayer = Payer.where{
+            List<Payer> payerList = Payer.where{
             customer.id == customer.id
             }.list() // while don't have a payerservice to give a list of payer from a customer 
             return [view: "create", listOfPayer: listOfPayer]
