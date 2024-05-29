@@ -38,7 +38,6 @@ class PaymentService {
     public Payment update(UpdatePaymentDTO updatePaymentDTO, Long paymentId, Long customerId ) {
         Payment payment = PaymentRepository.findByIdAndCustomerId(paymentId, customerId)
         
-        payment.lastUpdated = new Date()
         payment.value = updatePaymentDTO.value
         payment.dueDate = updatePaymentDTO.dueDate
         payment.billingType = updatePaymentDTO.billingType
