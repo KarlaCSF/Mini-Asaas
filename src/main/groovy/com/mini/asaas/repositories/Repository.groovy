@@ -1,6 +1,6 @@
 package com.mini.asaas.repositories
 
-trait BaseEntityRepository {
+trait Repository {
 
     public static Closure defaultQuery(Map search) {
         return {

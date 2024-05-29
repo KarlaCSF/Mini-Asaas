@@ -1,9 +1,10 @@
 package com.mini.asaas.repositories
 
 import com.mini.asaas.payment.Payment
+import com.mini.asaas.repositories.Repository
 import grails.gorm.DetachedCriteria
 
-class PaymentRepository implements BaseEntityRepository {
+class PaymentRepository implements Repository {
 
     public static DetachedCriteria<Payment> query(Map search) {
         DetachedCriteria<Payment> query = Payment.where(defaultQuery(search))
