@@ -11,7 +11,6 @@ import grails.compiler.GrailsCompileStatic
 class PayerController {
 
     PayerService payerService
-   
     def index() {
         return [params: params]
     }
