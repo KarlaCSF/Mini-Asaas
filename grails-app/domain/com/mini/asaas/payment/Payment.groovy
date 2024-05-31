@@ -32,10 +32,7 @@ class Payment extends BaseEntity {
     }   
 
     public Boolean canEdit(){
-        if (this.status.isPaid()){
-            return false              
-        } 
-        
+        if (this.status.isPaid()) return false
         return true
     }
 }
