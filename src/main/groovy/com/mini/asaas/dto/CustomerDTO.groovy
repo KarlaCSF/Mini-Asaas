@@ -4,7 +4,7 @@ import com.mini.asaas.dto.AddressDTO
 import grails.compiler.GrailsCompileStatic
 
 @GrailsCompileStatic
-class CreateCustomerDTO {
+class CustomerDTO {
   
     String name
     
@@ -14,10 +14,10 @@ class CreateCustomerDTO {
 
     AddressDTO addressDTO
 
-    public CreateCustomerDTO(Map params){
-            this.name = params.name
-            this.email = params.email
-            this.cpfCnpj = params.cpfCnpj
-            this.addressDTO = new AddressDTO(params)
+    public CustomerDTO(Map params){
+        this.name = params.name
+        this.email = params.email
+        this.cpfCnpj = params.cpfCnpj
+        this.addressDTO = new AddressDTO(params)
     } 
 }
