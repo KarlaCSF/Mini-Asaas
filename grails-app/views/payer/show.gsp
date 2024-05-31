@@ -75,7 +75,8 @@
             </div><br>
             
         </fieldset>
-        
+
+        <a href="${createLink(controller: 'payer', action: 'edit', id: payer.id)}">Editar Pagador</a>
     </fieldset>
 </form>
 </body>
