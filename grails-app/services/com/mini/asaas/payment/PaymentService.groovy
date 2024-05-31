@@ -51,7 +51,7 @@ class PaymentService {
     
     public void delete(Long paymentId, Long customerId) {
         Payment payment = PaymentRepository.findByIdAndCustomerId(paymentId, customerId)
-        if(payment.status == PaymentStatus.PAYED) throw new Exception("Cobranças pagas não devem ser excluidas")
+        if(payment.status.isPaid()) throw new Exception("Cobranças pagas não devem ser excluidas")
         payment.deleted = true 
         payment.save(failOnError: true)
     }
