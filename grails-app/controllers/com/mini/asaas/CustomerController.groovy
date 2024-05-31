@@ -21,8 +21,9 @@ class CustomerController {
          Customer customer = customerService.save(createCustomerDTO)
          redirect(action: "show", id: customer.id)
       } catch (ValidationException exception) {
-         log.error("CustomerController.save >> Não foi possível salvar o Customer", exception)
-         render("Não foi possível salvar a conta, ocorreram os seguintes erros: " + exception.errors.allErrors.defaultMessage.join(", "))
+         log.error("CustomerController.save >> Não foi possível salvar o Customer ${params.id}", exception)
+         params.errorMessage = "Não foi possível salvar o cliente, ocorreram os seguintes erros: " + exception.errors.allErrors.defaultMessage.join(", ")
+         redirect(view: "index", params: params)
       }
    }
 
@@ -49,10 +50,10 @@ class CustomerController {
          UpdateCustomerDTO updateCustomerDTO = new UpdateCustomerDTO(params)
          Customer customer = customerService.update(updateCustomerDTO, params.getLong("id"))
          redirect(action: "show", id: customer.id)
-      } catch (Exception exception) {
-         log.error(exception.message, exception)
-         params.errorMessage = "Não foi possível editar a cobrança"
-         redirect(view: "index", params: params)
+      } catch (ValidationException exception) {
+         log.error("CustomerController.update >> Não foi possível atualizar o Customer ${params.id}", exception)
+         params.errorMessage = "Não foi possível editar o cliente, ocorreram os seguintes erros: " + exception.errors.allErrors.defaultMessage.join(", ")
+         redirect(view: "edit", params: params, id: params.getLong("id"))
       }
    }
 }

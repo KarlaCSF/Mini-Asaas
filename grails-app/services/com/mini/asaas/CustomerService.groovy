@@ -37,14 +37,18 @@ class CustomerService {
             id == customerId 
             && deleted == false
         }.first()
+
+        Customer validatedCustomer = validateUpdate(updateCustomerDTO, customer)
+
+        if (validatedCustomer.hasErrors()) throw new ValidationException("Erro ao editar conta", validatedCustomer.errors)
         
-        customer.name = updateCustomerDTO.name
-        customer.email = updateCustomerDTO.email
-        customer.cpfCnpj = updateCustomerDTO.cpfCnpj
-        customer.personType = CpfCnpjUtils.getPersonType(customer.cpfCnpj)
-        customer.address = addressService.update(updateCustomerDTO.addressDTO, customer.address.id)
+        validatedCustomer.name = updateCustomerDTO.name
+        validatedCustomer.email = updateCustomerDTO.email
+        validatedCustomer.cpfCnpj = updateCustomerDTO.cpfCnpj
+        validatedCustomer.personType = CpfCnpjUtils.getPersonType(validatedCustomer.cpfCnpj)
+        validatedCustomer.address = addressService.update(updateCustomerDTO.addressDTO, validatedCustomer.address.id)
         
-        return customer.save(failOnError: true)
+        return validatedCustomer.save(failOnError: true)
     }
 
     private Customer validateSave(CreateCustomerDTO createCustomerDTO) {
@@ -54,6 +58,14 @@ class CustomerService {
             customer.errors.reject("cpfCnpj", null, "CPF ou CNPJ inválido.")
         }
         
+        return customer
+    }
+
+    private Customer validateUpdate(UpdateCustomerDTO updateCustomerDTO, Customer customer) {
+        if (!CpfCnpjUtils.validate(updateCustomerDTO.cpfCnpj)) {
+            customer.errors.reject("cpfCnpj", null, "CPF ou CNPJ inválido.")
+        }
+
         return customer
     }
 }
