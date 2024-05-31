@@ -2,8 +2,7 @@ package com.mini.asaas
 
 import com.mini.asaas.Payer
 import com.mini.asaas.Customer
-import com.mini.asaas.dto.payer.CreatePayerDTO
-import com.mini.asaas.dto.payer.UpdatePayerDTO
+import com.mini.asaas.dto.payer.PayerDTO
 import grails.validation.ValidationException
 import grails.compiler.GrailsCompileStatic
 
@@ -20,9 +19,9 @@ class PayerController {
 
     def save() {
         try {
-            CreatePayerDTO createPayerDTO = new CreatePayerDTO(params)
+            PayerDTO payerDTO = new PayerDTO(params)
             Long customerId = new Long(1) // todo: fix customer Id in 1 while don't have authentication
-            Payer payer = payerService.save(createPayerDTO, customerId)
+            Payer payer = payerService.save(payerDTO, customerId)
             redirect(action: "show", id: payer.id)
         } catch (ValidationException exception) {
             log.error("PayerController.save >> Não foi possível salvar o Payer ${params.id}", exception)
@@ -53,8 +52,8 @@ class PayerController {
 
    def update() {
       try {
-         UpdatePayerDTO updatePayerDTO = new UpdatePayerDTO(params)
-         Payer payer = payerService.update(updatePayerDTO, params.getLong("id"))
+         PayerDTO payerDTO = new PayerDTO(params)
+         Payer payer = payerService.update(payerDTO, params.getLong("id"))
          redirect(action: "show", id: payer.id)
       } catch (ValidationException exception) {
          log.error("PayerController.update >> Não foi possível atualizar o Payer ${params.id}", exception)

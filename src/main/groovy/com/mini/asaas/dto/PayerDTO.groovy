@@ -4,7 +4,7 @@ import com.mini.asaas.dto.AddressDTO
 import grails.compiler.GrailsCompileStatic
 
 @GrailsCompileStatic
-class CreatePayerDTO {
+class PayerDTO {
   
     String name
     
@@ -14,7 +14,7 @@ class CreatePayerDTO {
 
     AddressDTO addressDTO
 
-    public CreatePayerDTO(Map params){
+    public PayerDTO(Map params){
         this.name = params.name
         this.email = params.email
         this.cpfCnpj = params.cpfCnpj
