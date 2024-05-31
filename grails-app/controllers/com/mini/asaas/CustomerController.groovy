@@ -53,7 +53,7 @@ class CustomerController {
       } catch (ValidationException exception) {
          log.error("CustomerController.update >> Não foi possível atualizar o Customer ${params.id}", exception)
          params.errorMessage = "Não foi possível editar o cliente, ocorreram os seguintes erros: " + exception.errors.allErrors.defaultMessage.join(", ")
-         redirect(view: "edit", params: params, id: params.getLong("id"))
+         redirect(action: "edit", params: params, id: params.getLong("id"))
       }
    }
 }
