@@ -37,11 +37,10 @@ class PaymentService {
 
     public Payment update(UpdatePaymentDTO updatePaymentDTO, Long paymentId, Long customerId ) {
         Payment payment = PaymentRepository.findByIdAndCustomerId(paymentId, customerId)
-        
+        if (!payment.canEdit()) throw new Exception("Essa cobrança não pode ser modificada")
         payment.value = updatePaymentDTO.value
         payment.dueDate = updatePaymentDTO.dueDate
         payment.billingType = updatePaymentDTO.billingType
- 
         return payment.save(failOnError: true)
     }
 
@@ -51,7 +50,7 @@ class PaymentService {
     
     public void delete(Long paymentId, Long customerId) {
         Payment payment = PaymentRepository.findByIdAndCustomerId(paymentId, customerId)
-        if(payment.status.isPaid()) throw new Exception("Cobranças pagas não devem ser excluidas")
+        if (!payment.canEdit()) throw new Exception("Essa cobrança não pode ser modificada")
         payment.deleted = true 
         payment.save(failOnError: true)
     }

@@ -30,4 +30,12 @@ class Payment extends BaseEntity {
         billingType blank:false
         status blank:false
     }   
+
+    public Boolean canEdit(){
+        if (this.status.isPaid()){
+            return false              
+        } 
+        
+        return true
+    }
 }
