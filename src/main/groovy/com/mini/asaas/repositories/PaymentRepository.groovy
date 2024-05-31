@@ -43,9 +43,7 @@ class PaymentRepository implements Repository {
     }
 
     public static List<Payment> listByCustomer(Long customerId){
-        List<Payment> list = PaymentRepository.query([customerId: customerId]).list()
-        if (list == null || list.isEmpty()) throw new Exception("Nenhuma cobrança vinculada a esse customer")
-        return list
+        return PaymentRepository.query([customerId: customerId]).list()
     }
 
     private static List<String> allowedFilters() {
