@@ -89,6 +89,11 @@ grails:
         scriptlet: html
         taglib: none
         staticparts: none
+  mail:
+    host: "smtp.mailgun.org"
+    port: 587
+    username: "${MAIL_USERNAME}"
+    password: "${MAIL_PASSWORD}"
 management:
   endpoints:
     jmx:
