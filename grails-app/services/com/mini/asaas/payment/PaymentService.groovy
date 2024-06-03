@@ -6,6 +6,7 @@ import com.mini.asaas.Payer
 import com.mini.asaas.dto.payment.CreatePaymentDTO
 import com.mini.asaas.dto.payment.UpdatePaymentDTO
 import com.mini.asaas.enums.payment.PaymentStatus
+import com.mini.asaas.repositories.PaymentRepository
 import grails.gorm.transactions.Transactional
 import grails.compiler.GrailsCompileStatic
 
@@ -35,36 +36,21 @@ class PaymentService {
     }
 
     public Payment update(UpdatePaymentDTO updatePaymentDTO, Long paymentId, Long customerId ) {
-        Payment payment = Payment.where{
-            id == paymentId 
-            && customer.id == customerId 
-            && deleted == false
-        }.first()
-        
-        payment.lastUpdated = new Date()
+        Payment payment = PaymentRepository.findByIdAndCustomerId(paymentId, customerId)
+        if (!payment.canEdit()) throw new Exception("Essa cobrança não pode ser modificada")
         payment.value = updatePaymentDTO.value
         payment.dueDate = updatePaymentDTO.dueDate
         payment.billingType = updatePaymentDTO.billingType
- 
         return payment.save(failOnError: true)
     }
 
-    public Payment show(Long paymentId, Long customerId) {
-        Payment payment = Payment.where{
-            id == paymentId 
-            && customer.id == customerId 
-            && deleted == false
-        }.first()
-        return payment
+    public Payment findByIdAndCustomerId(Long paymentId, Long customerId) {
+        return PaymentRepository.findByIdAndCustomerId(paymentId, customerId)
     }
     
     public void delete(Long paymentId, Long customerId) {
-        Payment payment = Payment.where{
-            id == paymentId 
-            && customer.id == customerId 
-            && deleted == false
-        }.first()
-
+        Payment payment = PaymentRepository.findByIdAndCustomerId(paymentId, customerId)
+        if (!payment.canEdit()) throw new Exception("Essa cobrança não pode ser modificada")
         payment.deleted = true 
         payment.save(failOnError: true)
     }
@@ -77,5 +63,7 @@ class PaymentService {
             payment.status = PaymentStatus.OVERDUE;
             payment.save();
         }
+    public List<Payment> listByCustomer(Long customerId){
+        return PaymentRepository.listByCustomer(customerId)
     }
 }

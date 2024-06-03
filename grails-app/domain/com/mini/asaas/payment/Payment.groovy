@@ -4,7 +4,7 @@ import com.mini.asaas.Payer
 import com.mini.asaas.Customer
 import com.mini.asaas.enums.payment.BillingType
 import com.mini.asaas.enums.payment.PaymentStatus
-import com.mini.asaas.utils.BaseEntity
+import com.mini.asaas.base.BaseEntity
 import grails.compiler.GrailsCompileStatic
 
 @GrailsCompileStatic
@@ -29,6 +29,10 @@ class Payment extends BaseEntity {
         dueDate blank:false
         billingType blank:false
         status blank:false
+    }   
+
+    public Boolean canEdit(){
+        if (this.status.isPaid()) return false
+        return true
     }
-    
 }
