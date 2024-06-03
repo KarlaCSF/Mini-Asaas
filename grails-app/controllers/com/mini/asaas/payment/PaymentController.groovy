@@ -84,14 +84,24 @@ class PaymentController {
         }
     }
 
+    def showToPayer() {
+        try {
+            Payment payment = paymentService.findByIdAndCustomerId(params.getLong("id"), customer.id)
+            return [payment: payment]
+        } catch (Exception exception) {
+            log.error(exception.message, exception)
+            render "Cobrança não encontrada"
+        }
+    }
+
     def pay() {
         try {
             Payment payment = paymentService.pay(params.getLong("id"), customer.id)
-            redirect(action: "show", id: payment.id)
+            redirect(action: "showToPayer", id: payment.id)
         } catch (Exception exception) {
             log.error(exception.message, exception)
-            params.errorMessage = "Não foi possível pagar a cobrança"
-            redirect(action: "show", params: params)
+            params.errorMessage = exception.message
+            redirect(action: "showToPayer", params: params)
         }
     }
 }
