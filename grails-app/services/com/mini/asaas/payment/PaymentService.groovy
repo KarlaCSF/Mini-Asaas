@@ -68,4 +68,14 @@ class PaymentService {
         payment.deleted = true 
         payment.save(failOnError: true)
     }
+
+    public void checkAndUpdateOverduePaymentStatus(Payment payment) {
+        Date currentDate = new Date(); 
+        Date dueDate = payment.dueDate;
+
+        if (dueDate.before(currentDate)) {
+            payment.status = PaymentStatus.OVERDUE;
+            payment.save();
+        }
+    }
 }
