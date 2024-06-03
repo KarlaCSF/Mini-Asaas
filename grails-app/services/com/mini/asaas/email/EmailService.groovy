@@ -8,11 +8,11 @@ class EmailService {
 
     def mailService
 
-    void enviarEmailVerificacao(Payment payment) {
+    void sendEmailToVerifyPayment(Payment payment) {
         mailService.sendMail {
             to payment.payer.email
-            subject "Verificação de Status do Pagamento"
-            body "Caro cliente, por favor verifique o status do seu pagamento referente ao pedido ${payment.id}."
+            subject "Cobrança Pendente"
+            body "Olá ${payment.payer.name}, lembre-se que existe uma cobrança pendente no valor de ${payment.value} que vencerá no dia ${payment.dueDate}."
         }
     }
 }
