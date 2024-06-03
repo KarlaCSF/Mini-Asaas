@@ -39,4 +39,24 @@ class PayerController {
         }
     }
 
+    def edit() {
+      try {
+         Payer payer = Payer.get(params.getLong("id"))
+         return [payer: payer]
+      } catch (Exception exception) { 
+         log.error("PayerController.edit >> Não foi possível buscar o Payer ${params.id}", exception)
+      }
+   }
+
+   def update() {
+      try {
+         PayerDTO payerDTO = new PayerDTO(params)
+         Payer payer = payerService.update(payerDTO, params.getLong("id"))
+         redirect(action: "show", id: payer.id)
+      } catch (ValidationException exception) {
+         log.error("PayerController.update >> Não foi possível atualizar o Payer ${params.id}", exception)
+         params.errorMessage = "Não foi possível editar o pagador, ocorreram os seguintes erros: " + exception.errors.allErrors.defaultMessage.join(", ")
+         redirect(action: "edit", params: params, id: params.getLong("id"))
+      }
+   }
 }

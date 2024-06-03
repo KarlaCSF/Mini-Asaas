@@ -1,10 +1,12 @@
-package com.mini.asaas.utils
+package com.mini.asaas.base
 
 import com.mini.asaas.Address
 import com.mini.asaas.enums.PersonType
-import com.mini.asaas.utils.BaseEntity
+import com.mini.asaas.base.BaseEntity
 import grails.compiler.GrailsCompileStatic
+import grails.gorm.dirty.checking.DirtyCheck
 
+@DirtyCheck
 @GrailsCompileStatic
 abstract class PersonEntity extends BaseEntity {
 

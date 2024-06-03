@@ -14,10 +14,10 @@ class PayerDTO {
 
     AddressDTO addressDTO
 
-    PayerDTO(Map params){
-            this.name = params.name
-            this.email = params.email
-            this.cpfCnpj = params.cpfCnpj
-            this.addressDTO = new AddressDTO(params)     
+    public PayerDTO(Map params){
+        this.name = params.name
+        this.email = params.email
+        this.cpfCnpj = params.cpfCnpj
+        this.addressDTO = new AddressDTO(params)     
     } 
 }
