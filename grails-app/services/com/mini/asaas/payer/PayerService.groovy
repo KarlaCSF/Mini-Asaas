@@ -6,6 +6,7 @@ import com.mini.asaas.Customer
 import com.mini.asaas.AddressService
 import com.mini.asaas.dto.payer.PayerDTO
 import com.mini.asaas.utils.CpfCnpjUtils
+import com.mini.asaas.repositories.PayerRepository
 
 import javax.transaction.Transactional
 import grails.validation.ValidationException
@@ -33,11 +34,8 @@ class PayerService {
         return validatedPayer.save(failOnError: true)
     }
 
-    public Payer update(PayerDTO payerDTO, Long payerId) {
-        Payer payer = Payer.where{
-            id == payerId 
-            && deleted == false
-        }.first()
+    public Payer update(PayerDTO payerDTO, Long payerId, Long customerId) {
+        Payer payer = PayerRepository.findByIdAndCustomerId(payerId, customerId)
 
         Payer validatedPayer = validateSave(payerDTO, payer)
 
