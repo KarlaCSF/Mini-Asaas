@@ -6,23 +6,14 @@ import com.mini.asaas.enums.payment.BillingType
 import com.mini.asaas.dto.payment.CreatePaymentDTO
 import com.mini.asaas.dto.payment.UpdatePaymentDTO
 import com.mini.asaas.payment.PaymentService
-import com.mini.asaas.email.EmailService
 
 class PaymentController {
 
     PaymentService paymentService
-    EmailService emailService
 
     Customer customer = Customer.get(1) // todo: fix customer Id in 1 while don't have authentication
     
     def index() {  
-           Payment payment = Payment.get(3) // Assumindo que o Payment com id 3 existe
-        try {
-            emailService.enviarEmailVerificacao(payment)
-            render "E-mail enviado com sucesso!"
-        } catch (Exception e) {
-            render "Erro ao enviar e-mail: ${e.message}"
-        }
         return [params: params]
     }
 
