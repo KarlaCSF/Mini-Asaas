@@ -2,6 +2,7 @@ package com.mini.asaas.payment
 
 import com.mini.asaas.Payer
 import com.mini.asaas.Customer
+import com.mini.asaas.payment.Payment
 import com.mini.asaas.enums.payment.BillingType
 import com.mini.asaas.dto.payment.CreatePaymentDTO
 import com.mini.asaas.dto.payment.UpdatePaymentDTO
@@ -13,13 +14,24 @@ class PaymentController {
 
     Customer customer = Customer.get(1) // todo: fix customer Id in 1 while don't have authentication
     
-    def index() {  
-        return [params: params]
+    def index() {
+        return [view: "index"]
+    }
+
+    def create() {  
+        try{
+            List<Payer> listPayersByCustomer = Payer.where{
+            customer.id == customer.id
+            }.list() // while don't have a payerservice to give a list of payer from a customer 
+            return [view: "create", listPayersByCustomer: listPayersByCustomer]
+        } catch (Exception exception) {
+            log.error(exception.message, exception)
+        }
     }
 
     def edit() {
         try {
-            Payment payment = paymentService.show(params.getLong("id"), customer.id)
+            Payment payment = paymentService.findByIdAndCustomerId(params.getLong("id"), customer.id)
             return [payment: payment, id: payment.id]  
         } catch (Exception exception) {
             log.error(exception.message, exception)
@@ -29,7 +41,7 @@ class PaymentController {
 
     def show() {
         try {
-            Payment payment = paymentService.show(params.getLong("id"), customer.id)
+            Payment payment = paymentService.findByIdAndCustomerId(params.getLong("id"), customer.id)
             return [payment: payment]
         } catch (Exception exception) {
             log.error(exception.message, exception)
@@ -45,7 +57,7 @@ class PaymentController {
         } catch (Exception exception) {
             log.error("PaymentController.save >> Não foi possível salvar a Payment ${params.id}", exception)
             params.errorMessage = "Não foi possível realizar a cobrança"
-            redirect(view: "index", params: params)
+            redirect(action: "create", params: params)
         }
     }
     
@@ -57,7 +69,7 @@ class PaymentController {
         } catch (Exception exception) {
             log.error(exception.message, exception)
             params.errorMessage = "Não foi possível editar a cobrança"
-            redirect(view: "index", params: params)
+            redirect(view: "edit", params: params)
         }
     }
 
@@ -68,7 +80,7 @@ class PaymentController {
         } catch (Exception exception) {
             log.error(exception.message, exception)
             params.errorMessage = "Não foi possível apagar a cobrança"
-            redirect(view: "index", params: params)
+            redirect(view: "edit", params: params)
         }
     }
 }

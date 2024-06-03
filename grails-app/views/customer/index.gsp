@@ -7,38 +7,42 @@ contentType="text/html;charset=UTF-8" %>
     <meta name="layout" content="main"/>
 </head>
 <body>
+    <g:if test="${params.errorMessage}">
+        <span>${params.errorMessage}</span>
+    </g:if>
+
     <form action="${createLink(controller: "customer", action: "save")}">
         <label for="name">Nome:</label><br>
-        <input type="text" name="name"><br>
+        <input type="text" name="name" value="${params.name}"><br>
         
         <label for="email">Email:</label><br>
-        <input type="text" name="email"><br><br>
+        <input type="text" name="email" value="${params.email}"><br><br>
 
         <label for="cpfCnpj">CPF/CNPJ:</label><br>
-        <input type="text" name="cpfCnpj"><br><br>
+        <input type="text" name="cpfCnpj" value="${params.cpfCnpj}"><br><br>
 
         <div>Endereço 
             <br>
             <label for="cep">CEP:</label><br>
-            <input type="text" name="cep"><br><br>
+            <input type="text" name="cep" value="${params.cep}"><br><br>
 
             <label for="city">Cidade:</label><br>
-            <input type="text" name="city"><br><br>
+            <input type="text" name="city" value="${params.city}"><br><br>
 
             <label for="state">Estado:</label><br>
-            <g:select name="state" from="${States.values()}" noSelection="['':'Selecione um estado']" required="true"/><br><br>
+            <g:select name="state" value="${params.state}" from="${States.values()}" noSelection="['':'Selecione um estado']" required="true"/><br><br>
 
             <label for="district">Bairro:</label><br>
-            <input type="text" name="district"><br><br>
+            <input type="text" name="district" value="${params.district}"><br><br>
 
             <label for="street">Rua:</label><br>
-            <input type="text" name="street"><br><br>
+            <input type="text" name="street" value="${params.street}"><br><br>
 
             <label for="number">Número:</label><br>
-            <input type="text" name="number"><br><br>
+            <input type="text" name="number" value="${params.number}"><br><br>
 
             <label for="complement">Complemento:</label><br>
-            <input type="text" name="complement"><br><br>
+            <input type="text" name="complement" value="${params.complement}"><br><br>
         </div>
 
         <input type="submit" value="Submit">
