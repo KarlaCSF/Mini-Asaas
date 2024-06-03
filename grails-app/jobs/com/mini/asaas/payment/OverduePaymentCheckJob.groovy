@@ -9,7 +9,7 @@ class OverduePaymentCheckJob {
   PaymentService paymentService
 
   static triggers = {
-    cron name: 'overduePaymentCheckTrigger', cronExpression: "0 0/1 * * * ?"
+    cron name: 'overduePaymentCheckTrigger', cronExpression: "0 0 0 * * ?"
   }
 
   @Transactional
