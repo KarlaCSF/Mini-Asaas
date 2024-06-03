@@ -6,7 +6,9 @@ import com.mini.asaas.enums.payment.BillingType
 import com.mini.asaas.enums.payment.PaymentStatus
 import com.mini.asaas.utils.BaseEntity
 import grails.compiler.GrailsCompileStatic
+import grails.gorm.dirty.checking.DirtyCheck
 
+@DirtyCheck
 @GrailsCompileStatic
 class Payment extends BaseEntity {
 
