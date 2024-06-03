@@ -1,6 +1,6 @@
 package com.mini.asaas
 
-import com.mini.asaas.utils.BaseEntity
+import com.mini.asaas.base.BaseEntity
 import grails.compiler.GrailsCompileStatic
 
 @GrailsCompileStatic
