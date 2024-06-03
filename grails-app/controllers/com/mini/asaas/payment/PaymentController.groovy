@@ -57,7 +57,7 @@ class PaymentController {
         } catch (Exception exception) {
             log.error("PaymentController.save >> Não foi possível salvar a Payment ${params.id}", exception)
             params.errorMessage = "Não foi possível realizar a cobrança"
-            redirect(view: "create", params: params)
+            redirect(action: "create", params: params)
         }
     }
     
