@@ -1,6 +1,6 @@
-package com.mini.asaas
+package com.mini.asaas.payer
 
-import com.mini.asaas.Payer
+import com.mini.asaas.payer.Payer
 import com.mini.asaas.Address
 import com.mini.asaas.Customer
 import com.mini.asaas.AddressService
