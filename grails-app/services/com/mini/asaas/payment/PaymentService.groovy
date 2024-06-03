@@ -58,4 +58,13 @@ class PaymentService {
     public List<Payment> listByCustomer(Long customerId){
         return PaymentRepository.listByCustomer(customerId)
     }
+
+    public Payment pay(Long paymentId, Long customerId) {
+        Payment payment = findByIdAndCustomerId(paymentId, customerId)
+
+        if (!payment.canEdit()) throw new Exception("Essa cobrança não pode ser modificada")
+
+        payment.status = PaymentStatus.PAID
+        return payment.save(failOnError: true)
+    }
 }

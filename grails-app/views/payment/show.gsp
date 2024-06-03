@@ -43,6 +43,8 @@
 
             <a href="${createLink(controller: 'payment', action: 'edit', id: payment.id)}">Editar Cobrança</a>
             <a href="${createLink(controller: 'payment', action: 'delete', id: payment.id)}">Excluir Cobrança</a>
+            <br>
+            <a href="${createLink(controller: 'payment', action: 'pay', id: payment.id)}">Pagar Cobrança</a>
         </fieldset>
      
     </fieldset>

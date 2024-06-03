@@ -83,4 +83,15 @@ class PaymentController {
             redirect(view: "edit", params: params)
         }
     }
+
+    def pay() {
+        try {
+            Payment payment = paymentService.pay(params.getLong("id"), customer.id)
+            redirect(action: "show", id: payment.id)
+        } catch (Exception exception) {
+            log.error(exception.message, exception)
+            params.errorMessage = "Não foi possível pagar a cobrança"
+            redirect(action: "show", params: params)
+        }
+    }
 }
