@@ -1,7 +1,6 @@
 package com.mini.asaas.payment
 
 import grails.gorm.transactions.Transactional
-import com.mini.asaas.payment.Payment
 import com.mini.asaas.enums.payment.PaymentStatus
 import com.mini.asaas.email.EmailService
 
@@ -15,10 +14,6 @@ class PaymentReminderJob {
 
   @Transactional
   def execute() {
-    List<Payment> payments = Payment.findAllByStatus(PaymentStatus.WAITING)
-
-    payments.each { payment ->
-      emailService.sendEmailToVerifyPayment(payment)
-    }
+    emailService.fetchWaitingPaymentsAndRemindPayer()
   }
 }
