@@ -1,18 +1,25 @@
 package com.mini.asaas.payment
 
 import com.mini.asaas.payment.Payment
+import com.mini.asaas.payment.PaymentService
 import com.mini.asaas.Customer
 import com.mini.asaas.Payer
 import com.mini.asaas.dto.payment.CreatePaymentDTO
 import com.mini.asaas.dto.payment.UpdatePaymentDTO
 import com.mini.asaas.enums.payment.PaymentStatus
 import com.mini.asaas.repositories.PaymentRepository
+
 import grails.gorm.transactions.Transactional
 import grails.compiler.GrailsCompileStatic
 
 @GrailsCompileStatic
 @Transactional
 class PaymentService {
+
+    PaymentService paymentService
+    
+    Date currentDate = new Date()
+
     public Payment save(CreatePaymentDTO createPaymentDTO, Long customerId) {
         Payment payment = new Payment()
         
@@ -55,14 +62,26 @@ class PaymentService {
         payment.save(failOnError: true)
     }
 
-    public void checkAndUpdateOverduePaymentStatus(Payment payment) {
-        Date currentDate = new Date(); 
-        Date dueDate = payment.dueDate;
+    public void processOverdue() {
+        List<Payment> paymentList = paymentService.listByStatus(PaymentStatus.WAITING)
+        
+        paymentList.each { payment ->
+            paymentService.markOverdueIfDue(payment)
+        }
+    }
 
-        if (dueDate.before(currentDate)) {
+    private void markOverdueIfDue(Payment payment) {
+        if (verifyIfOverdue(payment)) {
             payment.status = PaymentStatus.OVERDUE;
             payment.save();
         }
+    }
+
+    public Boolean verifyIfOverdue(Payment payment) {        
+        Date dueDate = payment.dueDate
+        return dueDate.before(currentDate)
+    }
+
     public List<Payment> listByCustomer(Long customerId){
         return PaymentRepository.listByCustomer(customerId)
     }
