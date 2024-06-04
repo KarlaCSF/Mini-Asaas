@@ -36,7 +36,10 @@ spring:
 management:
   endpoints:
     enabled-by-default: false
-
+logging:
+  level:
+    org.grails.orm.hibernate: DEBUG
+    org.hibernate: DEBUG
 ---
 grails:
   mime:
