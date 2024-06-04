@@ -4,11 +4,12 @@ import grails.gorm.transactions.Transactional
 import com.mini.asaas.payment.Payment
 import com.mini.asaas.enums.payment.PaymentStatus
 import com.mini.asaas.repositories.PaymentRepository
+import grails.plugins.mail.MailService
 
 @Transactional
 class EmailService {
 
-    def mailService
+    MailService mailService
 
     public void sendEmailToVerifyPayment(Payment payment) {
         mailService.sendMail {
