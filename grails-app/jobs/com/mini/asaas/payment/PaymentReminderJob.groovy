@@ -9,7 +9,7 @@ class PaymentReminderJob {
   EmailService emailService
 
   static triggers = {
-    cron name: 'paymentReminderTrigger', cronExpression: "0 0 7 * * ?"
+    cron name: 'PaymentReminderJobTrigger', cronExpression: "0 0 7 * * ?", startDelay: 10000
   }
 
   @Transactional
