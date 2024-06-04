@@ -59,4 +59,16 @@ class PayerService {
         
         return payer
     }
+
+    public void delete(Long payerId) {
+        Payer payer = Payer.where{
+            id == payerId 
+            && deleted == false
+        }.first()
+    
+        payer.deleted = true 
+
+        payer.save(failOnError: true)
+        
+    }
 }
