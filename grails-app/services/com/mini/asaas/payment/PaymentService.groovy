@@ -66,4 +66,8 @@ class PaymentService {
     public List<Payment> listByCustomer(Long customerId){
         return PaymentRepository.listByCustomer(customerId)
     }
+    
+    public List<Payment> listByStatus(PaymentStatus status){
+        return PaymentRepository.listByStatus(status)
+    }
 }
