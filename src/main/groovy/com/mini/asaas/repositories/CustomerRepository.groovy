@@ -1,6 +1,6 @@
 package com.mini.asaas.repositories
 
-import com.mini.asaas.Customer
+import com.mini.asaas.customer.Customer
 import com.mini.asaas.repositories.Repository
 import grails.gorm.DetachedCriteria
 
