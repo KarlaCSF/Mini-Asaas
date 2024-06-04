@@ -62,7 +62,7 @@ class PaymentService {
     public Payment pay(Long paymentId, Long customerId) {
         Payment payment = findByIdAndCustomerId(paymentId, customerId)
 
-        if (!payment.canEdit()) throw new Exception("Essa cobrança já está paga")
+        if (!payment.canEdit()) throw new Exception("Essa cobrança não pode ser modificada")
 
         payment.status = PaymentStatus.PAID
         return payment.save(failOnError: true)
