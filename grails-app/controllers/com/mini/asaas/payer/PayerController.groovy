@@ -64,7 +64,7 @@ class PayerController {
 
     def delete(){
         try {
-            payerService.delete(params.getLong("id"))
+            payerService.delete(params.getLong("id"), customer.id)
             redirect(action: "index")
         } catch (Exception exception) {
             log.error(exception.message, exception)

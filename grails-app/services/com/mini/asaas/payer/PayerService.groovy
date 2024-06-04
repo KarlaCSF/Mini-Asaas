@@ -58,11 +58,8 @@ class PayerService {
         return payer
     }
 
-    public void delete(Long payerId) {
-        Payer payer = Payer.where{
-            id == payerId 
-            && deleted == false
-        }.first()
+    public void delete(Long payerId, Long customerId) {
+        Payer payer = PayerRepository.findByIdAndCustomerId(payerId, customerId)
     
         payer.deleted = true 
 
