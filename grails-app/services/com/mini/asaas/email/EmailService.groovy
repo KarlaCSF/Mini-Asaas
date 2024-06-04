@@ -25,7 +25,7 @@ class EmailService {
     public void remindPaymentsWaiting() {
         List<Payment> paymentList = paymentService.listByStatus(PaymentStatus.WAITING)
 
-        payments.each { payment ->
+        paymentList.each { payment ->
             sendEmailToVerifyPayment(payment)
         }
     }
