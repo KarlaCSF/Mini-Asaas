@@ -47,7 +47,7 @@ contentType="text/html;charset=UTF-8" %>
         </div><br>
         
         <g:if test="${payment.status != PaymentStatus.PAID}">
-            <a href="${createLink(controller: 'payment', action: 'pay', id: payment.id)}">Pagar Cobrança</a>
+            <a href="${createLink(controller: 'invoice', action: 'pay', id: payment.id)}">Pagar Cobrança</a>
         </g:if>
     </fieldset>
 </form>
