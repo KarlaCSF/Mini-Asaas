@@ -2,6 +2,7 @@ package com.mini.asaas.email
 
 import grails.gorm.transactions.Transactional
 import com.mini.asaas.payment.Payment
+import com.mini.asaas.payment.PaymentService
 import com.mini.asaas.enums.payment.PaymentStatus
 import com.mini.asaas.repositories.PaymentRepository
 import grails.plugins.mail.MailService
@@ -11,7 +12,9 @@ class EmailService {
 
     MailService mailService
 
-    public void sendEmailToVerifyPayment(Payment payment) {
+    PaymentService paymentService
+    
+    private void sendEmailToVerifyPayment(Payment payment) {
         mailService.sendMail {
             to payment.payer.email
             subject "Cobrança Pendente"
@@ -19,8 +22,8 @@ class EmailService {
         }
     }
 
-    public void fetchWaitingPaymentsAndRemindPayer() {
-        List<Payment> payments = PaymentRepository.listByStatus(PaymentStatus.WAITING)
+    public void remindPaymentsWaiting() {
+        List<Payment> paymentList = paymentService.listByStatus(PaymentStatus.WAITING)
 
         payments.each { payment ->
             sendEmailToVerifyPayment(payment)

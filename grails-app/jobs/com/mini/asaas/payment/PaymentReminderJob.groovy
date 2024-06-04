@@ -12,6 +12,6 @@ class PaymentReminderJob {
   }
 
   def execute() {
-    emailService.fetchWaitingPaymentsAndRemindPayer()
+    emailService.remindPaymentsWaiting()
   }
 }
