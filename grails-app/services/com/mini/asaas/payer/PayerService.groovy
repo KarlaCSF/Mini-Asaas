@@ -8,7 +8,7 @@ import com.mini.asaas.dto.payer.PayerDTO
 import com.mini.asaas.utils.CpfCnpjUtils
 import com.mini.asaas.repositories.PayerRepository
 
-import javax.transaction.Transactional
+import grails.gorm.transactions.Transactional
 import grails.validation.ValidationException
 import grails.compiler.GrailsCompileStatic
 
