@@ -1,7 +1,7 @@
 package com.mini.asaas.payment
 
 import com.mini.asaas.payer.Payer
-import com.mini.asaas.Customer
+import com.mini.asaas.customer.Customer
 import com.mini.asaas.enums.payment.BillingType
 import com.mini.asaas.enums.payment.PaymentStatus
 import com.mini.asaas.base.BaseEntity

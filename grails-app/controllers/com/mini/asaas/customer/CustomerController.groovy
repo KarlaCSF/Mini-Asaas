@@ -1,6 +1,6 @@
-package com.mini.asaas
+package com.mini.asaas.customer
 
-import com.mini.asaas.Customer
+import com.mini.asaas.customer.Customer
 import com.mini.asaas.dto.customer.CustomerDTO
 import grails.compiler.GrailsCompileStatic
 import grails.validation.ValidationException
