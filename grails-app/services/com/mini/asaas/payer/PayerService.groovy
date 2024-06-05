@@ -1,8 +1,8 @@
-package com.mini.asaas
+package com.mini.asaas.payer
 
-import com.mini.asaas.Payer
+import com.mini.asaas.payer.Payer
 import com.mini.asaas.Address
-import com.mini.asaas.Customer
+import com.mini.asaas.customer.Customer
 import com.mini.asaas.AddressService
 import com.mini.asaas.dto.payer.PayerDTO
 import com.mini.asaas.utils.CpfCnpjUtils

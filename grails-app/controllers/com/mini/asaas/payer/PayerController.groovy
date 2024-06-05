@@ -1,7 +1,8 @@
-package com.mini.asaas
+package com.mini.asaas.payer
 
-import com.mini.asaas.Payer
-import com.mini.asaas.Customer
+import com.mini.asaas.payer.Payer
+import com.mini.asaas.payer.PayerService
+import com.mini.asaas.customer.Customer
 import com.mini.asaas.dto.payer.PayerDTO
 import grails.validation.ValidationException
 import grails.compiler.GrailsCompileStatic
@@ -10,9 +11,6 @@ import grails.compiler.GrailsCompileStatic
 class PayerController {
 
     PayerService payerService
-
-    AddressService addressService
-    
     def index() {
         return [params: params]
     }
