@@ -21,9 +21,7 @@ class PayerRepository implements Repository {
     }
     
     public static Payer findByIdAndCustomerId(Long payerId, Long customerId){
-        Payer payer = PayerRepository.query([id: payerId, customerId: customerId]).get()
-        if (!payer) throw new Exception("Payer inexistente.")
-        return payer
+        return PayerRepository.query([id: payerId, customerId: customerId]).get()
     }
 
     public static List<Payer> listByCustomer(Long customerId){
