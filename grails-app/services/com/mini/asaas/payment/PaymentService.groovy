@@ -81,7 +81,7 @@ class PaymentService {
     }
     
     private void updateStatusToOverdueIfPossible(Payment payment) {
-        if (verifyIfOverdue(payment)) return
+        if (!verifyIfOverdue(payment)) return
         
         payment.status = PaymentStatus.OVERDUE;
         payment.save();
