@@ -8,13 +8,10 @@ import grails.gorm.DetachedCriteria
 class CustomerRepository implements Repository {
 
     public static DetachedCriteria<Customer> query(Map search) {
-        DetachedCriteria<Customer> query = Customer.where(defaultQuery(search))    
-        return query
+        return Customer.where(defaultQuery(search))
     }
     
     public Customer findById(Long customerId) {
-        Customer customer = CustomerRepository.query([id: customerId]).get()
-        if (!customer) throw new Exception("Customer inexistente.")
-        return customer
+        return CustomerRepository.query([id: customerId]).get()
     }
 }
