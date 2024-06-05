@@ -1,6 +1,6 @@
-package com.mini.asaas
+package com.mini.asaas.adress
 
-import com.mini.asaas.Address
+import com.mini.asaas.adress.Address
 import com.mini.asaas.dto.AddressDTO
 
 import grails.gorm.transactions.Transactional

@@ -1,8 +1,8 @@
 package com.mini.asaas.customer
 
+import com.mini.asaas.adress.Address
+import com.mini.asaas.adress.AddressService
 import com.mini.asaas.customer.Customer
-import com.mini.asaas.Address
-import com.mini.asaas.AddressService
 import com.mini.asaas.dto.customer.CustomerDTO
 import com.mini.asaas.utils.CpfCnpjUtils
 

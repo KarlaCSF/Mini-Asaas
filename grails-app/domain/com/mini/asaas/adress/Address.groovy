@@ -1,4 +1,4 @@
-package com.mini.asaas
+package com.mini.asaas.adress
 
 import com.mini.asaas.base.BaseEntity
 import grails.compiler.GrailsCompileStatic
