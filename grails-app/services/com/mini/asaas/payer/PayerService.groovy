@@ -35,7 +35,7 @@ class PayerService {
     }
 
     public Payer update(PayerDTO payerDTO, Long payerId, Long customerId) {
-        Payer payer = PayerRepository.findByIdAndCustomerId(payerId, customerId)
+        Payer payer = findByIdAndCustomerId(payerId, customerId, false)
 
         Payer validatedPayer = validateSave(payerDTO, payer)
 
@@ -59,11 +59,22 @@ class PayerService {
     }
 
     public void delete(Long payerId, Long customerId) {
-        Payer payer = PayerRepository.findByIdAndCustomerId(payerId, customerId)
-    
+        Payer payer = findByIdAndCustomerId(payerId, customerId, false)
         payer.deleted = true 
+        payer.save(failOnError: true)   
+    }
 
-        payer.save(failOnError: true)
-        
+    public Payer restore(Long payerId, Long customerId) {
+        Payer payer = findByIdAndCustomerId(payerId, customerId, true)
+        payer.deleted = false
+        payer.save(failOnError: true)   
+    }
+
+    public Payer findByIdAndCustomerId(Long payerId, Long customerId, Boolean deleted) {
+        return PayerRepository.findByIdAndCustomerId(payerId, customerId, deleted)
+    }
+
+    public List<Payer> listByCustomer(Long customerId, Boolean deleted){
+        return PayerRepository.listByCustomer(customerId, deleted)
     }
 }

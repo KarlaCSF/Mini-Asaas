@@ -15,7 +15,9 @@ class PayerController {
     Customer customer = Customer.get(1) // fixed Customer in 1 while don't have authentication
 
     def index() {
-        return [params: params]
+    }
+
+    def create() {
     }
 
     def save() {
@@ -42,25 +44,25 @@ class PayerController {
     }
 
     def edit() {
-      try {
-         Payer payer = Payer.get(params.getLong("id"))
-         return [payer: payer]
-      } catch (Exception exception) { 
-         log.error("PayerController.edit >> Não foi possível buscar o Payer ${params.id}", exception)
-      }
-   }
+        try {
+            Payer payer = Payer.get(params.getLong("id"))
+            return [payer: payer]
+        } catch (Exception exception) { 
+            log.error("PayerController.edit >> Não foi possível buscar o Payer ${params.id}", exception)
+        }
+    }    
 
    def update() {
-      try {
-         PayerDTO payerDTO = new PayerDTO(params)
-         Payer payer = payerService.update(payerDTO, params.getLong("id"), customer.id)
-         redirect(action: "show", id: payer.id)
-      } catch (ValidationException exception) {
-         log.error("PayerController.update >> Não foi possível atualizar o Payer ${params.id}", exception)
-         params.errorMessage = "Não foi possível editar o pagador, ocorreram os seguintes erros: " + exception.errors.allErrors.defaultMessage.join(", ")
-         redirect(action: "edit", params: params, id: params.getLong("id"))
-      }
-   }
+        try {
+            PayerDTO payerDTO = new PayerDTO(params)
+            Payer payer = payerService.update(payerDTO, params.getLong("id"), customer.id)
+            redirect(action: "show", id: payer.id)
+        } catch (ValidationException exception) {
+            log.error("PayerController.update >> Não foi possível atualizar o Payer ${params.id}", exception)
+            params.errorMessage = "Não foi possível editar o pagador, ocorreram os seguintes erros: " + exception.errors.allErrors.defaultMessage.join(", ")
+            redirect(action: "edit", params: params, id: params.getLong("id"))
+        }
+    }
 
     def delete(){
         try {
@@ -68,8 +70,30 @@ class PayerController {
             redirect(action: "index")
         } catch (Exception exception) {
             log.error(exception.message, exception)
-            params.errorMessage = "Não foi possível apagar o pagador"
+            params.errorMessage = exception.message
             redirect(action: "show", params: params)
+        }
+    }
+
+    def restore() {
+        try {
+            payerService.restore(params.getLong("id"), customer.id)
+            redirect(action: "list")
+        } catch(Exception exception) {
+            log.error(exception.message, exception)
+            params.errorMessage = exception.message
+            redirect(action: "list", params: params)
+        }
+    }
+
+    def list() {
+        try {
+            List<Payer> payerList = payerService.listByCustomer(customer.id, false)
+            List<Payer> deletedPayerList = payerService.listByCustomer(customer.id, true)
+            return [payerList: payerList, deletedPayerList: deletedPayerList]
+        } catch(Exception exception) {
+            log.error(exception.message, exception)
+            render(exception.message)
         }
     }
 }
