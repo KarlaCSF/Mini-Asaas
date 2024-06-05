@@ -3,6 +3,7 @@ package com.mini.asaas.invoice
 import com.mini.asaas.payment.Payment
 import com.mini.asaas.payment.PaymentService
 import com.mini.asaas.Customer
+import com.asaas.exception.BusinessException
 
 class InvoiceController {
 
@@ -27,9 +28,13 @@ class InvoiceController {
         try {
             Payment payment = paymentService.pay(params.getLong("id"), customer.id)
             redirect(action: "show", id: payment.id)
-        } catch (Exception exception) {
+        } catch (BusinessException exception) {
             log.error(exception.message, exception)
             params.errorMessage = exception.message
+            redirect(action: "show", params: params)
+        } catch (Exception exception) {
+            log.error(exception.message, exception)
+            params.errorMessage = "Não foi possível pagar a cobrança"
             redirect(action: "show", params: params)
         }
     }

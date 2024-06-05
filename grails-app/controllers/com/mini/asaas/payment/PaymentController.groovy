@@ -7,6 +7,7 @@ import com.mini.asaas.enums.payment.BillingType
 import com.mini.asaas.dto.payment.CreatePaymentDTO
 import com.mini.asaas.dto.payment.UpdatePaymentDTO
 import com.mini.asaas.payment.PaymentService
+import com.asaas.exception.BusinessException
 
 class PaymentController {
 
@@ -66,21 +67,29 @@ class PaymentController {
             UpdatePaymentDTO updatePaymentDTO = new UpdatePaymentDTO(params)
             Payment payment = paymentService.update(updatePaymentDTO, params.getLong("id"), customer.id)
             redirect(action: "show", id: payment.id)
+        } catch (BusinessException exception) {
+            log.error(exception.message, exception)
+            params.errorMessage = exception.message
+            redirect(action: "edit", params: params)
         } catch (Exception exception) {
             log.error(exception.message, exception)
             params.errorMessage = "Não foi possível editar a cobrança"
-            redirect(view: "edit", params: params)
+            redirect(action: "edit", params: params)
         }
     }
 
     def delete(){
         try {
             paymentService.delete(params.getLong("id"), customer.id)
-            redirect(view: "index")
+            redirect(action: "index")
+        } catch (BusinessException exception) {
+            log.error(exception.message, exception)
+            params.errorMessage = exception.message
+            redirect(action: "show", params: params)
         } catch (Exception exception) {
             log.error(exception.message, exception)
             params.errorMessage = "Não foi possível apagar a cobrança"
-            redirect(view: "edit", params: params)
+            redirect(action: "show", params: params)
         }
     }
 }
