@@ -1,8 +1,9 @@
 package com.mini.asaas.payment
 
-import com.mini.asaas.payment.Payment
 import com.mini.asaas.Customer
+import com.mini.asaas.email.EmailService
 import com.mini.asaas.Payer
+import com.mini.asaas.payment.Payment
 import com.mini.asaas.dto.payment.CreatePaymentDTO
 import com.mini.asaas.dto.payment.UpdatePaymentDTO
 import com.mini.asaas.enums.payment.PaymentStatus
@@ -13,6 +14,9 @@ import grails.compiler.GrailsCompileStatic
 @GrailsCompileStatic
 @Transactional
 class PaymentService {
+
+    EmailService emailService
+
     public Payment save(CreatePaymentDTO createPaymentDTO, Long customerId) {
         Payment payment = new Payment()
         
@@ -61,5 +65,13 @@ class PaymentService {
     
     public List<Payment> listByStatus(PaymentStatus status){
         return PaymentRepository.listByStatus(status)
+    }
+
+    public void notifyWaitingPayments() {
+        List<Payment> paymentList = listByStatus(PaymentStatus.WAITING)
+
+        paymentList.each { payment ->
+            emailService.sendEmailToVerifyPayment(payment)
+        }
     }
 }
