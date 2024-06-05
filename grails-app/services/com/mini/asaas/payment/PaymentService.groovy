@@ -16,10 +16,6 @@ import grails.compiler.GrailsCompileStatic
 @Transactional
 class PaymentService {
 
-    PaymentService paymentService
-    
-    Date currentDate = new Date()
-
     public Payment save(CreatePaymentDTO createPaymentDTO, Long customerId) {
         Payment payment = new Payment()
         
@@ -63,21 +59,15 @@ class PaymentService {
     }
 
     public void processOverdue() {
-        List<Payment> paymentList = paymentService.listByStatus(PaymentStatus.WAITING)
+        List<Payment> paymentList = listByStatus(PaymentStatus.WAITING)
         
         paymentList.each { payment ->
-            paymentService.markOverdueIfDue(payment)
-        }
-    }
-
-    private void markOverdueIfDue(Payment payment) {
-        if (verifyIfOverdue(payment)) {
-            payment.status = PaymentStatus.OVERDUE;
-            payment.save();
+            updateStatusToOverdueIfPossible(payment)
         }
     }
 
     public Boolean verifyIfOverdue(Payment payment) {        
+        final Date currentDate = new Date()
         Date dueDate = payment.dueDate
         return dueDate.before(currentDate)
     }
@@ -88,5 +78,12 @@ class PaymentService {
     
     public List<Payment> listByStatus(PaymentStatus status){
         return PaymentRepository.listByStatus(status)
+    }
+    
+    private void updateStatusToOverdueIfPossible(Payment payment) {
+        if (verifyIfOverdue(payment)) return
+        
+        payment.status = PaymentStatus.OVERDUE;
+        payment.save();
     }
 }
