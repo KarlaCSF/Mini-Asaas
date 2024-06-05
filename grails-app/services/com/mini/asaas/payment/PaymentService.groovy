@@ -82,18 +82,18 @@ class PaymentService {
         return PaymentRepository.listByStatus(status)
     }
     
-    private void updateStatusToOverdueIfPossible(Payment payment) {
-        if (!verifyIfOverdue(payment)) return
-        
-        payment.status = PaymentStatus.OVERDUE;
-        payment.save();
-    }
-    
     public void notifyWaitingPayments() {
         List<Payment> paymentList = listByStatus(PaymentStatus.WAITING)
 
         paymentList.each { payment ->
             emailService.sendEmailToVerifyPayment(payment)
         }
+    }
+    
+    private void updateStatusToOverdueIfPossible(Payment payment) {
+        if (!verifyIfOverdue(payment)) return
+        
+        payment.status = PaymentStatus.OVERDUE;
+        payment.save();
     }
 }
