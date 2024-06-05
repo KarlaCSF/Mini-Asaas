@@ -36,7 +36,10 @@ class PaymentService {
         payment.billingType = createPaymentDTO.billingType
         payment.status = createPaymentDTO.status
         
-        return payment.save(failOnError: true)
+        payment.save(failOnError: true)
+        notifyOnCreatePayment(payment)
+
+        return payment
     }
 
     public Payment update(UpdatePaymentDTO updatePaymentDTO, Long paymentId, Long customerId ) {
@@ -45,7 +48,11 @@ class PaymentService {
         payment.value = updatePaymentDTO.value
         payment.dueDate = updatePaymentDTO.dueDate
         payment.billingType = updatePaymentDTO.billingType
-        return payment.save(failOnError: true)
+        
+        payment.save(failOnError: true)
+        notifyOnUpdatePayment(payment)
+
+        return payment 
     }
 
     public Payment findByIdAndCustomerId(Long paymentId, Long customerId) {
@@ -56,7 +63,9 @@ class PaymentService {
         Payment payment = PaymentRepository.findByIdAndCustomerId(paymentId, customerId)
         if (!payment.canEdit()) throw new Exception("Essa cobrança não pode ser modificada")
         payment.deleted = true 
+
         payment.save(failOnError: true)
+        notifyOnDeletePayment(payment)
     }
 
     public List<Payment> listByCustomer(Long customerId){
@@ -73,5 +82,17 @@ class PaymentService {
         paymentList.each { payment ->
             emailService.sendEmailToVerifyPayment(payment)
         }
+    }
+
+    private void notifyOnCreatePayment(Payment payment) {
+        emailService.sendEmailOnCreatePayment(payment)
+    }
+
+    private void notifyOnUpdatePayment(Payment payment) {
+        emailService.sendEmailOnUpdatePayment(payment)
+    }
+    
+    private void notifyOnDeletePayment(Payment payment) {
+        emailService.sendEmailOnDeletePayment(payment)
     }
 }
