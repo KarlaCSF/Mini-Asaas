@@ -1,6 +1,7 @@
 package com.mini.asaas.repositories
 
 import com.mini.asaas.payment.Payment
+import com.mini.asaas.enums.payment.PaymentStatus
 import com.mini.asaas.repositories.Repository
 import grails.gorm.DetachedCriteria
 
@@ -44,6 +45,10 @@ class PaymentRepository implements Repository {
 
     public static List<Payment> listByCustomer(Long customerId){
         return PaymentRepository.query([customerId: customerId]).list()
+    }
+
+    public static List<Payment> listByStatus(PaymentStatus status) {
+        return PaymentRepository.query([status: status]).list()
     }
 
     private static List<String> allowedFilters() {
