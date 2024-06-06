@@ -2,7 +2,7 @@ package com.mini.asaas.invoice
 
 import com.mini.asaas.payment.Payment
 import com.mini.asaas.payment.PaymentService
-import com.mini.asaas.Customer
+import com.mini.asaas.customer.Customer
 import com.mini.asaas.exception.BusinessException
 
 class InvoiceController {

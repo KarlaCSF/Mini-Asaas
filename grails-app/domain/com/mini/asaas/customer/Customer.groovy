@@ -1,4 +1,4 @@
-package com.mini.asaas
+package com.mini.asaas.customer
 
 import com.mini.asaas.base.PersonEntity
 import grails.compiler.GrailsCompileStatic
