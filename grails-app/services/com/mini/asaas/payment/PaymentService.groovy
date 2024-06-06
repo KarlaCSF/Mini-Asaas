@@ -1,13 +1,14 @@
 package com.mini.asaas.payment
 
-import com.mini.asaas.Customer
 import com.mini.asaas.email.EmailService
-import com.mini.asaas.Payer
+import com.mini.asaas.customer.Customer
 import com.mini.asaas.payment.Payment
+import com.mini.asaas.payer.Payer
 import com.mini.asaas.dto.payment.CreatePaymentDTO
 import com.mini.asaas.dto.payment.UpdatePaymentDTO
 import com.mini.asaas.enums.payment.PaymentStatus
 import com.mini.asaas.repositories.PaymentRepository
+
 import grails.gorm.transactions.Transactional
 import grails.compiler.GrailsCompileStatic
 
@@ -19,13 +20,13 @@ class PaymentService {
 
     public Payment save(CreatePaymentDTO createPaymentDTO, Long customerId) {
         Payment payment = new Payment()
-
-        payment.customer = Customer.where {
+        
+        payment.customer = Customer.where{
             id == customerId
             && deleted == false
         }.first()
-
-        payment.payer = Payer.where {
+        
+        payment.payer = Payer.where{
             id == createPaymentDTO.payerId
             && customer.id == customerId
             && deleted == false
@@ -67,7 +68,21 @@ class PaymentService {
         emailService.notifyOnDeletePayment(payment)
     }
 
-    public List<Payment> listByCustomer(Long customerId) {
+    public void processOverdue() {
+        List<Payment> paymentList = listByStatus(PaymentStatus.WAITING)
+
+        paymentList.each { payment ->
+            updateStatusToOverdueIfPossible(payment)
+        }
+    }
+
+    public Boolean verifyIfOverdue(Payment payment) {
+        final Date currentDate = new Date()
+        Date dueDate = payment.dueDate
+        return dueDate.before(currentDate)
+    }
+
+    public List<Payment> listByCustomer(Long customerId){
         return PaymentRepository.listByCustomer(customerId)
     }
 
@@ -81,5 +96,12 @@ class PaymentService {
         paymentList.each { payment ->
             emailService.sendEmailToVerifyPayment(payment)
         }
+    }
+
+    private void updateStatusToOverdueIfPossible(Payment payment) {
+        if (!verifyIfOverdue(payment)) return
+
+        payment.status = PaymentStatus.OVERDUE;
+        payment.save();
     }
 }
