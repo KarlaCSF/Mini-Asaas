@@ -13,7 +13,33 @@ class EmailService {
 
     PageRenderer groovyPageRenderer
 
-    public void sendEmail(String email, String subjectMessage, EmailTemplateType templateType, Object data) {
+    public void notifyOnCreatePayment(Payment payment) {
+        String to = payment.payer.email
+        String subjectMessage = "Olá uma cobrança foi criada pra você"
+        emailService.sendEmail(to, subjectMessage, EmailTemplateType.PAYMENT_CREATE, payment)
+    }
+
+    public void notifyOnUpdatePayment(Payment payment) {
+        String to = payment.payer.email
+        String subjectMessage = "Cobrança Atualizada"
+        emailService.sendEmail(to, subjectMessage, EmailTemplateType.PAYMENT_UPDATE, payment)
+    }
+
+    public void notifyOnDeletePayment(Payment payment) {
+        String to = payment.payer.email
+        String subjectMessage = "Cobrança excluída"
+        emailService.sendEmail(to, subjectMessage, EmailTemplateType.PAYMENT_DELETE, payment)
+    }
+
+    public void sendEmailToVerifyPayment(Payment payment) {
+        mailService.sendMail {
+            to payment.payer.email
+            subject "Cobrança Pendente"
+            body "Olá ${payment.payer.name}, lembre-se que existe uma cobrança pendente no valor de ${payment.value} que vencerá no dia ${payment.dueDate}."
+        }
+    }
+
+    private void sendEmail(String email, String subjectMessage, EmailTemplateType templateType, Object data) {
         try {
             String htmlContent = renderEmailTemplate(templateType, data)
             mailService.sendMail {
@@ -28,13 +54,5 @@ class EmailService {
 
     private String renderEmailTemplate(EmailTemplateType templateType, Object data) {
         return groovyPageRenderer.render(view: templateType.getViewPath(), model: [data: data])
-    }
-
-    public void sendEmailToVerifyPayment(Payment payment) {
-        mailService.sendMail {
-            to payment.payer.email
-            subject "Cobrança Pendente"
-            body "Olá ${payment.payer.name}, lembre-se que existe uma cobrança pendente no valor de ${payment.value} que vencerá no dia ${payment.dueDate}."
-        }
     }
 }
