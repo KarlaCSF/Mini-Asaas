@@ -46,7 +46,7 @@ contentType="text/html;charset=UTF-8" %>
             <input type="text" value="${payment.status.getMessage()}" disabled><br>
         </div><br>
         
-        <g:if test="${payment.status != PaymentStatus.PAID}">
+        <g:if test="${!payment.status.isPaid()}">
             <a href="${createLink(controller: 'invoice', action: 'pay', id: payment.id)}">Pagar Cobrança</a>
         </g:if>
     </fieldset>
