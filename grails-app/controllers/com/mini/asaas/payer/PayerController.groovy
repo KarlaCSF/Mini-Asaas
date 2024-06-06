@@ -27,7 +27,11 @@ class PayerController {
             PayerDTO payerDTO = new PayerDTO(params)
             Payer payer = payerService.save(payerDTO, customer.id)
             redirect(action: "show", id: payer.id)
-        } catch (ValidationException exception) {
+        } catch (ValidationException validationException) {
+            log.error("PayerController.save >> Não foi possível salvar o Payer ${params.id}", validationException)
+            params.errorMessage = "Não foi possível salvar o pagador, ocorreram os seguintes erros: " + validationException.errors.allErrors.defaultMessage.join(", ")
+            redirect(action: "create", params: params)
+        } catch (Exception exception) {
             log.error("PayerController.save >> Não foi possível salvar o Payer ${params.id}", exception)
             params.errorMessage = "Não foi possível salvar o pagador"
             redirect(action: "create", params: params)
@@ -62,7 +66,11 @@ class PayerController {
             PayerDTO payerDTO = new PayerDTO(params)
             Payer payer = payerService.update(payerDTO, params.getLong("id"), customer.id)
             redirect(action: "show", id: payer.id)
-        } catch (ValidationException exception) {
+        } catch (ValidationException validationException) {
+            log.error("PayerController.update >> Não foi possível atualizar o Payer ${params.id}", validationException)
+            params.errorMessage = "Não foi possível atualizar o pagador, ocorreram os seguintes erros: " + validationException.errors.allErrors.defaultMessage.join(", ")
+            redirect(action: "edit", params: params, id: params.getLong("id"))
+        } catch (Exception exception) {
             log.error("PayerController.update >> Não foi possível atualizar o Payer ${params.id}", exception)
             params.errorMessage = "Não foi possível atualizar o pagador"
             redirect(action: "edit", params: params, id: params.getLong("id"))
