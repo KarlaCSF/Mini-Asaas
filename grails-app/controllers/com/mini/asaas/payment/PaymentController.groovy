@@ -7,7 +7,7 @@ import com.mini.asaas.enums.payment.BillingType
 import com.mini.asaas.dto.payment.CreatePaymentDTO
 import com.mini.asaas.dto.payment.UpdatePaymentDTO
 import com.mini.asaas.payment.PaymentService
-import com.asaas.exception.BusinessException
+import com.mini.asaas.exception.BusinessException
 
 class PaymentController {
 

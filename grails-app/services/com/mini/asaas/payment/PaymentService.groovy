@@ -9,7 +9,7 @@ import com.mini.asaas.enums.payment.PaymentStatus
 import com.mini.asaas.repositories.PaymentRepository
 import grails.gorm.transactions.Transactional
 import grails.compiler.GrailsCompileStatic
-import com.asaas.exception.BusinessException
+import com.mini.asaas.exception.BusinessException
 
 @GrailsCompileStatic
 @Transactional

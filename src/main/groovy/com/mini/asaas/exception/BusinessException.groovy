@@ -1,4 +1,4 @@
-package com.asaas.exception
+package com.mini.asaas.exception
 
 class BusinessException extends RuntimeException {
 	BusinessException(String message) {

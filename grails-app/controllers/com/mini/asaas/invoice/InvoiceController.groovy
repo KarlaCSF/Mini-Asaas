@@ -3,16 +3,13 @@ package com.mini.asaas.invoice
 import com.mini.asaas.payment.Payment
 import com.mini.asaas.payment.PaymentService
 import com.mini.asaas.Customer
-import com.asaas.exception.BusinessException
+import com.mini.asaas.exception.BusinessException
 
 class InvoiceController {
 
     PaymentService paymentService
 
     Customer customer = Customer.get(1) // todo: fix customer Id in 1 while don't have authentication
-
-    def index() {
-    }
 
     def show() {
         try {
