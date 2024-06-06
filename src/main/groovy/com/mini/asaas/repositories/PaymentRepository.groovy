@@ -36,14 +36,14 @@ class PaymentRepository implements Repository {
         return query
     }
     
-    public static Payment findByIdAndCustomerId(Long paymentId, Long customerId){
-        Payment payment = PaymentRepository.query([id: paymentId, customerId: customerId]).get()
+    public static Payment findByIdAndCustomerId(Long paymentId, Long customerId, Boolean deletedOnly) {
+        Payment payment = PaymentRepository.query([id: paymentId, customerId: customerId, deletedOnly: deletedOnly]).get()
         if (!payment) throw new Exception("Cobrança inexistente.")
         return payment
     }
 
-    public static List<Payment> listByCustomer(Long customerId){
-        return PaymentRepository.query([customerId: customerId]).list()
+    public static List<Payment> listByCustomer(Long customerId, Boolean deletedOnly) {
+        return PaymentRepository.query([customerId: customerId, deletedOnly: deletedOnly]).list()
     }
 
     private static List<String> allowedFilters() {
