@@ -25,7 +25,7 @@ class AddressService {
     public Address update(AddressDTO addressDTO, Long addressId) {
         Address address = Address.where {
             id == addressId
-                    && deleted == false
+            && deleted == false
         }.first()
 
         address.cep = addressDTO.cep
