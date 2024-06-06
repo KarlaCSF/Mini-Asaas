@@ -7,10 +7,12 @@ import com.mini.asaas.enums.payment.BillingType
 import com.mini.asaas.dto.payment.CreatePaymentDTO
 import com.mini.asaas.dto.payment.UpdatePaymentDTO
 import com.mini.asaas.payment.PaymentService
+import com.mini.asaas.payer.PayerService
 
 class PaymentController {
 
     PaymentService paymentService
+    PayerService payerService
 
     Customer customer = Customer.get(1) // todo: fix customer Id in 1 while don't have authentication
     
@@ -20,18 +22,18 @@ class PaymentController {
 
     def create() {  
         try{
-            List<Payer> listPayersByCustomer = Payer.where{
-            customer.id == customer.id
-            }.list() // while don't have a payerservice to give a list of payer from a customer 
+            List<Payer> listPayersByCustomer = payerService.listByCustomer(customer.id, false)
             return [view: "create", listPayersByCustomer: listPayersByCustomer]
         } catch (Exception exception) {
             log.error(exception.message, exception)
+            params.errorMessage = "Não foi possível buscar os pagadores"
+            redirect(action: "create", params: params)
         }
     }
 
     def edit() {
         try {
-            Payment payment = paymentService.findByIdAndCustomerId(params.getLong("id"), customer.id)
+            Payment payment = paymentService.findByIdAndCustomerId(params.getLong("id"), customer.id, false)
             return [payment: payment, id: payment.id]  
         } catch (Exception exception) {
             log.error(exception.message, exception)
@@ -41,7 +43,7 @@ class PaymentController {
 
     def show() {
         try {
-            Payment payment = paymentService.findByIdAndCustomerId(params.getLong("id"), customer.id)
+            Payment payment = paymentService.findByIdAndCustomerId(params.getLong("id"), customer.id, false)
             return [payment: payment]
         } catch (Exception exception) {
             log.error(exception.message, exception)
@@ -69,18 +71,40 @@ class PaymentController {
         } catch (Exception exception) {
             log.error(exception.message, exception)
             params.errorMessage = "Não foi possível editar a cobrança"
-            redirect(view: "edit", params: params)
+            redirect(action: "edit", params: params)
         }
     }
 
     def delete(){
         try {
             paymentService.delete(params.getLong("id"), customer.id)
-            redirect(view: "index")
+            redirect(action: "index")
         } catch (Exception exception) {
             log.error(exception.message, exception)
             params.errorMessage = "Não foi possível apagar a cobrança"
-            redirect(view: "edit", params: params)
+            redirect(action: "edit", params: params)
+        }
+    }
+
+    def restore() {
+        try {
+            paymentService.restore(params.getLong("id"), customer.id)
+            redirect(action: "list")
+        } catch(Exception exception) {
+            log.error(exception.message, exception)
+            params.errorMessage = "Não foi possível restaurar a cobrança"
+            redirect(action: "list", params: params)
+        }
+    }
+
+    def list() {
+        try {
+            List<Payment> paymentList = paymentService.listByCustomer(customer.id, false)
+            List<Payment> deletedPaymentList = paymentService.listByCustomer(customer.id, true)
+            return [paymentList: paymentList, deletedPaymentList: deletedPaymentList]
+        } catch(Exception exception) {
+            log.error(exception.message, exception)
+            render("Não foi possível listar as cobranças")
         }
     }
 }

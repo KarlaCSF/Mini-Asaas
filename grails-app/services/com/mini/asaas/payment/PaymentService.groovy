@@ -36,7 +36,7 @@ class PaymentService {
     }
 
     public Payment update(UpdatePaymentDTO updatePaymentDTO, Long paymentId, Long customerId ) {
-        Payment payment = PaymentRepository.findByIdAndCustomerId(paymentId, customerId)
+        Payment payment = findByIdAndCustomerId(paymentId, customerId, false)
         if (!payment.canEdit()) throw new Exception("Essa cobrança não pode ser modificada")
         payment.value = updatePaymentDTO.value
         payment.dueDate = updatePaymentDTO.dueDate
@@ -44,18 +44,24 @@ class PaymentService {
         return payment.save(failOnError: true)
     }
 
-    public Payment findByIdAndCustomerId(Long paymentId, Long customerId) {
-        return PaymentRepository.findByIdAndCustomerId(paymentId, customerId)
-    }
-    
     public void delete(Long paymentId, Long customerId) {
-        Payment payment = PaymentRepository.findByIdAndCustomerId(paymentId, customerId)
+        Payment payment = findByIdAndCustomerId(paymentId, customerId, false)
         if (!payment.canEdit()) throw new Exception("Essa cobrança não pode ser modificada")
         payment.deleted = true 
         payment.save(failOnError: true)
     }
 
-    public List<Payment> listByCustomer(Long customerId){
-        return PaymentRepository.listByCustomer(customerId)
+    public Payment restore(Long paymentId, Long customerId) {
+        Payment payment = findByIdAndCustomerId(paymentId, customerId, true)
+        payment.deleted = false
+        payment.save(failOnError: true)   
+    }
+
+    public Payment findByIdAndCustomerId(Long paymentId, Long customerId, Boolean deleted) {
+        return PaymentRepository.findByIdAndCustomerId(paymentId, customerId, deleted)
+    }
+
+    public List<Payment> listByCustomer(Long customerId, Boolean deleted){
+        return PaymentRepository.listByCustomer(customerId, deleted)
     }
 }
