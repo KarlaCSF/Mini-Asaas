@@ -16,19 +16,19 @@ class EmailService {
     public void notifyOnCreatePayment(Payment payment) {
         String to = payment.payer.email
         String subjectMessage = "Olá uma cobrança foi criada pra você"
-        emailService.sendEmail(to, subjectMessage, EmailTemplateType.PAYMENT_CREATE, payment)
+        sendEmail(to, subjectMessage, EmailTemplateType.PAYMENT_CREATE, payment)
     }
 
     public void notifyOnUpdatePayment(Payment payment) {
         String to = payment.payer.email
         String subjectMessage = "Cobrança Atualizada"
-        emailService.sendEmail(to, subjectMessage, EmailTemplateType.PAYMENT_UPDATE, payment)
+        sendEmail(to, subjectMessage, EmailTemplateType.PAYMENT_UPDATE, payment)
     }
 
     public void notifyOnDeletePayment(Payment payment) {
         String to = payment.payer.email
         String subjectMessage = "Cobrança excluída"
-        emailService.sendEmail(to, subjectMessage, EmailTemplateType.PAYMENT_DELETE, payment)
+        sendEmail(to, subjectMessage, EmailTemplateType.PAYMENT_DELETE, payment)
     }
 
     public void sendEmailToVerifyPayment(Payment payment) {
