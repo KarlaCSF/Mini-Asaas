@@ -74,7 +74,7 @@ class PayerService {
         return PayerRepository.findByIdAndCustomerId(payerId, customerId, deleted)
     }
 
-    public List<Payer> listByCustomer(Long customerId, Boolean deleted){
+    public List<Payer> listByCustomer(Long customerId, Boolean deleted) {
         return PayerRepository.listByCustomer(customerId, deleted)
     }
 }

@@ -15,9 +15,11 @@ class PayerController {
     Customer customer = Customer.get(1) // fixed Customer in 1 while don't have authentication
 
     def index() {
+        return [params: params]
     }
 
     def create() {
+        return [params: params]
     }
 
     def save() {
@@ -45,7 +47,7 @@ class PayerController {
 
     def edit() {
         try {
-            Payer payer = Payer.get(params.getLong("id"))
+            Payer payer = Payer.findByIdAndCustomerId(params.getLong("id"), customer.id, false)
             return [payer: payer]
         } catch (Exception exception) { 
             log.error("PayerController.edit >> Não foi possível buscar o Payer ${params.id}", exception)
@@ -64,7 +66,7 @@ class PayerController {
         }
     }
 
-    def delete(){
+    def delete() {
         try {
             payerService.delete(params.getLong("id"), customer.id)
             redirect(action: "index")

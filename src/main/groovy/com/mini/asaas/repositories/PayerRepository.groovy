@@ -20,13 +20,13 @@ class PayerRepository implements Repository {
         return query
     }
     
-    public static Payer findByIdAndCustomerId(Long payerId, Long customerId, Boolean deleted){
+    public static Payer findByIdAndCustomerId(Long payerId, Long customerId, Boolean deleted) {
         Payer payer = PayerRepository.query([id: payerId, customerId: customerId, deletedOnly: deleted]).get()
         if (!payer) throw new Exception("Payer inexistente.")
         return payer
     }
 
-    public static List<Payer> listByCustomer(Long customerId, Boolean deleted){
+    public static List<Payer> listByCustomer(Long customerId, Boolean deleted) {
         return PayerRepository.query([customerId: customerId, deletedOnly: deleted]).list()
     }
 
