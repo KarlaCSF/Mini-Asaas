@@ -1,18 +1,23 @@
 package com.mini.asaas.payment
 
+import com.mini.asaas.email.EmailService
+import com.mini.asaas.customer.Customer
 import com.mini.asaas.payment.Payment
-import com.mini.asaas.Customer
 import com.mini.asaas.payer.Payer
 import com.mini.asaas.dto.payment.CreatePaymentDTO
 import com.mini.asaas.dto.payment.UpdatePaymentDTO
 import com.mini.asaas.enums.payment.PaymentStatus
 import com.mini.asaas.repositories.PaymentRepository
+
 import grails.gorm.transactions.Transactional
 import grails.compiler.GrailsCompileStatic
 
 @GrailsCompileStatic
 @Transactional
 class PaymentService {
+
+    EmailService emailService
+
     public Payment save(CreatePaymentDTO createPaymentDTO, Long customerId) {
         Payment payment = new Payment()
         
@@ -55,7 +60,40 @@ class PaymentService {
         payment.save(failOnError: true)
     }
 
+    public void processOverdue() {
+        List<Payment> paymentList = listByStatus(PaymentStatus.WAITING)
+        
+        paymentList.each { payment ->
+            updateStatusToOverdueIfPossible(payment)
+        }
+    }
+
+    public Boolean verifyIfOverdue(Payment payment) {        
+        final Date currentDate = new Date()
+        Date dueDate = payment.dueDate
+        return dueDate.before(currentDate)
+    }
+
     public List<Payment> listByCustomer(Long customerId){
         return PaymentRepository.listByCustomer(customerId)
+    }
+    
+    public List<Payment> listByStatus(PaymentStatus status){
+        return PaymentRepository.listByStatus(status)
+    }
+    
+    public void notifyWaitingPayments() {
+        List<Payment> paymentList = listByStatus(PaymentStatus.WAITING)
+
+        paymentList.each { payment ->
+            emailService.sendEmailToVerifyPayment(payment)
+        }
+    }
+    
+    private void updateStatusToOverdueIfPossible(Payment payment) {
+        if (!verifyIfOverdue(payment)) return
+        
+        payment.status = PaymentStatus.OVERDUE;
+        payment.save();
     }
 }
