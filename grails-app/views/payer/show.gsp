@@ -10,6 +10,10 @@
 
     <fieldset>
             <legend>${payer.name}</legend>
+        
+        <g:if test="${params.errorMessage}">
+            <span>${params.errorMessage}</span>
+        </g:if>
                         
         <fieldset>
             <legend>Dados do Pagador</legend>
