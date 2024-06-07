@@ -30,7 +30,7 @@
                 <tr>
                     <td>
                         <p style="margin:0;text-align:center">
-                            Olá, uma cobrança no seu nome foi atualizada
+                            Cobrança Atrasada
                         </p>
                     </td>
                 </tr>
@@ -49,12 +49,12 @@
                 </p>
 
                 <p style="margin:0 0 16px">
-                    ${properties.customerName} atualizou uma cobrança, no valor de
+                    a sua cobrança pendente no valor de
 
                     <span style="font-weight:600">
                         <g:formatNumber number="${properties.paymentValue}" type="currency" currencyCode="BRL"/>
                     </span>
-                    com vencimento em
+                    venceu na data de
                     <span style="font-weight:600">
                         <g:formatDate date="${properties.paymentDueDate}" format="dd MMMM yyyy"/>
                     </span>.
@@ -68,11 +68,11 @@
                 </p>
 
                 <p style="margin:0 0 16px;margin:0">
-                    Clique no botão abaixo para visualizar a cobrança.
+                    Clique no botão abaixo para visualizar a cobrança atrasada.
                     <a style="color:#0d6efd"
                        href=${properties.paymentLink}
                        target="_blank"
-                       data-saferedirecturl= ${properties.paymentLink}>
+                       data-saferedirecturl=${properties.paymentLink}>
                         <wbr>
                         Ou acesse aqui
                     </a>
@@ -87,7 +87,7 @@
                             <a style="font-size:16px;font-weight:700;text-decoration:none;color:#fff;background-color:#0030b9;padding:12px 32px;border-radius:40px;background-color:#198754;display:flex;max-width:max-content;margin:auto;text-align:center"
                                href=${properties.paymentLink}
                                target="_blank"
-                               data-saferedirecturl= ${properties.paymentLink}>
+                               data-saferedirecturl=${properties.paymentLink}>
                                 Visualizar cobrança
                             </a>
                         </div>

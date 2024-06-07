@@ -20,12 +20,11 @@ class PaymentService {
 
     public Payment save(CreatePaymentDTO createPaymentDTO, Long customerId) {
         Payment payment = new Payment()
-        
         payment.customer = Customer.where{
             id == customerId
             && deleted == false
         }.first()
-        
+
         payment.payer = Payer.where{
             id == createPaymentDTO.payerId
             && customer.id == customerId
@@ -82,7 +81,7 @@ class PaymentService {
         return dueDate.before(currentDate)
     }
 
-    public List<Payment> listByCustomer(Long customerId){
+    public List<Payment> listByCustomer(Long customerId) {
         return PaymentRepository.listByCustomer(customerId)
     }
 
@@ -94,14 +93,15 @@ class PaymentService {
         List<Payment> paymentList = listByStatus(PaymentStatus.WAITING)
 
         paymentList.each { payment ->
-            emailService.sendEmailToVerifyPayment(payment)
+            emailService.notifyToVerifyPayment(payment)
         }
     }
 
     private void updateStatusToOverdueIfPossible(Payment payment) {
         if (!verifyIfOverdue(payment)) return
 
-        payment.status = PaymentStatus.OVERDUE;
-        payment.save();
+        payment.status = PaymentStatus.OVERDUE
+        payment.save()
+        emailService.notifyOnOverduePayment(payment)
     }
 }

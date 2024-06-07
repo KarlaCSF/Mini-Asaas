@@ -12,11 +12,11 @@
         <div style="display:table;width:100%">
             <div style="background-color:#0030b9;color:#ffffff;display:table-cell;padding:24px;word-break:break-word;text-align:left;width:100%">
                 <h1 style="color:#ffffff;margin:0;font-size:24px;font-style:normal;font-weight:600;line-height:28.8px;margin-bottom:8px;font-family:'Open Sans',sans-serif!important;letter-spacing:unset">
-                    ${data.customer.name}
+                    ${properties.customerName}
                 </h1>
 
                 <h2 style="color:#ffffff;margin:0;font-size:20px;font-style:normal;font-weight:600;line-height:24px;font-family:'Open Sans',sans-serif!important;letter-spacing:unset">
-                    ${data.customer.cpfCnpj}
+                    ${properties.customerCpfCnpj}
                 </h2>
             </div>
         </div>
@@ -44,18 +44,18 @@
 
     <div style="max-width:792px;padding:0 40px;color:#212529;font-size:14px;line-height:20px;margin:0 auto;text-align:left">
         <p style="font-weight:600;margin:0 0 16px">
-            Olá, ${data.payer.name}
+            Olá, ${properties.payerName}
         </p>
 
         <p style="margin:0 0 16px">
-            ${data.customer.name} gerou uma cobrança para você, no valor de
+            ${properties.customerName} gerou uma cobrança para você, no valor de
 
             <span style="font-weight:600">
-                <g:formatNumber number="${data.value}" type="currency" currencyCode="BRL" />
+                <g:formatNumber number="${properties.paymentValue}" type="currency" currencyCode="BRL" />
             </span>
             com vencimento em
             <span style="font-weight:600">
-                <g:formatDate date="${data.dueDate}" format="dd MMMM yyyy"/>
+                <g:formatDate date="${properties.paymentDueDate}" format="dd MMMM yyyy"/>
             </span>.
         </p>
 
@@ -69,9 +69,9 @@
         <p style="margin:0 0 16px;margin:0">
             Clique no botão abaixo para visualizar a cobrança.
             <a style="color:#0d6efd"
-               href="http://localhost:8080/payment/show/${data.id}"
+               href=${properties.paymentLink}
                target="_blank"
-               data-saferedirecturl="http://localhost:8080/payment/show/${data.id}">
+               data-saferedirecturl=${properties.paymentLink}>
                 <wbr>
                 Ou acesse aqui
             </a>
@@ -84,9 +84,9 @@
             <td width="25" align="center">
                 <div style="text-align:center">
                     <a style="font-size:16px;font-weight:700;text-decoration:none;color:#fff;background-color:#0030b9;padding:12px 32px;border-radius:40px;background-color:#198754;display:flex;max-width:max-content;margin:auto;text-align:center"
-                       href="http://localhost:8080/payment/show/${data.id}"
+                       href=${properties.paymentLink}
                        target="_blank"
-                       data-saferedirecturl="http://localhost:8080/payment/show/${data.id}">
+                       data-saferedirecturl=${properties.paymentLink}>
                         Visualizar cobrança
                     </a>
                 </div>
@@ -102,13 +102,13 @@
             <td>
 
                 <p style="text-align:center;font-size:14px;margin:0 auto;font-weight:600">
-                    ${data.customer.name}
+                    ${properties.customerName}
                 </p>
 
 
                 <p style="text-align:center;font-size:14px;margin:0 auto">
                     <a style="text-decoration:none;font-size:14px;color:rgba(0,0,0,0.87)">
-                        ${data.customer.email}
+                        ${properties.customerEmail}
                     </a>
                 </p>
 
@@ -119,7 +119,7 @@
 
 
                 <p style="text-align:center;font-size:14px;margin:0 auto">
-                    ${data.customer.address.state} - ${data.customer.address.city}
+                    ${properties.customerState} - ${properties.customerCity}
                 </p>
 
             </td>
