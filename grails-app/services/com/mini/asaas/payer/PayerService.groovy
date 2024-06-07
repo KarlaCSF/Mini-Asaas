@@ -1,9 +1,8 @@
 package com.mini.asaas.payer
 
-import com.mini.asaas.payer.Payer
-import com.mini.asaas.Address
+
+import com.mini.asaas.address.AddressService
 import com.mini.asaas.customer.Customer
-import com.mini.asaas.AddressService
 import com.mini.asaas.dto.payer.PayerDTO
 import com.mini.asaas.utils.CpfCnpjUtils
 import com.mini.asaas.repositories.PayerRepository
@@ -15,7 +14,7 @@ import grails.compiler.GrailsCompileStatic
 @GrailsCompileStatic
 @Transactional
 class PayerService {
-    
+
     AddressService addressService
 
     public Payer save(PayerDTO payerDTO, Long customerId) {
@@ -28,9 +27,9 @@ class PayerService {
         validatedPayer.cpfCnpj = payerDTO.cpfCnpj
         validatedPayer.customer = Customer.get(customerId)
         validatedPayer.personType = CpfCnpjUtils.getPersonType(validatedPayer.cpfCnpj)
-        
+
         validatedPayer.address = addressService.save(payerDTO.addressDTO)
-        
+
         return validatedPayer.save(failOnError: true)
     }
 
@@ -40,13 +39,13 @@ class PayerService {
         Payer validatedPayer = validateSave(payerDTO, payer)
 
         if (validatedPayer.hasErrors()) throw new ValidationException("Erro ao editar pagador", validatedPayer.errors)
-        
+
         validatedPayer.name = payerDTO.name
         validatedPayer.email = payerDTO.email
         validatedPayer.cpfCnpj = payerDTO.cpfCnpj
         validatedPayer.personType = CpfCnpjUtils.getPersonType(validatedPayer.cpfCnpj)
         validatedPayer.address = addressService.update(payerDTO.addressDTO, validatedPayer.address.id)
-        
+
         return validatedPayer.save(failOnError: true)
     }
 
@@ -54,7 +53,7 @@ class PayerService {
         if (!CpfCnpjUtils.validate(payerDTO.cpfCnpj)) {
             payer.errors.reject("cpfCnpj", null, "CPF ou CNPJ inválido.")
         }
-        
+
         return payer
     }
 
