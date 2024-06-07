@@ -8,7 +8,7 @@ import com.mini.asaas.dto.payer.PayerDTO
 import com.mini.asaas.utils.CpfCnpjUtils
 import com.mini.asaas.repositories.PayerRepository
 
-import javax.transaction.Transactional
+import grails.gorm.transactions.Transactional
 import grails.validation.ValidationException
 import grails.compiler.GrailsCompileStatic
 
@@ -35,7 +35,7 @@ class PayerService {
     }
 
     public Payer update(PayerDTO payerDTO, Long payerId, Long customerId) {
-        Payer payer = PayerRepository.findByIdAndCustomerId(payerId, customerId)
+        Payer payer = findByIdAndCustomerId(payerId, customerId, false)
 
         Payer validatedPayer = validateSave(payerDTO, payer)
 
@@ -56,5 +56,25 @@ class PayerService {
         }
         
         return payer
+    }
+
+    public void delete(Long payerId, Long customerId) {
+        Payer payer = findByIdAndCustomerId(payerId, customerId, false)
+        payer.deleted = true 
+        payer.save(failOnError: true)   
+    }
+
+    public Payer restore(Long payerId, Long customerId) {
+        Payer payer = findByIdAndCustomerId(payerId, customerId, true)
+        payer.deleted = false
+        payer.save(failOnError: true)   
+    }
+
+    public Payer findByIdAndCustomerId(Long payerId, Long customerId, Boolean deleted) {
+        return PayerRepository.findByIdAndCustomerId(payerId, customerId, deleted)
+    }
+
+    public List<Payer> listByCustomer(Long customerId, Boolean deleted) {
+        return PayerRepository.listByCustomer(customerId, deleted)
     }
 }
