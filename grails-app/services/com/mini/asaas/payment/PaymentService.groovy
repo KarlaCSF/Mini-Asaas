@@ -1,11 +1,13 @@
 package com.mini.asaas.payment
 
+import com.mini.asaas.customer.Customer
 import com.mini.asaas.customer.CustomerService
 import com.mini.asaas.dto.payment.CreatePaymentDTO
 import com.mini.asaas.dto.payment.UpdatePaymentDTO
 import com.mini.asaas.email.EmailService
 import com.mini.asaas.enums.payment.PaymentStatus
 import com.mini.asaas.exception.BusinessException
+import com.mini.asaas.notification.NotificationService
 import com.mini.asaas.payer.PayerService
 import com.mini.asaas.repositories.PaymentRepository
 import grails.compiler.GrailsCompileStatic
@@ -20,6 +22,8 @@ class PaymentService {
     EmailService emailService
 
     PayerService payerService
+
+    NotificationService notificationService
 
     public Payment save(CreatePaymentDTO createPaymentDTO, Long customerId) {
         Payment payment = new Payment()
@@ -61,7 +65,9 @@ class PaymentService {
 
         payment.status = PaymentStatus.PAID
 
-        return payment.save(failOnError: true)
+        payment.save(failOnError: true)
+        createNotificationOnPay(payment)
+        return payment
     }
 
     public void processOverdue() {
@@ -96,6 +102,13 @@ class PaymentService {
         paymentList.each { payment ->
             emailService.sendEmailToVerifyPayment(payment)
         }
+    }
+
+    private void createNotificationOnPay(Payment payment) {
+        String title = "Cobrança paga"
+        String description = "A cobrança ${payment.id} no valor de ${payment.value} feita ao ${payment.payer.name} foi paga."
+        Customer customer = payment.customer
+        notificationService.create(title, description, customer)
     }
 
     private void updateStatusToOverdueIfPossible(Payment payment) {
