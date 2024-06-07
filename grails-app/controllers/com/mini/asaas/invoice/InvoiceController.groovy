@@ -9,11 +9,13 @@ class InvoiceController {
 
     PaymentService paymentService
 
+    Long paymentIdByParams = params.getLong("id")
+
     Customer customer = Customer.get(1) // todo: fix customer Id in 1 while don't have authentication
 
     def show() {
         try {
-            Payment payment = paymentService.findByIdAndCustomerId(params.getLong("id"), customer.id)
+            Payment payment = paymentService.findByIdAndCustomerId(paymentIdByParams, customer.id)
             return [payment: payment]
         } catch (Exception exception) {
             log.error(exception.message, exception)
@@ -23,7 +25,7 @@ class InvoiceController {
 
     def pay() {
         try {
-            Payment payment = paymentService.pay(params.getLong("id"), customer.id)
+            Payment payment = paymentService.pay(paymentIdByParams, customer.id)
             redirect(action: "show", id: payment.id)
         } catch (BusinessException businessException) {
             log.error(businessException.message, businessException)
