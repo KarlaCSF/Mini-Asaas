@@ -20,12 +20,12 @@ class PayerRepository implements Repository {
         return query
     }
     
-    public static Payer findByIdAndCustomerId(Long payerId, Long customerId){
-        return PayerRepository.query([id: payerId, customerId: customerId]).get()
+    public static Payer findByIdAndCustomerId(Long payerId, Long customerId, Boolean deletedOnly){
+        return PayerRepository.query([id: payerId, customerId: customerId, deletedOnly: deletedOnly]).get()
     }
 
-    public static List<Payer> listByCustomer(Long customerId){
-        return PayerRepository.query([customerId: customerId]).list()
+    public static List<Payer> listByCustomer(Long customerId, Boolean deletedOnly) {
+        return PayerRepository.query([customerId: customerId, deletedOnly: deletedOnly]).list()
     }
 
     private static List<String> allowedFilters() {
