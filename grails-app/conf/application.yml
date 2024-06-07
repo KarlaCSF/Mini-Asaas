@@ -4,6 +4,9 @@ grails:
   codegen:
     defaultPackage: com.mini.asaas
   gorm:
+    default:
+        mapping:
+            autoTimestamp: true
     reactor:
       # Whether to translate GORM events into Reactor events
       # Disabled by default for performance reasons
@@ -86,6 +89,20 @@ grails:
         scriptlet: html
         taglib: none
         staticparts: none
+  mail:
+    host: "smtp.gmail.com"
+    port: 587
+    username: "${MAIL_USERNAME}"
+    password: "${MAIL_PASSWORD}"
+    props: 
+      mail:
+        smtp:
+          ssl.trust: "smtp.gmail.com"       
+          starttls.enable: "true"
+          ssl.protocols: "TLSv1.2"
+          protocol: "smtps"
+          channel: "plain"
+          auth: "true"
 management:
   endpoints:
     jmx:

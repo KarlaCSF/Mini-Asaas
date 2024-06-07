@@ -10,6 +10,10 @@
 
     <fieldset>
             <legend>${payer.name}</legend>
+        
+        <g:if test="${params.errorMessage}">
+            <span>${params.errorMessage}</span>
+        </g:if>
                         
         <fieldset>
             <legend>Dados do Pagador</legend>
@@ -75,7 +79,9 @@
             </div><br>
             
         </fieldset>
-        
+
+        <a href="${createLink(controller: 'payer', action: 'edit', id: payer.id)}">Editar Pagador</a>
+        <a href="${createLink(controller: 'payer', action: 'delete', id: payer.id)}">Excluir Pagador</a>
     </fieldset>
 </form>
 </body>
