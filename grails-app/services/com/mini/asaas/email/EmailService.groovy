@@ -15,7 +15,7 @@ class EmailService {
 
     public void notifyOnCreatePayment(Payment payment) {
         String to = payment.payer.email
-        String subjectMessage = "Olá uma cobrança foi criada pra você"
+        String subjectMessage = "Olá, uma cobrança foi gerada pra você"
         sendEmail(to, subjectMessage, EmailTemplateType.PAYMENT_CREATE, payment)
     }
 
@@ -27,16 +27,14 @@ class EmailService {
 
     public void notifyOnDeletePayment(Payment payment) {
         String to = payment.payer.email
-        String subjectMessage = "Cobrança excluída"
+        String subjectMessage = "Cobrança Excluída"
         sendEmail(to, subjectMessage, EmailTemplateType.PAYMENT_DELETE, payment)
     }
 
-    public void sendEmailToVerifyPayment(Payment payment) {
-        mailService.sendMail {
-            to payment.payer.email
-            subject "Cobrança Pendente"
-            body "Olá ${payment.payer.name}, lembre-se que existe uma cobrança pendente no valor de ${payment.value} que vencerá no dia ${payment.dueDate}."
-        }
+    public void notifyToVerifyPayment(Payment payment) {
+        String to = payment.payer.email
+        String subjectMessage = "Cobrança Pendente"
+        sendEmail(to, subjectMessage, EmailTemplateType.PAYMENT_VERIFY, payment)
     }
 
     private void sendEmail(String email, String subjectMessage, EmailTemplateType templateType, Object data) {
