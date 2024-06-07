@@ -1,21 +1,21 @@
 package com.mini.asaas.payer
 
-
 import com.mini.asaas.address.AddressService
-import com.mini.asaas.customer.Customer
+import com.mini.asaas.customer.CustomerService
 import com.mini.asaas.dto.payer.PayerDTO
-import com.mini.asaas.utils.CpfCnpjUtils
 import com.mini.asaas.repositories.PayerRepository
-
+import com.mini.asaas.utils.CpfCnpjUtils
+import grails.compiler.GrailsCompileStatic
 import grails.gorm.transactions.Transactional
 import grails.validation.ValidationException
-import grails.compiler.GrailsCompileStatic
 
 @GrailsCompileStatic
 @Transactional
 class PayerService {
 
     AddressService addressService
+
+    CustomerService customerService
 
     public Payer save(PayerDTO payerDTO, Long customerId) {
         Payer validatedPayer = validateSave(payerDTO, new Payer())
@@ -25,7 +25,7 @@ class PayerService {
         validatedPayer.name = payerDTO.name
         validatedPayer.email = payerDTO.email
         validatedPayer.cpfCnpj = payerDTO.cpfCnpj
-        validatedPayer.customer = Customer.get(customerId)
+        validatedPayer.customer = customerService.findById(customerId)
         validatedPayer.personType = CpfCnpjUtils.getPersonType(validatedPayer.cpfCnpj)
 
         validatedPayer.address = addressService.save(payerDTO.addressDTO)

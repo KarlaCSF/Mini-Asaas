@@ -1,29 +1,30 @@
 package com.mini.asaas.payment
 
-import com.mini.asaas.payer.Payer
 import com.mini.asaas.customer.Customer
-import com.mini.asaas.payment.Payment
-import com.mini.asaas.enums.payment.BillingType
 import com.mini.asaas.dto.payment.CreatePaymentDTO
 import com.mini.asaas.dto.payment.UpdatePaymentDTO
-import com.mini.asaas.payment.PaymentService
 import com.mini.asaas.exception.BusinessException
+import com.mini.asaas.payer.Payer
+import com.mini.asaas.payer.PayerService
 
 class PaymentController {
+
+    PayerService payerService
 
     PaymentService paymentService
 
     Customer customer = Customer.get(1) // todo: fix customer Id in 1 while don't have authentication
-    
+
+    Long paymentIdByParams = params.getLong("id")
+
     def index() {
         return [view: "index"]
     }
 
     def create() {  
         try{
-            List<Payer> listPayersByCustomer = Payer.where{
-            customer.id == customer.id
-            }.list() // while don't have a payerservice to give a list of payer from a customer 
+            Boolean deletedOnly = false
+            List<Payer> listPayersByCustomer = payerService.listByCustomer(customer.id, deletedOnly)
             return [view: "create", listPayersByCustomer: listPayersByCustomer]
         } catch (Exception exception) {
             log.error(exception.message, exception)
@@ -32,7 +33,7 @@ class PaymentController {
 
     def edit() {
         try {
-            Payment payment = paymentService.findByIdAndCustomerId(params.getLong("id"), customer.id)
+            Payment payment = paymentService.findByIdAndCustomerId(paymentIdByParams, customer.id)
             return [payment: payment, id: payment.id]  
         } catch (Exception exception) {
             log.error(exception.message, exception)
@@ -42,7 +43,7 @@ class PaymentController {
 
     def show() {
         try {
-            Payment payment = paymentService.findByIdAndCustomerId(params.getLong("id"), customer.id)
+            Payment payment = paymentService.findByIdAndCustomerId(paymentIdByParams, customer.id)
             return [payment: payment]
         } catch (Exception exception) {
             log.error(exception.message, exception)
@@ -56,7 +57,7 @@ class PaymentController {
             Payment payment = paymentService.save(createPaymentDTO, customer.id)
             redirect(action: "show", id: payment.id)
         } catch (Exception exception) {
-            log.error("PaymentController.save >> Não foi possível salvar a Payment ${params.id}", exception)
+            log.error("PaymentController.save >> Não foi possível salvar a Payment ${paymentIdByParams}", exception)
             params.errorMessage = "Não foi possível realizar a cobrança"
             redirect(action: "create", params: params)
         }
@@ -65,7 +66,7 @@ class PaymentController {
     def update() {
         try {
             UpdatePaymentDTO updatePaymentDTO = new UpdatePaymentDTO(params)
-            Payment payment = paymentService.update(updatePaymentDTO, params.getLong("id"), customer.id)
+            Payment payment = paymentService.update(updatePaymentDTO, paymentIdByParams, customer.id)
             redirect(action: "show", id: payment.id)
         } catch (BusinessException exception) {
             log.error(exception.message, exception)
@@ -80,7 +81,7 @@ class PaymentController {
 
     def delete(){
         try {
-            paymentService.delete(params.getLong("id"), customer.id)
+            paymentService.delete(paymentIdByParams, customer.id)
             redirect(action: "index")
         } catch (BusinessException exception) {
             log.error(exception.message, exception)
