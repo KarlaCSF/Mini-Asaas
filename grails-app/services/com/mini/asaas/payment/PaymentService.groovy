@@ -11,6 +11,7 @@ import com.mini.asaas.repositories.PaymentRepository
 
 import grails.gorm.transactions.Transactional
 import grails.compiler.GrailsCompileStatic
+import com.mini.asaas.exception.BusinessException
 
 @GrailsCompileStatic
 @Transactional
@@ -42,7 +43,7 @@ class PaymentService {
 
     public Payment update(UpdatePaymentDTO updatePaymentDTO, Long paymentId, Long customerId ) {
         Payment payment = PaymentRepository.findByIdAndCustomerId(paymentId, customerId)
-        if (!payment.canEdit()) throw new Exception("Essa cobrança não pode ser modificada")
+        if (!payment.canEdit()) throw new BusinessException("Essa cobrança não pode ser modificada")
         payment.value = updatePaymentDTO.value
         payment.dueDate = updatePaymentDTO.dueDate
         payment.billingType = updatePaymentDTO.billingType
@@ -55,7 +56,7 @@ class PaymentService {
     
     public void delete(Long paymentId, Long customerId) {
         Payment payment = PaymentRepository.findByIdAndCustomerId(paymentId, customerId)
-        if (!payment.canEdit()) throw new Exception("Essa cobrança não pode ser modificada")
+        if (!payment.canEdit()) throw new BusinessException("Essa cobrança não pode ser modificada")
         payment.deleted = true 
         payment.save(failOnError: true)
     }
@@ -76,6 +77,15 @@ class PaymentService {
 
     public List<Payment> listByCustomer(Long customerId){
         return PaymentRepository.listByCustomer(customerId)
+    }
+
+    public Payment pay(Long paymentId, Long customerId) {
+        Payment payment = findByIdAndCustomerId(paymentId, customerId)
+
+        if (!payment.canEdit()) throw new BusinessException("Essa cobrança não pode ser modificada")
+
+        payment.status = PaymentStatus.PAID
+        return payment.save(failOnError: true)
     }
     
     public List<Payment> listByStatus(PaymentStatus status){
