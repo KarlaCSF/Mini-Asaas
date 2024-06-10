@@ -9,6 +9,8 @@ import com.mini.asaas.enums.payment.PaymentStatus
 import com.mini.asaas.exception.BusinessException
 import com.mini.asaas.notification.NotificationService
 import com.mini.asaas.payer.PayerService
+import com.mini.asaas.repositories.CustomerRepository
+import com.mini.asaas.repositories.PayerRepository
 import com.mini.asaas.repositories.PaymentRepository
 import grails.compiler.GrailsCompileStatic
 import grails.gorm.transactions.Transactional
@@ -32,8 +34,8 @@ class PaymentService {
         Payment payment = new Payment()
         Boolean deletedOnly = false
 
-        payment.customer = customerService.findById(customerId)
-        payment.payer = payerService.findByIdAndCustomerId(createPaymentDTO.payerId, customerId, deletedOnly)
+        payment.customer = CustomerRepository.findById(customerId)
+        payment.payer = PayerRepository.findByIdAndCustomerId(createPaymentDTO.payerId, customerId, deletedOnly)
         payment.value = createPaymentDTO.value
         payment.dueDate = createPaymentDTO.dueDate
         payment.billingType = createPaymentDTO.billingType
@@ -43,7 +45,7 @@ class PaymentService {
     }
 
     public Payment update(UpdatePaymentDTO updatePaymentDTO, Long paymentId, Long customerId) {
-        Payment payment = findByIdAndCustomerId(paymentId, customerId)
+        Payment payment = PaymentRepository.findByIdAndCustomerId(paymentId, customerId)
         if (!payment.canEdit()) throw new BusinessException("Essa cobrança não pode ser modificada")
 
         payment.value = updatePaymentDTO.value
@@ -54,7 +56,7 @@ class PaymentService {
     }
 
     public void delete(Long paymentId, Long customerId) {
-        Payment payment = findByIdAndCustomerId(paymentId, customerId)
+        Payment payment = PaymentRepository.findByIdAndCustomerId(paymentId, customerId)
         if (!payment.canEdit()) throw new BusinessException("Essa cobrança não pode ser modificada")
 
         payment.deleted = true
@@ -63,7 +65,7 @@ class PaymentService {
     }
 
     public Payment pay(Long paymentId, Long customerId) {
-        Payment payment = findByIdAndCustomerId(paymentId, customerId)
+        Payment payment = PaymentRepository.findByIdAndCustomerId(paymentId, customerId)
         if (!payment.canEdit()) throw new BusinessException("Essa cobrança não pode ser modificada")
 
         payment.status = PaymentStatus.PAID
@@ -74,7 +76,7 @@ class PaymentService {
     }
 
     public void processOverdue() {
-        List<Payment> paymentList = listByStatus(PaymentStatus.WAITING)
+        List<Payment> paymentList = PaymentRepository.listByStatus(PaymentStatus.WAITING)
 
         paymentList.each { payment ->
             updateStatusToOverdueIfPossible(payment)
@@ -87,20 +89,8 @@ class PaymentService {
         return dueDate.before(currentDate)
     }
 
-    public Payment findByIdAndCustomerId(Long paymentId, Long customerId) {
-        return PaymentRepository.findByIdAndCustomerId(paymentId, customerId)
-    }
-
-    public List<Payment> listByCustomer(Long customerId) {
-        return PaymentRepository.listByCustomer(customerId)
-    }
-
-    public List<Payment> listByStatus(PaymentStatus status) {
-        return PaymentRepository.listByStatus(status)
-    }
-
     public void notifyWaitingPayments() {
-        List<Payment> paymentList = listByStatus(PaymentStatus.WAITING)
+        List<Payment> paymentList = PaymentRepository.listByStatus(PaymentStatus.WAITING)
 
         paymentList.each { payment ->
             emailService.sendEmailToVerifyPayment(payment)
