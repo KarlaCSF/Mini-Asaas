@@ -1,11 +1,10 @@
 
+grails.plugin.springsecurity.logout.postOnly = false //REMOVER
 
 // Added by the Spring Security Core plugin:
 grails.plugin.springsecurity.userLookup.userDomainClassName = 'com.mini.asaas.User'
 grails.plugin.springsecurity.userLookup.authorityJoinClassName = 'com.mini.asaas.UserRole'
 grails.plugin.springsecurity.authority.className = 'com.mini.asaas.Role'
-
-grails.plugin.springsecurity.logout.postOnly = false //REMOVER
 
 grails.plugin.springsecurity.controllerAnnotations.staticRules = [
 	[pattern: '/',               access: ['permitAll']],
@@ -18,6 +17,7 @@ grails.plugin.springsecurity.controllerAnnotations.staticRules = [
 	[pattern: '/**/css/**',      access: ['permitAll']],
 	[pattern: '/**/images/**',   access: ['permitAll']],
 	[pattern: '/**/favicon.ico', access: ['permitAll']],
+	[pattern: '/register/**', 	 access: ['permitAll']]
 ]
 
 grails.plugin.springsecurity.filterChain.chainMap = [
