@@ -1,18 +1,23 @@
 package com.mini.asaas
 
+import grails.gorm.transactions.Transactional
+import grails.compiler.GrailsCompileStatic
+
 import grails.gorm.services.Service
+import grails.plugin.springsecurity.SpringSecurityService
 
-@Service(User)
-interface UserService {
+@GrailsCompileStatic
+@Transactional
+class UserService {
 
-    User get(Serializable id)
+    SpringSecurityService springSecurityService
 
-    List<User> list(Map args)
+    User save(String username, String password, Role role) {
+        def user = new User(username: username, password: password)
+        user.save(failOnError: true)
+    
+        UserRole.create(user, role)
 
-    Long count()
-
-    void delete(Serializable id)
-
-    User save(User user)
-
+        return user
+    }
 }
