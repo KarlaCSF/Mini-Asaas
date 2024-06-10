@@ -1,8 +1,8 @@
 package com.mini.asaas.customer
 
-
 import com.mini.asaas.address.AddressService
 import com.mini.asaas.dto.customer.CustomerDTO
+import com.mini.asaas.repositories.CustomerRepository
 import com.mini.asaas.utils.CpfCnpjUtils
 
 import grails.gorm.transactions.Transactional
@@ -31,10 +31,7 @@ class CustomerService {
     }
 
     public Customer update(CustomerDTO customerDTO, Long customerId) {
-        Customer customer = Customer.where {
-            id == customerId
-                    && deleted == false
-        }.first()
+        Customer customer = CustomerRepository.findById(customerId)
 
         Customer validatedCustomer = validateSave(customerDTO, customer)
 
