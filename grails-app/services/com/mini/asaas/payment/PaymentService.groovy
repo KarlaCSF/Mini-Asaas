@@ -86,15 +86,6 @@ class PaymentService {
         return dueDate.before(currentDate)
     }
 
-    public Payment pay(Long paymentId, Long customerId) {
-        Payment payment = findByIdAndCustomerId(paymentId, customerId)
-
-        if (!payment.canEdit()) throw new BusinessException("Essa cobrança não pode ser modificada")
-
-        payment.status = PaymentStatus.PAID
-        return payment.save(failOnError: true)
-    }
-
     public void notifyWaitingPayments() {
         List<Payment> paymentList = PaymentRepository.listByStatus(PaymentStatus.WAITING)
 
