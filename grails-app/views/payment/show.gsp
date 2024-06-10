@@ -9,7 +9,11 @@
 
     <fieldset>
         <legend>ID da cobrança: ${payment.id}</legend>
-            
+        
+        <g:if test="${params.errorMessage}">
+            <span>${params.errorMessage}</span>
+        </g:if>
+        
         <fieldset>         
             <div>
                 <label for="payerId">Responsável pela cobrança</label><br>
