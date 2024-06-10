@@ -2,6 +2,7 @@ package com.mini.asaas.notification
 
 import com.mini.asaas.customer.Customer
 import com.mini.asaas.exception.BusinessException
+import com.mini.asaas.repositories.NotificationRepository
 
 class NotificationController {
 
@@ -10,14 +11,15 @@ class NotificationController {
     NotificationService notificationService
 
     def index() {
-        List<Notification> notificationList = notificationService.listByCustomer(customer.id)
+        List<Notification> notificationList = NotificationRepository.listAllByCustomer(customer.id)
         return [view: "index", notificationList: notificationList]
     }
 
     def access() {
         try {
             Long notificationIdByParams = params.getLong("id")
-            Notification notification = notificationService.findByIdAndCustomerIdAndMarkRead(notificationIdByParams, customer.id)
+            Notification notification = NotificationRepository.findByIdAndCustomerId(notificationIdByParams, customer.id)
+            notificationService.readNotificationByCustomer(notification.id, notification.customer.id)
             redirect(url: notification.actionLink)
         } catch (BusinessException exception) {
             log.error(exception.message, exception)

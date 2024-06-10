@@ -21,35 +21,20 @@ class NotificationService {
         notification.save(failOnError: true)
     }
 
-    public Notification findByIdAndCustomerIdAndMarkRead(Long notificationId, Long customerId) {
-        Notification notification = findByIdAndCustomerId(notificationId, customerId)
-        readNotificationByCustomer(notification.id, notification.customer.id)
-        return notification
-    }
-
     public void readNotificationByCustomer(Long notificationId, Long customerId) {
-        Notification notification = findByIdAndCustomerId(notificationId, customerId)
+        Notification notification = NotificationRepository.findByIdAndCustomerId(notificationId, customerId)
         modifyReadStatus(notification, true)
     }
 
     public void unreadNotificationByCustomer(Long notificationId, Long customerId) {
-        Notification notification = findByIdAndCustomerId(notificationId, customerId)
+        Notification notification = NotificationRepository.findByIdAndCustomerId(notificationId, customerId)
         modifyReadStatus(notification, false)
     }
 
-    public Notification findByIdAndCustomerId(Long notificationId, Long customerId) {
-        Notification notification = NotificationRepository.findByIdAndCustomerId(notificationId, customerId)
-        return notification
-    }
-
     public void delete(Long notificationId, Long customerId) {
-        Notification notification = findByIdAndCustomerId(notificationId, customerId)
+        Notification notification = NotificationRepository.findByIdAndCustomerId(notificationId, customerId)
         notification.deleted = true
         notification.save()
-    }
-
-    public List<Notification> listByCustomer(Long customerId) {
-        return NotificationRepository.listAllByCustomer(customerId)
     }
 
     private static void modifyReadStatus(Notification notification, Boolean notificationReadStatus) {
