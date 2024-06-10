@@ -21,12 +21,18 @@ class NotificationService {
         notification.save(failOnError: true)
     }
 
+    public Notification findByIdAndCustomerIdAndMarkRead(Long notificationId, Long customerId) {
+        Notification notification = findByIdAndCustomerId(notificationId, customerId)
+        readNotificationByCustomer(notification.id, notification.customer.id)
+        return notification
+    }
+
     public void readNotificationByCustomer(Long notificationId, Long customerId) {
         Notification notification = findByIdAndCustomerId(notificationId, customerId)
         modifyReadStatus(notification, true)
     }
 
-    public void unreadNotificationByCustomer(Long notificationId, Long customerId){
+    public void unreadNotificationByCustomer(Long notificationId, Long customerId) {
         Notification notification = findByIdAndCustomerId(notificationId, customerId)
         modifyReadStatus(notification, false)
     }

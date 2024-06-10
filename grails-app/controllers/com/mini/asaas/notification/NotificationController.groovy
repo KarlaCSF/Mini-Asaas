@@ -10,9 +10,24 @@ class NotificationController {
     NotificationService notificationService
 
     def index() {
-
         List<Notification> notificationList = notificationService.listByCustomer(customer.id)
         return [view: "index", notificationList: notificationList]
+    }
+
+    def access() {
+        try {
+            Long notificationIdByParams = params.getLong("id")
+            Notification notification = notificationService.findByIdAndCustomerIdAndMarkRead(notificationIdByParams, customer.id)
+            redirect(url: notification.actionLink)
+        } catch (BusinessException exception) {
+            log.error(exception.message, exception)
+            params.errorMessage = exception.message
+            redirect(action: "index", params: params)
+        } catch (Exception exception) {
+            log.error(exception.message, exception)
+            params.errorMessage = "Não foi possível acessar o link da notificação"
+            redirect(action: "index", params: params)
+        }
     }
 
     def delete() {

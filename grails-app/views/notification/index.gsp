@@ -14,8 +14,7 @@
         <g:each var="notification" in="${notificationList}">
             <div style="border: solid 1px black; ${notification.isRead ? 'background-color: #f2f6fc; font-weight:300;' : 'background-color: #ffffff; font-weight:600;'} ">
                 <div class="top-container" style="display: flex; justify-content: space-between">
-                    <a href="${notification.actionLink}">${notification.title}</a><br>
-
+                    <a href="${createLink(controller: 'notification', action: 'access', id: notification.id)}">${notification.title}</a><br>
                     <div style="display: flex; gap: 10px;">
                         <g:if test="${notification.isRead == false}">
                                 <a href="${createLink(controller: 'notification', action: 'read', id: notification.id)}">Marcar como lida</a><br>
