@@ -5,6 +5,8 @@ import com.mini.asaas.customer.Customer
 
 class Notification extends BaseEntity {
 
+    String actionLink
+
     Customer customer
 
     String description
@@ -14,6 +16,7 @@ class Notification extends BaseEntity {
     String title
 
     static constraints = {
+        actionLink blank: false
         customer blank: false
         description blank: true
         isRead blank: false

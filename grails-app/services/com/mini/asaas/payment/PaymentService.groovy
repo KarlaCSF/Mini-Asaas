@@ -12,6 +12,7 @@ import com.mini.asaas.payer.PayerService
 import com.mini.asaas.repositories.PaymentRepository
 import grails.compiler.GrailsCompileStatic
 import grails.gorm.transactions.Transactional
+import grails.web.mapping.LinkGenerator
 
 @GrailsCompileStatic
 @Transactional
@@ -20,6 +21,8 @@ class PaymentService {
     CustomerService customerService
 
     EmailService emailService
+
+    LinkGenerator grailsLinkGenerator
 
     PayerService payerService
 
@@ -107,8 +110,9 @@ class PaymentService {
     private void createNotificationOnPay(Payment payment) {
         String title = "Cobrança paga"
         String description = "A cobrança ${payment.id} no valor de ${payment.value} feita ao ${payment.payer.name} foi paga."
+        String actionLink = grailsLinkGenerator.link(controller: 'payment', action: 'show', id: payment.id, absolute: true)
         Customer customer = payment.customer
-        notificationService.create(title, description, customer)
+        notificationService.create(title, description, actionLink, customer)
     }
 
     private void updateStatusToOverdueIfPossible(Payment payment) {
