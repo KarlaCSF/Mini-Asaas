@@ -15,14 +15,12 @@ class PaymentController {
 
     Customer customer = Customer.get(1) // todo: fix customer Id in 1 while don't have authentication
 
-    Long paymentIdByParams = params.getLong("id")
-
     def index() {
         return [view: "index"]
     }
 
-    def create() {  
-        try{
+    def create() {
+        try {
             Boolean deletedOnly = false
             List<Payer> listPayersByCustomer = payerService.listByCustomer(customer.id, deletedOnly)
             return [view: "create", listPayersByCustomer: listPayersByCustomer]
@@ -32,9 +30,10 @@ class PaymentController {
     }
 
     def edit() {
+        Long paymentIdByParams = params.getLong("id")
         try {
             Payment payment = paymentService.findByIdAndCustomerId(paymentIdByParams, customer.id)
-            return [payment: payment, id: payment.id]  
+            return [payment: payment, id: payment.id]
         } catch (Exception exception) {
             log.error(exception.message, exception)
             render "Cobrança não encontrada"
@@ -42,6 +41,7 @@ class PaymentController {
     }
 
     def show() {
+        Long paymentIdByParams = params.getLong("id")
         try {
             Payment payment = paymentService.findByIdAndCustomerId(paymentIdByParams, customer.id)
             return [payment: payment]
@@ -50,8 +50,9 @@ class PaymentController {
             render "Cobrança não encontrada"
         }
     }
-    
+
     def save() {
+        Long paymentIdByParams = params.getLong("id")
         try {
             CreatePaymentDTO createPaymentDTO = new CreatePaymentDTO(params)
             Payment payment = paymentService.save(createPaymentDTO, customer.id)
@@ -62,8 +63,9 @@ class PaymentController {
             redirect(action: "create", params: params)
         }
     }
-    
+
     def update() {
+        Long paymentIdByParams = params.getLong("id")
         try {
             UpdatePaymentDTO updatePaymentDTO = new UpdatePaymentDTO(params)
             Payment payment = paymentService.update(updatePaymentDTO, paymentIdByParams, customer.id)
@@ -79,7 +81,8 @@ class PaymentController {
         }
     }
 
-    def delete(){
+    def delete() {
+        Long paymentIdByParams = params.getLong("id")
         try {
             paymentService.delete(paymentIdByParams, customer.id)
             redirect(action: "index")

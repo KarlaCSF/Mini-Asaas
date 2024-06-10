@@ -15,8 +15,6 @@ class PayerController {
 
     Customer customer = Customer.get(1) // fixed Customer in 1 while don't have authentication
 
-    Long payerIdByParams = params.getLong("id")
-
     def index() {
         return [params: params]
     }
@@ -26,6 +24,7 @@ class PayerController {
     }
 
     def save() {
+        Long payerIdByParams = params.getLong("id")
         try {
             PayerDTO payerDTO = new PayerDTO(params)
             Payer payer = payerService.save(payerDTO, customer.id)
@@ -42,6 +41,7 @@ class PayerController {
     }
 
     def show() {
+        Long payerIdByParams = params.getLong("id")
         try {
             Boolean deletedOnly = false
             Payer payer = payerService.findByIdAndCustomerId(payerIdByParams, customer.id, deletedOnly)
@@ -55,6 +55,7 @@ class PayerController {
     }
 
     def edit() {
+        Long payerIdByParams = params.getLong("id")
         try {
             Payer payer = payerService.findByIdAndCustomerId(payerIdByParams, customer.id, false)
             return [payer: payer]
@@ -66,6 +67,7 @@ class PayerController {
     }
 
     def update() {
+        Long payerIdByParams = params.getLong("id")
         try {
             PayerDTO payerDTO = new PayerDTO(params)
             Payer payer = payerService.update(payerDTO, payerIdByParams, customer.id)
@@ -82,6 +84,7 @@ class PayerController {
     }
 
     def delete() {
+        Long payerIdByParams = params.getLong("id")
         try {
             payerService.delete(payerIdByParams, customer.id)
             redirect(action: "index")
@@ -93,6 +96,7 @@ class PayerController {
     }
 
     def restore() {
+        Long payerIdByParams = params.getLong("id")
         try {
             payerService.restore(payerIdByParams, customer.id)
             redirect(action: "list")
@@ -104,6 +108,7 @@ class PayerController {
     }
 
     def list() {
+        Long payerIdByParams = params.getLong("id")
         try {
             List<Payer> payerList = payerService.listByCustomer(customer.id, false)
             List<Payer> deletedPayerList = payerService.listByCustomer(customer.id, true)

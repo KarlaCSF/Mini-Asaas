@@ -12,11 +12,11 @@ class CustomerController {
 
     AddressService addressService
 
-    Long customerIdByParams = params.getLong("id")
 
     def index() {}
 
     def save() {
+        Long customerIdByParams = params.getLong("id")
         try {
             CustomerDTO customerDTO = new CustomerDTO(params)
             Customer customer = customerService.save(customerDTO)
@@ -29,6 +29,7 @@ class CustomerController {
     }
 
     def show() {
+        Long customerIdByParams = params.getLong("id")
         try {
             Customer customer = customerService.findById(customerIdByParams)
             return [customer: customer]
@@ -38,6 +39,7 @@ class CustomerController {
     }
 
     def edit() {
+        Long customerIdByParams = params.getLong("id")
         try {
             Customer customer = customerService.findById(customerIdByParams)
             return [customer: customer]
@@ -47,6 +49,7 @@ class CustomerController {
     }
 
     def update() {
+        Long customerIdByParams = params.getLong("id")
         try {
             CustomerDTO customerDTO = new CustomerDTO(params)
             Customer customer = customerService.update(customerDTO, customerIdByParams)
