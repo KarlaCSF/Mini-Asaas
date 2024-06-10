@@ -30,7 +30,7 @@
                 <tr>
                     <td>
                         <p style="margin:0;text-align:center">
-                            Cobrança Atrasada
+                            ${properties.emailSubject}
                         </p>
                     </td>
                 </tr>
@@ -43,59 +43,53 @@
             </table>
 
 
-            <div style="max-width:792px;padding:0 40px;color:#212529;font-size:14px;line-height:20px;margin:0 auto;text-align:left">
-                <p style="font-weight:600;margin:0 0 16px">
-                    Olá, ${properties.payerName}
-                </p>
+        <div style="max-width:792px;padding:0 40px;color:#212529;font-size:14px;line-height:20px;margin:0 auto;text-align:left">
+            <p style="font-weight:600;margin:0 0 16px">
+                Olá, ${properties.payerName}
+            </p>
 
-                <p style="margin:0 0 16px">
-                    a sua cobrança pendente no valor de
+            <p style="margin:0 0 16px">
+                ${properties.emailActionPayment}, no valor de
 
-                    <span style="font-weight:600">
-                        <g:formatNumber number="${properties.paymentValue}" type="currency" currencyCode="BRL"/>
-                    </span>
-                    venceu na data de
-                    <span style="font-weight:600">
-                        <g:formatDate date="${properties.paymentDueDate}" format="dd MMMM yyyy"/>
-                    </span>.
-                </p>
+                <span style="font-weight:600">
+                    <g:formatNumber number="${properties.paymentValue}" type="currency" currencyCode="BRL"/>
+                </span>
+                com vencimento em
+                <span style="font-weight:600">
+                    <g:formatDate date="${properties.paymentDueDate}" format="dd MMMM yyyy"/>
+                </span>.
+            </p>
 
-                <p style="margin:0 0 16px">
-                    <span style="font-weight:600">
-                        Descrição da cobrança:
-                    </span>
-                    Descrição não informada
-                </p>
-
+            <g:if test="${properties.paymentLink}">
                 <p style="margin:0 0 16px;margin:0">
-                    Clique no botão abaixo para visualizar a cobrança atrasada.
+                    Clique no botão abaixo para visualizar a cobrança.
                     <a style="color:#0d6efd"
                        href=${properties.paymentLink}
                        target="_blank"
-                       data-saferedirecturl=${properties.paymentLink}>
+                       data-saferedirecturl= ${properties.paymentLink}>
                         <wbr>
                         Ou acesse aqui
                     </a>
                 </p>
-            </div>
+                </div>
 
-            <table style="width:100%;max-width:872px;padding:26px 40px;line-height:20px;margin:0 auto;text-align:left">
-                <tbody>
-                <tr>
-                    <td width="25" align="center">
-                        <div style="text-align:center">
-                            <a style="font-size:16px;font-weight:700;text-decoration:none;color:#fff;background-color:#0030b9;padding:12px 32px;border-radius:40px;background-color:#198754;display:flex;max-width:max-content;margin:auto;text-align:center"
-                               href=${properties.paymentLink}
-                               target="_blank"
-                               data-saferedirecturl=${properties.paymentLink}>
-                                Visualizar cobrança
-                            </a>
-                        </div>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-
+                <table style="width:100%;max-width:872px;padding:26px 40px;line-height:20px;margin:0 auto;text-align:left">
+                    <tbody>
+                    <tr>
+                        <td width="25" align="center">
+                            <div style="text-align:center">
+                                <a style="font-size:16px;font-weight:700;text-decoration:none;color:#fff;background-color:#0030b9;padding:12px 32px;border-radius:40px;background-color:#198754;display:flex;max-width:max-content;margin:auto;text-align:center"
+                                   href=${properties.paymentLink}
+                                   target="_blank"
+                                   data-saferedirecturl= ${properties.paymentLink}>
+                                    Visualizar cobrança
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </g:if>
 
             <table style="width:100%;max-width:872px;margin:0;padding:16px 40px;text-align:center;background-color:#f8f9fa;line-height:20px;color:#212529">
                 <tbody>
