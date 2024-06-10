@@ -2,7 +2,7 @@
 <html lang="pt-BR">
     <head>
         <meta charset="UTF-8">
-        <title>Email</title>
+        <title>${properties.emailHeadTitle}</title>
     </head>
 
     <body>

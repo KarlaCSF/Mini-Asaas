@@ -22,6 +22,7 @@ class EmailService {
         String paymentLink = grailsLinkGenerator.link(controller: 'payment', action: 'show', id: payment.id, absolute: true)
         Map properties = [
                 emailActionPayment: "uma cobrança foi criada",
+                emailHeadTitle    : "Cobrança Nova",
                 emailSubject      : subjectMessage,
                 customerCity      : payment.customer.address.city,
                 customerCpfCnpj   : payment.customer.cpfCnpj,
@@ -42,6 +43,7 @@ class EmailService {
         String paymentLink = grailsLinkGenerator.link(controller: 'payment', action: 'show', id: payment.id, absolute: true)
         Map properties = [
                 emailActionPayment: "uma cobrança foi atualizada",
+                emailHeadTitle    : "Cobrança Atualizada",
                 emailSubject      : subjectMessage,
                 customerCity      : payment.customer.address.city,
                 customerCpfCnpj   : payment.customer.cpfCnpj,
@@ -61,6 +63,7 @@ class EmailService {
         String subjectMessage = "Cobrança Excluída"
         Map properties = [
                 emailActionPayment: "uma cobrança foi excluida",
+                emailHeadTitle    : "Cobrança Excluída",
                 emailSubject      : subjectMessage,
                 customerCity      : payment.customer.address.city,
                 customerCpfCnpj   : payment.customer.cpfCnpj,
@@ -80,6 +83,7 @@ class EmailService {
         String paymentLink = grailsLinkGenerator.link(controller: 'payment', action: 'show', id: payment.id, absolute: true)
         Map properties = [
                 emailActionPayment: "lembre-se que existe uma cobrança pendente",
+                emailHeadTitle    : "Cobrança Pendente",
                 emailSubject      : subjectMessage,
                 customerCity      : payment.customer.address.city,
                 customerCpfCnpj   : payment.customer.cpfCnpj,
@@ -100,6 +104,7 @@ class EmailService {
         String paymentLink = grailsLinkGenerator.link(controller: 'payment', action: 'show', id: payment.id, absolute: true)
         Map properties = [
                 emailActionPayment: "uma cobrança venceu",
+                emailHeadTitle    : "Cobrança Atrasada",
                 emailSubject      : subjectMessage,
                 customerCity      : payment.customer.address.city,
                 customerCpfCnpj   : payment.customer.cpfCnpj,
