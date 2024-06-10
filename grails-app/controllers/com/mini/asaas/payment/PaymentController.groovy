@@ -6,6 +6,7 @@ import com.mini.asaas.dto.payment.UpdatePaymentDTO
 import com.mini.asaas.exception.BusinessException
 import com.mini.asaas.payer.Payer
 import com.mini.asaas.payer.PayerService
+import com.mini.asaas.repositories.PaymentRepository
 
 class PaymentController {
 
@@ -22,7 +23,7 @@ class PaymentController {
     def create() {
         try {
             Boolean deletedOnly = false
-            List<Payer> listPayersByCustomer = payerService.listByCustomer(customer.id, deletedOnly)
+            List<Payer> listPayersByCustomer = PayerRepository.listByCustomer(customer.id, deletedOnly)
             return [view: "create", listPayersByCustomer: listPayersByCustomer]
         } catch (Exception exception) {
             log.error(exception.message, exception)
@@ -32,7 +33,7 @@ class PaymentController {
     def edit() {
         Long paymentIdByParams = params.getLong("id")
         try {
-            Payment payment = paymentService.findByIdAndCustomerId(paymentIdByParams, customer.id)
+            Payment payment = PaymentRepository.findByIdAndCustomerId(paymentIdByParams, customer.id)
             return [payment: payment, id: payment.id]
         } catch (Exception exception) {
             log.error(exception.message, exception)
@@ -43,7 +44,7 @@ class PaymentController {
     def show() {
         Long paymentIdByParams = params.getLong("id")
         try {
-            Payment payment = paymentService.findByIdAndCustomerId(paymentIdByParams, customer.id)
+            Payment payment = PaymentRepository.findByIdAndCustomerId(paymentIdByParams, customer.id)
             return [payment: payment]
         } catch (Exception exception) {
             log.error(exception.message, exception)

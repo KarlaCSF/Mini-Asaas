@@ -3,6 +3,7 @@ package com.mini.asaas.payer
 import com.mini.asaas.address.AddressService
 import com.mini.asaas.customer.CustomerService
 import com.mini.asaas.dto.payer.PayerDTO
+import com.mini.asaas.repositories.CustomerRepository
 import com.mini.asaas.repositories.PayerRepository
 import com.mini.asaas.utils.CpfCnpjUtils
 import grails.compiler.GrailsCompileStatic
@@ -25,7 +26,7 @@ class PayerService {
         validatedPayer.name = payerDTO.name
         validatedPayer.email = payerDTO.email
         validatedPayer.cpfCnpj = payerDTO.cpfCnpj
-        validatedPayer.customer = customerService.findById(customerId)
+        validatedPayer.customer = CustomerRepository.findById(customerId)
         validatedPayer.personType = CpfCnpjUtils.getPersonType(validatedPayer.cpfCnpj)
 
         validatedPayer.address = addressService.save(payerDTO.addressDTO)
@@ -34,7 +35,7 @@ class PayerService {
     }
 
     public Payer update(PayerDTO payerDTO, Long payerId, Long customerId) {
-        Payer payer = findByIdAndCustomerId(payerId, customerId, false)
+        Payer payer = PayerRepository.findByIdAndCustomerId(payerId, customerId, false)
 
         Payer validatedPayer = validateSave(payerDTO, payer)
 
@@ -58,22 +59,14 @@ class PayerService {
     }
 
     public void delete(Long payerId, Long customerId) {
-        Payer payer = findByIdAndCustomerId(payerId, customerId, false)
-        payer.deleted = true 
-        payer.save(failOnError: true)   
+        Payer payer = PayerRepository.findByIdAndCustomerId(payerId, customerId, false)
+        payer.deleted = true
+        payer.save(failOnError: true)
     }
 
     public Payer restore(Long payerId, Long customerId) {
-        Payer payer = findByIdAndCustomerId(payerId, customerId, true)
+        Payer payer = PayerRepository.findByIdAndCustomerId(payerId, customerId, true)
         payer.deleted = false
-        payer.save(failOnError: true)   
-    }
-
-    public Payer findByIdAndCustomerId(Long payerId, Long customerId, Boolean deleted) {
-        return PayerRepository.findByIdAndCustomerId(payerId, customerId, deleted)
-    }
-
-    public List<Payer> listByCustomer(Long customerId, Boolean deleted) {
-        return PayerRepository.listByCustomer(customerId, deleted)
+        payer.save(failOnError: true)
     }
 }

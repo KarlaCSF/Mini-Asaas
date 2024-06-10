@@ -2,6 +2,7 @@ package com.mini.asaas.customer
 
 import com.mini.asaas.address.AddressService
 import com.mini.asaas.dto.customer.CustomerDTO
+import com.mini.asaas.repositories.CustomerRepository
 import grails.compiler.GrailsCompileStatic
 import grails.validation.ValidationException
 
@@ -31,7 +32,7 @@ class CustomerController {
     def show() {
         Long customerIdByParams = params.getLong("id")
         try {
-            Customer customer = customerService.findById(customerIdByParams)
+            Customer customer = CustomerRepository.findById(customerIdByParams)
             return [customer: customer]
         } catch (Exception exception) {
             log.error("CustomerController.show >> Não foi possível buscar o Customer ${customerIdByParams}", exception)
@@ -41,7 +42,7 @@ class CustomerController {
     def edit() {
         Long customerIdByParams = params.getLong("id")
         try {
-            Customer customer = customerService.findById(customerIdByParams)
+            Customer customer = CustomerRepository.findById(customerIdByParams)
             return [customer: customer]
         } catch (Exception exception) {
             log.error("CustomerController.edit >> Não foi possível buscar o Customer ${customerIdByParams}", exception)

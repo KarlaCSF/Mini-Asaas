@@ -4,6 +4,7 @@ import com.mini.asaas.payment.Payment
 import com.mini.asaas.payment.PaymentService
 import com.mini.asaas.customer.Customer
 import com.mini.asaas.exception.BusinessException
+import com.mini.asaas.repositories.PaymentRepository
 
 class InvoiceController {
 
@@ -15,7 +16,7 @@ class InvoiceController {
     def show() {
         Long paymentIdByParams = params.getLong("id")
         try {
-            Payment payment = paymentService.findByIdAndCustomerId(paymentIdByParams, customer.id)
+            Payment payment = PaymentRepository.findByIdAndCustomerId(paymentIdByParams, customer.id)
             return [payment: payment]
         } catch (Exception exception) {
             log.error(exception.message, exception)
