@@ -107,12 +107,6 @@
                             </a>
                         </p>
 
-
-                        <p style="text-align:center;font-size:14px;margin:0 auto">
-                            (XX) XXXXX-6945
-                        </p>
-
-
                         <p style="text-align:center;font-size:14px;margin:0 auto">
                             ${properties.customerState} - ${properties.customerCity}
                         </p>
