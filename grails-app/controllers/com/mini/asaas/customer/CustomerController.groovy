@@ -4,8 +4,10 @@ import com.mini.asaas.address.AddressService
 import com.mini.asaas.dto.customer.CustomerDTO
 import grails.compiler.GrailsCompileStatic
 import grails.validation.ValidationException
+import grails.plugin.springsecurity.annotation.Secured
 
 @GrailsCompileStatic
+@Secured('ROLE_ADMIN')
 class CustomerController {
 
     CustomerService customerService
