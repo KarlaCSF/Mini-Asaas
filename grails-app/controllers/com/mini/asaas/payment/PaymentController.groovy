@@ -13,6 +13,7 @@ import com.mini.asaas.payer.PayerService
 class PaymentController {
 
     PaymentService paymentService
+
     PayerService payerService
 
     Customer customer = Customer.get(1) // todo: fix customer Id in 1 while don't have authentication
