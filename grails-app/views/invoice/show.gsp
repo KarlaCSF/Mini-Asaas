@@ -1,5 +1,5 @@
 <%@ page 
-import="com.mini.asaas.enums.payment.PaymentStatus"
+import="com.mini.asaas.utils.CpfCnpjUtils; com.mini.asaas.enums.payment.PaymentStatus"
 contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
@@ -17,7 +17,7 @@ contentType="text/html;charset=UTF-8" %>
             <label for="payerId">Responsável pela cobrança</label><br>
             <input type="text" value="${payment.customer.name}" disabled><br>
             <input type="text" value="${payment.customer.email}" disabled><br>
-            <input type="text" value="${payment.customer.cpfCnpj}" disabled><br>
+            <input type="text" value="${CpfCnpjUtils.applyMask(payment.customer.cpfCnpj)}" disabled><br>
         </div><br>
 
         <div>
