@@ -8,6 +8,8 @@ import com.mini.asaas.utils.CpfCnpjUtils
 import grails.gorm.transactions.Transactional
 import grails.validation.ValidationException
 import grails.compiler.GrailsCompileStatic
+import grails.plugin.springsecurity.SpringSecurityService
+import com.mini.asaas.user.User
 
 @GrailsCompileStatic
 @Transactional
@@ -15,7 +17,11 @@ class CustomerService {
 
     AddressService addressService
 
+    SpringSecurityService springSecurityService
+
     public Customer save(CustomerDTO customerDTO) {
+        User user = (User) springSecurityService.getCurrentUser()
+        
         Customer validatedCustomer = validateSave(customerDTO, new Customer())
 
         if (validatedCustomer.hasErrors()) throw new ValidationException("Erro ao salvar conta", validatedCustomer.errors)
@@ -26,6 +32,7 @@ class CustomerService {
         validatedCustomer.personType = CpfCnpjUtils.getPersonType(validatedCustomer.cpfCnpj)
 
         validatedCustomer.address = addressService.save(customerDTO.addressDTO)
+        user.customer = validatedCustomer
 
         return validatedCustomer.save(failOnError: true)
     }
