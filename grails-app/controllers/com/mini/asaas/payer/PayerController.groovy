@@ -6,14 +6,15 @@ import com.mini.asaas.customer.Customer
 import com.mini.asaas.dto.payer.PayerDTO
 import grails.validation.ValidationException
 import grails.compiler.GrailsCompileStatic
+import com.mini.asaas.user.UserService
 
 @GrailsCompileStatic
 class PayerController {
 
     PayerService payerService
 
-    Customer customer = Customer.get(1) // fixed Customer in 1 while don't have authentication
-
+    UserService userService
+    
     def index() {
         return [params: params]
     }
@@ -24,6 +25,7 @@ class PayerController {
 
     def save() {
         try {
+            Customer customer = userService.getCustomerByUser()
             PayerDTO payerDTO = new PayerDTO(params)
             Payer payer = payerService.save(payerDTO, customer.id)
             redirect(action: "show", id: payer.id)
@@ -52,6 +54,7 @@ class PayerController {
 
     def edit() {
         try {
+            Customer customer = userService.getCustomerByUser()
             Payer payer = payerService.findByIdAndCustomerId(params.getLong("id"), customer.id, false)
             return [payer: payer]
         } catch (Exception exception) { 
@@ -63,6 +66,7 @@ class PayerController {
 
    def update() {
         try {
+            Customer customer = userService.getCustomerByUser()
             PayerDTO payerDTO = new PayerDTO(params)
             Payer payer = payerService.update(payerDTO, params.getLong("id"), customer.id)
             redirect(action: "show", id: payer.id)
@@ -79,6 +83,7 @@ class PayerController {
 
     def delete() {
         try {
+            Customer customer = userService.getCustomerByUser()
             payerService.delete(params.getLong("id"), customer.id)
             redirect(action: "index")
         } catch (Exception exception) {
@@ -90,6 +95,7 @@ class PayerController {
 
     def restore() {
         try {
+            Customer customer = userService.getCustomerByUser()
             payerService.restore(params.getLong("id"), customer.id)
             redirect(action: "list")
         } catch(Exception exception) {
@@ -101,6 +107,7 @@ class PayerController {
 
     def list() {
         try {
+            Customer customer = userService.getCustomerByUser()
             List<Payer> payerList = payerService.listByCustomer(customer.id, false)
             List<Payer> deletedPayerList = payerService.listByCustomer(customer.id, true)
             return [payerList: payerList, deletedPayerList: deletedPayerList]

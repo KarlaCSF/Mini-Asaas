@@ -4,15 +4,17 @@ import com.mini.asaas.payment.Payment
 import com.mini.asaas.payment.PaymentService
 import com.mini.asaas.customer.Customer
 import com.mini.asaas.exception.BusinessException
+import com.mini.asaas.user.UserService
 
 class InvoiceController {
 
     PaymentService paymentService
 
-    Customer customer = Customer.get(1) // todo: fix customer Id in 1 while don't have authentication
+    UserService userService
 
     def show() {
         try {
+            Customer customer = userService.getCustomerByUser()
             Payment payment = paymentService.findByIdAndCustomerId(params.getLong("id"), customer.id)
             return [payment: payment]
         } catch (Exception exception) {
@@ -23,6 +25,7 @@ class InvoiceController {
 
     def pay() {
         try {
+            Customer customer = userService.getCustomerByUser()
             Payment payment = paymentService.pay(params.getLong("id"), customer.id)
             redirect(action: "show", id: payment.id)
         } catch (BusinessException businessException) {

@@ -8,19 +8,21 @@ import com.mini.asaas.dto.payment.CreatePaymentDTO
 import com.mini.asaas.dto.payment.UpdatePaymentDTO
 import com.mini.asaas.payment.PaymentService
 import com.mini.asaas.exception.BusinessException
+import com.mini.asaas.user.UserService
 
 class PaymentController {
 
     PaymentService paymentService
 
-    Customer customer = Customer.get(1) // todo: fix customer Id in 1 while don't have authentication
-    
+    UserService userService
+
     def index() {
         return [view: "index"]
     }
 
     def create() {  
         try{
+            Customer customer = userService.getCustomerByUser()
             List<Payer> listPayersByCustomer = Payer.where{
             customer.id == customer.id
             }.list() // while don't have a payerservice to give a list of payer from a customer 
@@ -32,6 +34,7 @@ class PaymentController {
 
     def edit() {
         try {
+            Customer customer = userService.getCustomerByUser()
             Payment payment = paymentService.findByIdAndCustomerId(params.getLong("id"), customer.id)
             return [payment: payment, id: payment.id]  
         } catch (Exception exception) {
@@ -42,6 +45,7 @@ class PaymentController {
 
     def show() {
         try {
+            Customer customer = userService.getCustomerByUser()
             Payment payment = paymentService.findByIdAndCustomerId(params.getLong("id"), customer.id)
             return [payment: payment]
         } catch (Exception exception) {
@@ -52,6 +56,7 @@ class PaymentController {
     
     def save() {
         try {
+            Customer customer = userService.getCustomerByUser()
             CreatePaymentDTO createPaymentDTO = new CreatePaymentDTO(params)
             Payment payment = paymentService.save(createPaymentDTO, customer.id)
             redirect(action: "show", id: payment.id)
@@ -64,6 +69,7 @@ class PaymentController {
     
     def update() {
         try {
+            Customer customer = userService.getCustomerByUser()
             UpdatePaymentDTO updatePaymentDTO = new UpdatePaymentDTO(params)
             Payment payment = paymentService.update(updatePaymentDTO, params.getLong("id"), customer.id)
             redirect(action: "show", id: payment.id)
@@ -80,6 +86,7 @@ class PaymentController {
 
     def delete(){
         try {
+            Customer customer = userService.getCustomerByUser()
             paymentService.delete(params.getLong("id"), customer.id)
             redirect(action: "index")
         } catch (BusinessException exception) {
