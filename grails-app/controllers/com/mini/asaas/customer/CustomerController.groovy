@@ -5,6 +5,8 @@ import com.mini.asaas.dto.customer.CustomerDTO
 import grails.compiler.GrailsCompileStatic
 import grails.validation.ValidationException
 import grails.plugin.springsecurity.annotation.Secured
+import com.mini.asaas.user.User
+import com.mini.asaas.repositories.UserRepository
 
 @GrailsCompileStatic
 @Secured('ROLE_ADMIN')
@@ -31,7 +33,8 @@ class CustomerController {
     def show() {
         try {
             Customer customer = Customer.get(params.getLong("id"))
-            return [customer: customer]
+            List<User> userList = UserRepository.listByCustomer(customer.id)
+            return [customer: customer, userList: userList]
         } catch (Exception exception) {
             log.error("CustomerController.show >> Não foi possível buscar o Customer ${params.id}", exception)
         }

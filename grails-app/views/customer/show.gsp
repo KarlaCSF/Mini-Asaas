@@ -41,6 +41,13 @@
 
             <a href="${createLink(controller: 'customer', action: 'edit', id: customer.id)}">Editar Cliente</a>
         </div>
+
+        <div>
+            <h2>Usuários</h2>
+            <g:each var="user" in="${userList}">
+                <span>Email: ${user.username}</span>
+            </g:each>   
+        </div>
     </form>
 </body>
 </html>
