@@ -1,18 +1,17 @@
 package com.mini.asaas.repositories
 
-import com.mini.asaas.payment.Payment
 import com.mini.asaas.enums.payment.PaymentStatus
-import com.mini.asaas.repositories.Repository
+import com.mini.asaas.payment.Payment
 import grails.gorm.DetachedCriteria
 
 class PaymentRepository implements Repository {
 
     public static DetachedCriteria<Payment> query(Map search) {
         DetachedCriteria<Payment> query = Payment.where(defaultQuery(search))
-    
+
         query = query.where {
             if (search.containsKey("customerId")) {
-                customer{
+                customer {
                     eq("id", search.customerId)
                 }
             }
@@ -28,12 +27,12 @@ class PaymentRepository implements Repository {
             if (search.containsKey("billingType")) {
                 eq("billingType", search.billingType)
             }
-            
+
             if (search.containsKey("status")) {
                 eq("status", search.status)
             }
-        }        
-    
+        }
+
         return query
     }
     
@@ -53,11 +52,11 @@ class PaymentRepository implements Repository {
 
     private static List<String> allowedFilters() {
         return [
-            "id",
-            "value",
-            "dueDate",
-            "billingType",
-            "status"
+                "id",
+                "value",
+                "dueDate",
+                "billingType",
+                "status"
         ]
     }
 }

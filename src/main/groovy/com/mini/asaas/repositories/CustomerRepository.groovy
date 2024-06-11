@@ -10,8 +10,8 @@ class CustomerRepository implements Repository {
     public static DetachedCriteria<Customer> query(Map search) {
         return Customer.where(defaultQuery(search))
     }
-    
-    public Customer findById(Long customerId) {
+
+    public static Customer findById(Long customerId) {
         return CustomerRepository.query([id: customerId]).get()
     }
 }
