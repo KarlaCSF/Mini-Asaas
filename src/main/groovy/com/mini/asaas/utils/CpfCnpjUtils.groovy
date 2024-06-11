@@ -10,7 +10,7 @@ class CpfCnpjUtils {
 
     public static boolean validate(String cpfCnpj) {
 
-        cpfCnpj = Util.removeNonNumeric(cpfCnpj)
+        cpfCnpj = StringUtils.removeNonNumeric(cpfCnpj)
 
         if (cpfCnpj.length() == maxLengthCpf) return isValidCPF(cpfCnpj)
         if (cpfCnpj.length() == maxLengthCnpj) return isValidCNPJ(cpfCnpj)
@@ -19,7 +19,7 @@ class CpfCnpjUtils {
     }
 
     public static String applyMask(String cpfCnpj) {
-        cpfCnpj = Util.removeNonNumeric(cpfCnpj)
+        cpfCnpj = StringUtils.removeNonNumeric(cpfCnpj)
         if (cpfCnpj.length() == maxLengthCpf) return applyCpfMask(cpfCnpj)
         if (cpfCnpj.length() == maxLengthCnpj) return applyCnpjMask(cpfCnpj)
     }
