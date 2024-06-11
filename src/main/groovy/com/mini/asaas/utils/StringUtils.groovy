@@ -9,7 +9,7 @@ import java.text.SimpleDateFormat
 @GrailsCompileStatic
 class StringUtils {
     public static removeNonNumeric(String text) {
-        return text.replaceAll("[^\\d]", "")
+        return text.replaceAll(/[^\d.]/, '')
     }
 
     public static BigDecimal parseStringToBigDecimal(String numberString) throws ParseException {
@@ -22,5 +22,11 @@ class StringUtils {
         SimpleDateFormat inputFormat = new SimpleDateFormat("dd/MM/yyyy")
         inputFormat.setLenient(false)
         return inputFormat.parse(dateString)
+    }
+
+    static String formatCurrencyWithoutSymbol(String numberString) {
+        String cleanNumberString = removeNonNumeric(numberString)
+        BigDecimal number = new BigDecimal(cleanNumberString)
+        return String.format('%.2f', number).replace('.', ',')
     }
 }
