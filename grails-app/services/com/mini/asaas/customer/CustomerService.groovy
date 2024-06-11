@@ -10,6 +10,7 @@ import grails.validation.ValidationException
 import grails.compiler.GrailsCompileStatic
 import grails.plugin.springsecurity.SpringSecurityService
 import com.mini.asaas.user.User
+import com.mini.asaas.user.UserService
 
 @GrailsCompileStatic
 @Transactional
@@ -19,8 +20,10 @@ class CustomerService {
 
     SpringSecurityService springSecurityService
 
+    UserService userService
+
     public Customer save(CustomerDTO customerDTO) {
-        User user = (User) springSecurityService.getCurrentUser()
+        User user = userService.getCurrentUser()
         
         Customer validatedCustomer = validateSave(customerDTO, new Customer())
 
@@ -32,17 +35,13 @@ class CustomerService {
         validatedCustomer.personType = CpfCnpjUtils.getPersonType(validatedCustomer.cpfCnpj)
 
         validatedCustomer.address = addressService.save(customerDTO.addressDTO)
+
         user.customer = validatedCustomer
 
         return validatedCustomer.save(failOnError: true)
     }
 
-    public Customer update(CustomerDTO customerDTO, Long customerId) {
-        Customer customer = Customer.where {
-            id == customerId
-                    && deleted == false
-        }.first()
-
+    public Customer update(CustomerDTO customerDTO, Customer customer) {
         Customer validatedCustomer = validateSave(customerDTO, customer)
 
         if (validatedCustomer.hasErrors()) throw new ValidationException("Erro ao editar conta", validatedCustomer.errors)
