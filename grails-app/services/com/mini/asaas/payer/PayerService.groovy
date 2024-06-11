@@ -6,6 +6,7 @@ import com.mini.asaas.dto.payer.PayerDTO
 import com.mini.asaas.repositories.CustomerRepository
 import com.mini.asaas.repositories.PayerRepository
 import com.mini.asaas.utils.CpfCnpjUtils
+import com.mini.asaas.utils.StringUtils
 import grails.compiler.GrailsCompileStatic
 import grails.gorm.transactions.Transactional
 import grails.validation.ValidationException
@@ -25,7 +26,7 @@ class PayerService {
 
         validatedPayer.name = payerDTO.name
         validatedPayer.email = payerDTO.email
-        validatedPayer.cpfCnpj = payerDTO.cpfCnpj
+        validatedPayer.cpfCnpj = StringUtils.removeNonNumeric(payerDTO.cpfCnpj)
         validatedPayer.customer = CustomerRepository.findById(customerId)
         validatedPayer.personType = CpfCnpjUtils.getPersonType(validatedPayer.cpfCnpj)
 
@@ -43,7 +44,7 @@ class PayerService {
 
         validatedPayer.name = payerDTO.name
         validatedPayer.email = payerDTO.email
-        validatedPayer.cpfCnpj = payerDTO.cpfCnpj
+        validatedPayer.cpfCnpj = StringUtils.removeNonNumeric(payerDTO.cpfCnpj)
         validatedPayer.personType = CpfCnpjUtils.getPersonType(validatedPayer.cpfCnpj)
         validatedPayer.address = addressService.update(payerDTO.addressDTO, validatedPayer.address.id)
 
