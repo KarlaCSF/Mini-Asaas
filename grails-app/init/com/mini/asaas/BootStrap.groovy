@@ -1,8 +1,8 @@
 package com.mini.asaas
 
-import com.mini.asaas.User
-import com.mini.asaas.Role
-import com.mini.asaas.UserRole
+import com.mini.asaas.user.User
+import com.mini.asaas.user.Role
+import com.mini.asaas.user.UserRole
 
 import grails.gorm.transactions.Transactional
 

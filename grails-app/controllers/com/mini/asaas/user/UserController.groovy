@@ -1,74 +1,74 @@
-package com.mini.asaas
+package com.mini.asaas.user
 
 import grails.validation.ValidationException
 import static org.springframework.http.HttpStatus.*
 import grails.plugin.springsecurity.annotation.Secured
 
 @Secured('ROLE_ADMIN')
-class RoleController {
+class UserController {
 
-    RoleService roleService
+    UserService userService
 
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
     def index(Integer max) {
         params.max = Math.min(max ?: 10, 100)
-        respond roleService.list(params), model:[roleCount: roleService.count()]
+        respond userService.list(params), model:[userCount: userService.count()]
     }
 
     def show(Long id) {
-        respond roleService.get(id)
+        respond userService.get(id)
     }
 
     def create() {
-        respond new Role(params)
+        respond new User(params)
     }
 
-    def save(Role role) {
-        if (role == null) {
+    def save(User user) {
+        if (user == null) {
             notFound()
             return
         }
 
         try {
-            roleService.save(role)
+            userService.save(user)
         } catch (ValidationException e) {
-            respond role.errors, view:'create'
+            respond user.errors, view:'create'
             return
         }
 
         request.withFormat {
             form multipartForm {
-                flash.message = message(code: 'default.created.message', args: [message(code: 'role.label', default: 'Role'), role.id])
-                redirect role
+                flash.message = message(code: 'default.created.message', args: [message(code: 'user.label', default: 'User'), user.id])
+                redirect user
             }
-            '*' { respond role, [status: CREATED] }
+            '*' { respond user, [status: CREATED] }
         }
     }
 
     def edit(Long id) {
-        respond roleService.get(id)
+        respond userService.get(id)
     }
 
-    def update(Role role) {
-        if (role == null) {
+    def update(User user) {
+        if (user == null) {
             notFound()
             return
         }
 
         try {
-            roleService.save(role)
+            userService.save(user)
         } catch (ValidationException e) {
-            respond role.errors, view:'edit'
+            respond user.errors, view:'edit'
             return
         }
 
         request.withFormat {
             form multipartForm {
-                flash.message = message(code: 'default.updated.message', args: [message(code: 'role.label', default: 'Role'), role.id])
-                redirect role
+                flash.message = message(code: 'default.updated.message', args: [message(code: 'user.label', default: 'User'), user.id])
+                redirect user
             }
-            '*'{ respond role, [status: OK] }
+            '*'{ respond user, [status: OK] }
         }
     }
 
@@ -78,11 +78,11 @@ class RoleController {
             return
         }
 
-        roleService.delete(id)
+        userService.delete(id)
 
         request.withFormat {
             form multipartForm {
-                flash.message = message(code: 'default.deleted.message', args: [message(code: 'role.label', default: 'Role'), id])
+                flash.message = message(code: 'default.deleted.message', args: [message(code: 'user.label', default: 'User'), id])
                 redirect action:"index", method:"GET"
             }
             '*'{ render status: NO_CONTENT }
@@ -92,7 +92,7 @@ class RoleController {
     protected void notFound() {
         request.withFormat {
             form multipartForm {
-                flash.message = message(code: 'default.not.found.message', args: [message(code: 'role.label', default: 'Role'), params.id])
+                flash.message = message(code: 'default.not.found.message', args: [message(code: 'user.label', default: 'User'), params.id])
                 redirect action: "index", method: "GET"
             }
             '*'{ render status: NOT_FOUND }

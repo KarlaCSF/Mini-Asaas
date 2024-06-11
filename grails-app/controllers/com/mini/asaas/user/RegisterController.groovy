@@ -1,6 +1,6 @@
-package com.mini.asaas
+package com.mini.asaas.user
 
-import com.mini.asaas.UserService
+import com.mini.asaas.user.UserService
 import grails.gorm.transactions.Transactional
 
 class RegisterController {
