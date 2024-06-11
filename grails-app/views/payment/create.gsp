@@ -1,5 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
+<%@ page import="com.mini.asaas.utils.StringUtils" %>
 <%@ page import="com.mini.asaas.enums.payment.BillingType" %>
+
 <html>
     <head>
         <meta name="layout" content="main"/>
@@ -15,7 +17,7 @@
             <atlas-layout gap="2">
                 <atlas-layout row gap="4">
                     <atlas-labeled-content label="Selecione o pagador">
-                        <atlas-select name="payerId" value="${params.payerId}">
+                        <atlas-select name="payerId" value="${params.payerId}" required="true">
                             <atlasFormTagLib:optionList
                                     from="${listPayersByCustomer}"
                                     noSelectionLabel="Escolha o pagador"
@@ -25,22 +27,24 @@
                     </atlas-labeled-content>
 
                     <atlas-labeled-content label="Insira o valor da cobrança">
-                        <atlas-float-input
+                        <atlas-money
                                 name="value"
-                                value="${params.value}">
-                        </atlas-float-input>
+                                value="params.value"
+                                required="true">
+                        </atlas-money>
                     </atlas-labeled-content>
 
                     <atlas-labeled-content label="Insira a data de vencimento da cobrança">
                         <atlas-datepicker
                                 placeholder="Data de Vencimento"
                                 name="dueDate"
-                                value="${params.dueDate}">
+                                value="${params.dueDate}"
+                                required="true">
                         </atlas-datepicker>
                     </atlas-labeled-content>
 
                     <atlas-labeled-content label="Insira a forma de pagamento">
-                        <atlas-select name="billingType" value="${params.payerId}">
+                        <atlas-select name="billingType" value="${params.payerId}" required="true">
                             <atlasFormTagLib:optionList
                                     name="billingType"
                                     from="${BillingType.values()}"

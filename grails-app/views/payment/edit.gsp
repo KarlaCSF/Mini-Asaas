@@ -27,17 +27,21 @@
                     </atlas-labeled-content>
 
                     <atlas-labeled-content label="Insira o valor da cobrança">
-                        <atlas-float-input
+                        <atlas-money
                                 name="value"
-                                value="${payment.value}">
-                        </atlas-float-input>
+                                min-value="10"
+                                max-value="10000"
+                                min-value-error-message="O valor mínimo é de R$ 10,00"
+                                max-value-error-message="O valor máximo é de R$ 10.000,00" required maxlength="9"
+                                value="${StringUtils.formatCurrencyWithoutSymbol(payment.value.toString())}">
+                        </atlas-money>
                     </atlas-labeled-content>
 
                     <atlas-labeled-content label="Insira a data de vencimento da cobrança">
                         <atlas-datepicker
                                 placeholder="Data de Vencimento"
                                 name="dueDate"
-                                value="${payment.dueDate}">
+                                value="${StringUtils.formatDate(payment.dueDate)}">
                         </atlas-datepicker>
                     </atlas-labeled-content>
 
