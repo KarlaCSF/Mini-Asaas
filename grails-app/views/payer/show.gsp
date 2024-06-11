@@ -1,4 +1,5 @@
-<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ page import="com.mini.asaas.utils.CpfCnpjUtils" %>
+<%@page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
     <title></title>
@@ -35,7 +36,7 @@
         
             <div>
                 <label for="cpfCnpj">CPF/CPNJ</label><br>
-                <input type="text"  value="${payer.cpfCnpj}" disabled="true"><br>
+                <input type="text" value="${CpfCnpjUtils.applyMask(payer.cpfCnpj.toString())}" disabled="true"><br>
             </div><br>
         </fieldset>
         
