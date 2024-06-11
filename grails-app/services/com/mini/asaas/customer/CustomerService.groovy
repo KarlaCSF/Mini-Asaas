@@ -4,7 +4,7 @@ package com.mini.asaas.customer
 import com.mini.asaas.address.AddressService
 import com.mini.asaas.dto.customer.CustomerDTO
 import com.mini.asaas.utils.CpfCnpjUtils
-import com.mini.asaas.utils.Util
+import com.mini.asaas.utils.StringUtils
 import grails.gorm.transactions.Transactional
 import grails.validation.ValidationException
 import grails.compiler.GrailsCompileStatic
@@ -22,7 +22,7 @@ class CustomerService {
 
         validatedCustomer.name = customerDTO.name
         validatedCustomer.email = customerDTO.email
-        validatedCustomer.cpfCnpj = Util.removeNonNumeric(customerDTO.cpfCnpj)
+        validatedCustomer.cpfCnpj = StringUtils.removeNonNumeric(customerDTO.cpfCnpj)
         validatedCustomer.personType = CpfCnpjUtils.getPersonType(validatedCustomer.cpfCnpj)
 
         validatedCustomer.address = addressService.save(customerDTO.addressDTO)
@@ -42,7 +42,7 @@ class CustomerService {
 
         validatedCustomer.name = customerDTO.name
         validatedCustomer.email = customerDTO.email
-        validatedCustomer.cpfCnpj = Util.removeNonNumeric(customerDTO.cpfCnpj)
+        validatedCustomer.cpfCnpj = StringUtils.removeNonNumeric(customerDTO.cpfCnpj)
         validatedCustomer.personType = CpfCnpjUtils.getPersonType(validatedCustomer.cpfCnpj)
         validatedCustomer.address = addressService.update(customerDTO.addressDTO, validatedCustomer.address.id)
 
