@@ -1,51 +1,58 @@
-<%@ page 
-import="com.mini.asaas.enums.payment.BillingType"
-contentType="text/html;charset=UTF-8" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ page import="com.mini.asaas.enums.payment.BillingType; com.mini.asaas.utils.StringUtils" %>
 <html>
-<head>
-    <title></title>
-    <html lang="pt-br">
-</head>
+    <head>
+        <meta name="layout" content="main"/>
+        <title>Editar Cobrança - Mini Asaas</title>
+    </head>
 
-<body>
-<form action="${createLink(controller: "payment", action: "update", id: payment.id)}" method="POST">
+    <body>
+        <atlas-form action="${createLink(controller: "payment", action: "update", id: payment.id)}" method="POST">
+            <atlas-layout gap="2">
+                <atlas-layout row gap="4">
+                    <atlas-labeled-content label="Responsável pela cobrança">
+                        <atlas-input
+                                name="payerName"
+                                value="${payment.customer.name}"
+                                disabled="true">
+                        </atlas-input>
+                    </atlas-labeled-content>
 
-    <fieldset>
-        <legend>Editar Cobrança: ${payment.id}</legend>
-        
-        <g:if test="${params.errorMessage}">
-            <span>${params.errorMessage}</span>
-        </g:if>
-            
-        <fieldset>         
-            <div>
-                <label for="payerId">Responsável pela cobrança</label><br>
-                <input type="text" value="${payment.customer.name}" disabled><br>
-            </div><br>
+                    <atlas-labeled-content label="Pagador">
+                        <atlas-input
+                                name="payerName"
+                                value="${payment.payer.name}"
+                                disabled="true">
+                        </atlas-input>
+                    </atlas-labeled-content>
 
-            <div>
-                <label for="payerId">Pagador</label><br>
-                <input type="text" value="${payment.payer.name}" disabled><br>
-            </div><br>
+                    <atlas-labeled-content label="Insira o valor da cobrança">
+                        <atlas-float-input
+                                name="value"
+                                value="${payment.value}">
+                        </atlas-float-input>
+                    </atlas-labeled-content>
 
-            <div>
-                <label for="name">Valor da cobrança</label><br>
-                <input type="number" placeholder="Insira o valor da cobrança" name="value" value="${payment.value}" id="value" min="0.00" step="0.01" required><br>
-            </div><br>
+                    <atlas-labeled-content label="Insira a data de vencimento da cobrança">
+                        <atlas-datepicker
+                                placeholder="Data de Vencimento"
+                                name="dueDate"
+                                value="${payment.dueDate}">
+                        </atlas-datepicker>
+                    </atlas-labeled-content>
 
-            <div>
-                <label for="email">Data de Vencimento</label><br>
-                <input type="date" name="dueDate" value="${payment.dueDate.toLocalDateTime().toLocalDate()}" id="dueDate" required="required"  >
-            </div><br>
- 
-            <div>
-                <label for="billingType">Tipo de Pagamento</label><br>
-                <g:select name="billingType" from="${BillingType.values()}" valueMessagePrefix="BillingType" noSelection="['':'Selecione uma forma de pagamento']" value="${payment.billingType}" required="true"/>           
-            </div><br>
-        </fieldset>
-
-        <input type="submit" value="Editar Cobrança">
-    </fieldset>
-</form>
-</body>
+                    <atlas-labeled-content label="Insira a forma de pagamento">
+                        <atlas-select name="billingType" value="${params.payerId}">
+                            <atlasFormTagLib:optionList
+                                    name="billingType"
+                                    from="${BillingType.values()}"
+                                    noSelectionLabel="Selecione uma forma de pagamento"
+                                    valueMessagePrefix="BillingType"
+                                    value="${payment.billingType}"/>
+                        </atlas-select>
+                    </atlas-labeled-content>
+                </atlas-layout>
+                <atlas-button submit description="Editar Cobrança"></atlas-button>
+        </atlas-form>
+    </body>
 </html>
