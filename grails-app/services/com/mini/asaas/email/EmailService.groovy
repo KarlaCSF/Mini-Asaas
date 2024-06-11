@@ -2,6 +2,7 @@ package com.mini.asaas.email
 
 import com.mini.asaas.enums.email.EmailTemplateType
 import com.mini.asaas.payment.Payment
+import com.mini.asaas.utils.PaymentUtils
 import grails.gorm.transactions.Transactional
 import grails.gsp.PageRenderer
 import grails.plugins.mail.MailService
@@ -11,111 +12,36 @@ import grails.web.mapping.LinkGenerator
 class EmailService {
 
     LinkGenerator grailsLinkGenerator
-
     MailService mailService
-
     PageRenderer groovyPageRenderer
 
     public void notifyOnCreatePayment(Payment payment) {
-        String to = payment.payer.email
-        String subjectMessage = "Olá, uma cobrança foi gerada pra você"
-        String paymentLink = grailsLinkGenerator.link(controller: 'payment', action: 'show', id: payment.id, absolute: true)
-        Map properties = [
-                emailActionPayment: "uma cobrança foi criada",
-                emailHeadTitle    : "Cobrança Nova",
-                emailSubject      : subjectMessage,
-                customerCity      : payment.customer.address.city,
-                customerCpfCnpj   : payment.customer.cpfCnpj,
-                customerEmail     : payment.customer.email,
-                customerName      : payment.customer.name,
-                customerState     : payment.customer.address.state,
-                payerName         : payment.payer.name,
-                paymentDueDate    : payment.dueDate,
-                paymentLink       : paymentLink,
-                paymentValue      : payment.value
-        ]
-        sendEmail(to, subjectMessage, EmailTemplateType.PAYMENT_TO_PAYER, properties)
+        sendPaymentNotification(payment, "uma cobrança foi criada", "Cobrança Nova", "Olá, uma cobrança foi gerada pra você")
     }
 
     public void notifyOnUpdatePayment(Payment payment) {
-        String to = payment.payer.email
-        String subjectMessage = "Cobrança Atualizada"
-        String paymentLink = grailsLinkGenerator.link(controller: 'payment', action: 'show', id: payment.id, absolute: true)
-        Map properties = [
-                emailActionPayment: "uma cobrança foi atualizada",
-                emailHeadTitle    : "Cobrança Atualizada",
-                emailSubject      : subjectMessage,
-                customerCity      : payment.customer.address.city,
-                customerCpfCnpj   : payment.customer.cpfCnpj,
-                customerEmail     : payment.customer.email,
-                customerName      : payment.customer.name,
-                customerState     : payment.customer.address.state,
-                payerName         : payment.payer.name,
-                paymentDueDate    : payment.dueDate,
-                paymentLink       : paymentLink,
-                paymentValue      : payment.value
-        ]
-        sendEmail(to, subjectMessage, EmailTemplateType.PAYMENT_TO_PAYER, properties)
+        sendPaymentNotification(payment, "uma cobrança foi atualizada", "Cobrança Atualizada", "Cobrança Atualizada")
     }
 
     public void notifyOnDeletePayment(Payment payment) {
-        String to = payment.payer.email
-        String subjectMessage = "Cobrança Excluída"
-        Map properties = [
-                emailActionPayment: "uma cobrança foi excluida",
-                emailHeadTitle    : "Cobrança Excluída",
-                emailSubject      : subjectMessage,
-                customerCity      : payment.customer.address.city,
-                customerCpfCnpj   : payment.customer.cpfCnpj,
-                customerEmail     : payment.customer.email,
-                customerName      : payment.customer.name,
-                customerState     : payment.customer.address.state,
-                payerName         : payment.payer.name,
-                paymentDueDate    : payment.dueDate,
-                paymentValue      : payment.value
-        ]
-        sendEmail(to, subjectMessage, EmailTemplateType.PAYMENT_TO_PAYER, properties)
+        sendPaymentNotification(payment, "uma cobrança foi excluída", "Cobrança Excluída", "Cobrança Excluída")
     }
 
     public void notifyToVerifyPayment(Payment payment) {
-        String to = payment.payer.email
-        String subjectMessage = "Cobrança Pendente"
-        String paymentLink = grailsLinkGenerator.link(controller: 'payment', action: 'show', id: payment.id, absolute: true)
-        Map properties = [
-                emailActionPayment: "lembre-se que existe uma cobrança pendente",
-                emailHeadTitle    : "Cobrança Pendente",
-                emailSubject      : subjectMessage,
-                customerCity      : payment.customer.address.city,
-                customerCpfCnpj   : payment.customer.cpfCnpj,
-                customerEmail     : payment.customer.email,
-                customerName      : payment.customer.name,
-                customerState     : payment.customer.address.state,
-                payerName         : payment.payer.name,
-                paymentDueDate    : payment.dueDate,
-                paymentLink       : paymentLink,
-                paymentValue      : payment.value
-        ]
-        sendEmail(to, subjectMessage, EmailTemplateType.PAYMENT_TO_PAYER, properties)
+        sendPaymentNotification(payment, "lembre-se que existe uma cobrança pendente", "Cobrança Pendente", "Cobrança Pendente")
     }
 
     public void notifyOnOverduePayment(Payment payment) {
+        sendPaymentNotification(payment, "uma cobrança venceu", "Cobrança Atrasada", "Cobrança Atrasada")
+    }
+
+    private void sendPaymentNotification(Payment payment, String emailAction, String emailHeadTitle, String subjectMessage) {
         String to = payment.payer.email
-        String subjectMessage = "Cobrança Atrasada"
         String paymentLink = grailsLinkGenerator.link(controller: 'payment', action: 'show', id: payment.id, absolute: true)
-        Map properties = [
-                emailActionPayment: "uma cobrança venceu",
-                emailHeadTitle    : "Cobrança Atrasada",
-                emailSubject      : subjectMessage,
-                customerCity      : payment.customer.address.city,
-                customerCpfCnpj   : payment.customer.cpfCnpj,
-                customerEmail     : payment.customer.email,
-                customerName      : payment.customer.name,
-                customerState     : payment.customer.address.state,
-                payerName         : payment.payer.name,
-                paymentDueDate    : payment.dueDate,
-                paymentLink       : paymentLink,
-                paymentValue      : payment.value
-        ]
+        Map properties = PaymentUtils.mapPaymentDetails(payment, paymentLink)
+        properties.emailActionPayment = emailAction
+        properties.emailHeadTitle = emailHeadTitle
+        properties.emailSubject = subjectMessage
         sendEmail(to, subjectMessage, EmailTemplateType.PAYMENT_TO_PAYER, properties)
     }
 
