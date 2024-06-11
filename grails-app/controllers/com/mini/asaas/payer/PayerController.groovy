@@ -7,8 +7,10 @@ import com.mini.asaas.dto.payer.PayerDTO
 import grails.validation.ValidationException
 import grails.compiler.GrailsCompileStatic
 import com.mini.asaas.user.UserService
+import grails.plugin.springsecurity.annotation.Secured
 
 @GrailsCompileStatic
+@Secured(['ROLE_ADMIN', 'ROLE_SELLER'])
 class PayerController {
 
     PayerService payerService

@@ -5,7 +5,9 @@ import com.mini.asaas.payment.PaymentService
 import com.mini.asaas.customer.Customer
 import com.mini.asaas.exception.BusinessException
 import com.mini.asaas.user.UserService
+import grails.plugin.springsecurity.annotation.Secured
 
+@Secured('permitAll')
 class InvoiceController {
 
     PaymentService paymentService

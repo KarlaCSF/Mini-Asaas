@@ -9,7 +9,9 @@ import com.mini.asaas.dto.payment.UpdatePaymentDTO
 import com.mini.asaas.payment.PaymentService
 import com.mini.asaas.exception.BusinessException
 import com.mini.asaas.user.UserService
+import grails.plugin.springsecurity.annotation.Secured
 
+@Secured(['ROLE_ADMIN', 'ROLE_SELLER'])
 class PaymentController {
 
     PaymentService paymentService
