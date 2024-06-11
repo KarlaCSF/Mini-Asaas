@@ -1,7 +1,6 @@
 package com.mini.asaas.payer
 
 import com.mini.asaas.address.AddressService
-import com.mini.asaas.customer.CustomerService
 import com.mini.asaas.dto.payer.PayerDTO
 import com.mini.asaas.repositories.CustomerRepository
 import com.mini.asaas.repositories.PayerRepository
@@ -16,8 +15,6 @@ import grails.validation.ValidationException
 class PayerService {
 
     AddressService addressService
-
-    CustomerService customerService
 
     public Payer save(PayerDTO payerDTO, Long customerId) {
         Payer validatedPayer = validateSave(payerDTO, new Payer())
