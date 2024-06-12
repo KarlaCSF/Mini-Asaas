@@ -47,7 +47,8 @@ class PaymentService {
     }
 
     public Payment update(UpdatePaymentDTO updatePaymentDTO, Long paymentId, Long customerId) {
-        Payment payment = PaymentRepository.findByIdAndCustomerId(paymentId, customerId)
+        Boolean deletedOnly = false
+        Payment payment = PaymentRepository.findByIdAndCustomerId(paymentId, customerId, deletedOnly)
         if (!payment.canEdit()) throw new BusinessException("Essa cobrança não pode ser modificada")
 
         payment.value = updatePaymentDTO.value
@@ -61,7 +62,8 @@ class PaymentService {
     }
 
     public void delete(Long paymentId, Long customerId) {
-        Payment payment = PaymentRepository.findByIdAndCustomerId(paymentId, customerId)
+        Boolean deletedOnly = false
+        Payment payment = PaymentRepository.findByIdAndCustomerId(paymentId, customerId, deletedOnly)
         if (!payment.canEdit()) throw new BusinessException("Essa cobrança não pode ser modificada")
 
         payment.deleted = true
@@ -71,7 +73,8 @@ class PaymentService {
     }
 
     public Payment pay(Long paymentId, Long customerId) {
-        Payment payment = PaymentRepository.findByIdAndCustomerId(paymentId, customerId)
+        Boolean deletedOnly = false
+        Payment payment = PaymentRepository.findByIdAndCustomerId(paymentId, customerId, deletedOnly)
         if (!payment.canEdit()) throw new BusinessException("Essa cobrança não pode ser modificada")
 
         payment.status = PaymentStatus.PAID
@@ -95,6 +98,13 @@ class PaymentService {
         return dueDate.before(currentDate)
     }
 
+    public Payment restore(Long paymentId, Long customerId) {
+        Boolean deletedOnly = true
+        Payment payment = PaymentRepository.findByIdAndCustomerId(paymentId, customerId, deletedOnly)
+        payment.deleted = false
+        payment.save(failOnError: true)   
+    }
+    
     public void notifyWaitingPayments() {
         List<Payment> paymentList = PaymentRepository.listByStatus(PaymentStatus.WAITING)
 
