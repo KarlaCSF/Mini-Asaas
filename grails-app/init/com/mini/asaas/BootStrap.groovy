@@ -13,18 +13,18 @@ def init = {
 
     @Transactional
     void addTestUser() {
+        if (!Role.findByAuthority('ROLE_SELLER')) {
+            new Role(authority: 'ROLE_SELLER').save(failOnError: true)
+        }
+
         def adminRole
         if (!Role.findByAuthority('ROLE_ADMIN')) {
             adminRole = new Role(authority: 'ROLE_ADMIN')
             adminRole.save(failOnError: true)
         }
 
-        if (!Role.findByAuthority('ROLE_SELLER')) {
-            new Role(authority: 'ROLE_SELLER').save(failOnError: true)
-        }
-
-        if(!User.findByUsername('me')) {
-            def testUser = new User(username: 'me', password: 'password')
+        if(!User.findByUsername('admin')) {
+            def testUser = new User(username: 'admin', password: 'admin')
             testUser.save(failOnError: true)
             UserRole.create(testUser, adminRole, true)
         }
