@@ -88,7 +88,6 @@ class CustomerController {
             UserDTO userDTO = new UserDTO(params)
             Role role = Role.findByAuthority(params.role)
             String randomPassword = new Random()
-            println randomPassword
             userService.save(userDTO.username, randomPassword, role)
             redirect(action: 'users')
         } catch (Exception exception) {
