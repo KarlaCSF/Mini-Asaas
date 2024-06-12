@@ -85,8 +85,9 @@ class CustomerController {
 
     def addUser() {
         try {
-            String randomPassword = new Random()
-            params.password = randomPassword
+            Random randomPassword = new Random()
+            int maxLenght = 999999
+            params.password = randomPassword.nextInt(maxLenght)
 
             Customer customer = userService.getCustomerByUser()
             params.customer = customer
