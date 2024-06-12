@@ -2,7 +2,6 @@ package com.mini.asaas.email
 
 import com.mini.asaas.enums.email.EmailTemplateType
 import com.mini.asaas.payment.Payment
-import com.mini.asaas.utils.PaymentUtils
 import grails.gorm.transactions.Transactional
 import grails.gsp.PageRenderer
 import grails.plugins.mail.MailService
@@ -35,10 +34,27 @@ class EmailService {
         sendPaymentNotification(payment, "uma cobrança venceu", "Cobrança Atrasada", "Cobrança Atrasada")
     }
 
+    private Map<String, Object> mapPaymentDetails(Payment payment, String paymentLink = null) {
+        def details = [
+                customerCity   : payment.customer.address.city,
+                customerCpfCnpj: payment.customer.cpfCnpj,
+                customerEmail  : payment.customer.email,
+                customerName   : payment.customer.name,
+                customerState  : payment.customer.address.state,
+                payerName      : payment.payer.name,
+                paymentDueDate : payment.dueDate,
+                paymentValue   : payment.value
+        ]
+        if (paymentLink) {
+            details.paymentLink = paymentLink
+        }
+        return details
+    }
+
     private void sendPaymentNotification(Payment payment, String emailAction, String emailHeadTitle, String subjectMessage) {
         String to = payment.payer.email
         String paymentLink = grailsLinkGenerator.link(controller: 'payment', action: 'show', id: payment.id, absolute: true)
-        Map properties = PaymentUtils.mapPaymentDetails(payment, paymentLink)
+        Map properties = mapPaymentDetails(payment, paymentLink)
         properties.emailActionPayment = emailAction
         properties.emailHeadTitle = emailHeadTitle
         properties.emailSubject = subjectMessage
