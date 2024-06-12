@@ -1,5 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
-<%@ page import="com.mini.asaas.utils.StringUtils" %>
+<%@ page import="com.mini.asaas.utils.DateUtils; com.mini.asaas.utils.StringUtils" %>
 <%@ page import="com.mini.asaas.enums.payment.BillingType" %>
 
 <html>
@@ -9,52 +9,56 @@
     </head>
 
     <body>
-        <g:if test="${params.errorMessage}">
-            <span>${params.errorMessage}</span>
-        </g:if>
+        <atlas-panel header="Criando Cobrança">
+            <g:if test="${params.errorMessage}">
+                <span>${params.errorMessage}</span>
+            </g:if>
 
-        <atlas-form action="${createLink(controller: "payment", action: "save")}" method="POST">
-            <atlas-layout gap="2">
+            <atlas-form action="${createLink(controller: "payment", action: "save")}" method="post">
                 <atlas-layout row gap="4">
-                    <atlas-labeled-content label="Selecione o pagador">
-                        <atlas-select name="payerId" value="${params.payerId}" required="true">
-                            <atlasFormTagLib:optionList
-                                    from="${listPayersByCustomer}"
-                                    noSelectionLabel="Escolha o pagador"
-                                    optionKey="id"
-                                    optionValue="name"/>
-                        </atlas-select>
-                    </atlas-labeled-content>
+                    <atlas-select label="Selecione o pagador" name="payerId" value="${params.payerId}" required="true">
+                        <atlasFormTagLib:optionList
+                                from="${listPayersByCustomer}"
+                                noSelectionLabel="Escolha o pagador"
+                                optionKey="id"
+                                optionValue="name"
+                        />
+                    </atlas-select>
 
-                    <atlas-labeled-content label="Insira o valor da cobrança">
-                        <atlas-money
-                                name="value"
-                                value="params.value"
-                                required="true">
-                        </atlas-money>
-                    </atlas-labeled-content>
+                    <atlas-money
+                            label="Insira o valor da cobrança"
+                            name="value"
+                            value="params.value"
+                            min-value="1,00"
+                            min-value-error-message="O valor mínimo é de R$ 1,00"
+                            required="true">
+                    </atlas-money>
 
-                    <atlas-labeled-content label="Insira a data de vencimento da cobrança">
-                        <atlas-datepicker
-                                placeholder="Data de Vencimento"
-                                name="dueDate"
-                                value="${params.dueDate}"
-                                required="true">
-                        </atlas-datepicker>
-                    </atlas-labeled-content>
+                    <atlas-datepicker
+                            label="Insira a data de vencimento da cobrança"
+                            placeholder="Data de Vencimento"
+                            name="dueDate"
+                            value="${params.dueDate}"
+                            min-date="${DateUtils.formatDate(new Date())}"
+                            required="true"
+                            prevent-past-date>
+                    </atlas-datepicker>
 
-                    <atlas-labeled-content label="Insira a forma de pagamento">
-                        <atlas-select name="billingType" value="${params.payerId}" required="true">
-                            <atlasFormTagLib:optionList
-                                    name="billingType"
-                                    from="${BillingType.values()}"
-                                    noSelectionLabel="Selecione uma forma de pagamento"
-                                    valueMessagePrefix="BillingType"
-                                    value="${params.billingType}"/>
-                        </atlas-select>
-                    </atlas-labeled-content>
+                    <atlas-select label="Insira a forma de pagamento" name="billingType" value="${params.payerId}" required="true">
+                        <atlasFormTagLib:optionList
+                                name="billingType"
+                                from="${BillingType.values()}"
+                                noSelectionLabel="Selecione uma forma de pagamento"
+                                valueMessagePrefix="BillingType"
+                                value="${params.billingType}"
+                        />
+                    </atlas-select>
+
+                    <atlas-button submit
+                                  description="Criar Cobrança">
+                    </atlas-button>
                 </atlas-layout>
-                <atlas-button submit description="Criar Cobrança"></atlas-button>
-        </atlas-form>
+            </atlas-form>
+        </atlas-panel>
     </body>
 </html>
