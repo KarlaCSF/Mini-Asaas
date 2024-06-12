@@ -1,7 +1,6 @@
 <!doctype html>
 <html>
 <head>
-    <meta name="layout" content="main"/>
 </head>
 <body>
     <div>
@@ -17,7 +16,7 @@
             <g:textField name="email" required="true"/><br>
             
             <label for="role">Função:</label>
-            <g:select name="role" from="${roleList.authority}" required="true"/><br><br>
+            <g:select name="role" from="${roleList.authority}" valueMessagePrefix="Role" required="true"/><br><br>
     
             <g:submitButton name="add" value="Adicionar" />
         </g:form>        
