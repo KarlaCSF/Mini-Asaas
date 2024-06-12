@@ -2,7 +2,6 @@ package com.mini.asaas.customer
 
 import com.mini.asaas.address.AddressService
 import com.mini.asaas.dto.customer.CustomerDTO
-import com.mini.asaas.repositories.CustomerRepository
 import grails.compiler.GrailsCompileStatic
 import grails.validation.ValidationException
 import grails.plugin.springsecurity.annotation.Secured
@@ -11,7 +10,6 @@ import com.mini.asaas.user.Role
 import com.mini.asaas.repositories.UserRepository
 import com.mini.asaas.repositories.RoleRepository
 import com.mini.asaas.user.UserService
-import grails.plugin.springsecurity.SpringSecurityService
 import com.mini.asaas.dto.user.UserDTO
 
 @GrailsCompileStatic
@@ -33,7 +31,7 @@ class CustomerController {
             redirect(action: "show")
         } catch (ValidationException exception) {
             log.error("CustomerController.save >> Não foi possível salvar o Customer", exception)
-            params.errorMessage = "Não foi possível salvar o cliente, ocorreram os seguintes erros: " + exception.errors.allErrors.defaultMessage.join(", ")
+            params.errorMessage = "Não foi possível salvar o cliente"
             redirect(view: "index", params: params)
         }
     }
@@ -41,8 +39,7 @@ class CustomerController {
     def show() {
         try {
             Customer customer = userService.getCustomerByUser()
-            List<User> userList = UserRepository.listByCustomer(customer.id)
-            return [customer: customer, userList: userList]
+            return [customer: customer]
         } catch (Exception exception) {
             log.error("CustomerController.show >> Não foi possível buscar o Customer", exception)
             render("Não foi possível buscar o Cliente")
@@ -68,7 +65,7 @@ class CustomerController {
             redirect(action: "show")
         } catch (ValidationException exception) {
             log.error("CustomerController.update >> Não foi possível atualizar o Customer", exception)
-            params.errorMessage = "Não foi possível editar o cliente, ocorreram os seguintes erros: " + exception.errors.allErrors.defaultMessage.join(", ")
+            params.errorMessage = "Não foi possível editar o cliente"
             redirect(action: "edit", params: params)
         }
     }
