@@ -40,15 +40,8 @@
             <label for="complement">Complemento:</label><br>
             <input type="text" name="complement" value="${customer.address.complement}" disabled><br><br>
 
-            <a href="${createLink(controller: 'customer', action: 'edit')}">Editar Cliente</a>
-        </div>
-
-        <div>
-            <h2>Usuários</h2>
-            <g:each var="user" in="${userList}">
-                <span>Email: ${user.username}</span>
-            </g:each>   
         </div>
     </form>
+    <a href="${createLink(controller: 'customer', action: 'edit')}">Editar Cliente</a>
 </body>
 </html>
