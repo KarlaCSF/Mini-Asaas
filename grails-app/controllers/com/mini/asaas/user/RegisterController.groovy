@@ -1,7 +1,7 @@
 package com.mini.asaas.user
 
 import com.mini.asaas.user.UserService
-import grails.gorm.transactions.Transactional
+import com.mini.asaas.dto.user.UserDTO
 
 class RegisterController {
 
@@ -13,8 +13,9 @@ class RegisterController {
 
     def register() {
         try {
+            UserDTO userDTO = new UserDTO(params)
             Role adminRole = Role.findByAuthority('ROLE_ADMIN')
-            userService.save(params.email, params.password, adminRole)
+            userService.save(userDTO.username, userDTO.password, adminRole)
             redirect(controller: 'customer')
         } catch (Exception exception) {
             log.error("RegisterController.register >> Não foi possível registrar o usuário", exception)
