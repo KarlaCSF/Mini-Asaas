@@ -2,7 +2,9 @@ package com.mini.asaas.user
 
 import com.mini.asaas.user.UserService
 import com.mini.asaas.dto.user.UserDTO
+import grails.plugin.springsecurity.annotation.Secured
 
+@Secured('permitAll')
 class RegisterController {
 
     UserService userService
