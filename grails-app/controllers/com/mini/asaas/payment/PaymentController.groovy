@@ -40,8 +40,9 @@ class PaymentController {
             Payment payment = PaymentRepository.findByIdAndCustomerId(paymentIdByParams, customer.id, deletedOnly)
             return [payment: payment, id: payment.id]
         } catch (Exception exception) {
-            log.error(exception.message, exception)
-            render "Cobrança não encontrada"
+            log.error("PaymentController.edit >> Não foi possível buscar a Payment ${paymentIdByParams}", exception)
+            params.errorMessage = "Não foi possível buscar a cobrança"
+            redirect(action: "show", params: params)
         }
     }
 
@@ -52,7 +53,7 @@ class PaymentController {
             Payment payment = PaymentRepository.findByIdAndCustomerId(paymentIdByParams, customer.id, deletedOnly)
             return [payment: payment]
         } catch (Exception exception) {
-            log.error(exception.message, exception)
+            log.error("PaymentController.show >> Não foi possível buscar a Payment ${paymentIdByParams}", exception)
             render "Cobrança não encontrada"
         }
     }
@@ -76,12 +77,12 @@ class PaymentController {
             UpdatePaymentDTO updatePaymentDTO = new UpdatePaymentDTO(params)
             Payment payment = paymentService.update(updatePaymentDTO, paymentIdByParams, customer.id)
             redirect(action: "show", id: payment.id)
-        } catch (BusinessException exception) {
-            log.error(exception.message, exception)
+        } catch (BusinessException businessException) {
+            log.error("PaymentController.update >> Não foi possível atualizar o Payment ${paymentIdByParams}", exception)
             params.errorMessage = exception.message
             redirect(action: "edit", params: params)
         } catch (Exception exception) {
-            log.error(exception.message, exception)
+            log.error("PaymentController.update >> Não foi possível atualizar a Payment ${paymentIdByParams}", exception)
             params.errorMessage = "Não foi possível editar a cobrança"
             redirect(action: "edit", params: params)
         }
@@ -92,14 +93,14 @@ class PaymentController {
         try {
             paymentService.delete(paymentIdByParams, customer.id)
             redirect(action: "index")
-        } catch (BusinessException exception) {
+        } catch (BusinessException businessException) {
             log.error(exception.message, exception)
             params.errorMessage = exception.message
             redirect(action: "show", params: params)
         } catch (Exception exception) {
-            log.error(exception.message, exception)
+            log.error("PaymentController.delete >> Não foi possível deletar a Payment ${paymentIdByParams}", exception)
             params.errorMessage = "Não foi possível apagar a cobrança"
-            redirect(action: "edit", params: params)
+            redirect(action: "show", params: params)
         }
     }
 
@@ -108,7 +109,7 @@ class PaymentController {
             paymentService.restore(params.getLong("id"), customer.id)
             redirect(action: "list")
         } catch(Exception exception) {
-            log.error(exception.message, exception)
+            log.error("PaymentController.restore >> Não foi possível restaurar a Payment ${paymentIdByParams}", exception)
             params.errorMessage = "Não foi possível restaurar a cobrança"
             redirect(action: "list", params: params)
         }
@@ -124,8 +125,9 @@ class PaymentController {
             
             return [paymentList: paymentList, deletedPaymentList: deletedPaymentList]
         } catch(Exception exception) {
-            log.error(exception.message, exception)
-            render("Não foi possível listar as cobranças")
+            log.error("PaymentController.list >> Não foi possível listar as Payments ${paymentIdByParams}", exception)
+            params.errorMessage = "Não foi possível listar as cobranças"
+            redirect(action: "index", params: params)
         }
     }
 }
