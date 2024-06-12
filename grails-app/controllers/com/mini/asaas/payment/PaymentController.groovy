@@ -17,7 +17,7 @@ class PaymentController {
     Customer customer = Customer.get(1) // todo: fix customer Id in 1 while don't have authentication
 
     def index() {
-        return [view: "index"]
+        return [view: "index", customerId: customer.id]
     }
 
     def create() {

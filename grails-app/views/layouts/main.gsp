@@ -22,6 +22,7 @@
     <body>
         <atlas-screen>
             <atlas-page>
+                <g:render template="/templates/header" slot="header"/>
                 <atlas-page-content slot="content" class="js-atlas-content">
                     <g:layoutBody/>
                 </atlas-page-content>
