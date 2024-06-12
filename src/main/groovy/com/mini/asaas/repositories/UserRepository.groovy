@@ -22,7 +22,6 @@ class UserRepository implements Repository {
     }
     
     public static List<User> listByCustomer(Long customerId) {
-        println customerId
         return UserRepository.query([customerId: customerId]).list()
     }
 
