@@ -7,6 +7,7 @@ import com.mini.asaas.exception.BusinessException
 import com.mini.asaas.payer.Payer
 import com.mini.asaas.payer.PayerService
 import com.mini.asaas.repositories.PaymentRepository
+import com.mini.asaas.repositories.PayerRepository
 import com.mini.asaas.user.UserService
 import grails.plugin.springsecurity.annotation.Secured
 

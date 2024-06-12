@@ -49,6 +49,7 @@ class PayerController {
     def show() {
         Long payerIdByParams = params.getLong("id")
         try {
+            Customer customer = userService.getCustomerByUser()
             Boolean deletedOnly = false
             Payer payer = PayerRepository.findByIdAndCustomerId(payerIdByParams, customer.id, deletedOnly)
             if (!payer) throw new Exception("Payer não encontrado")
