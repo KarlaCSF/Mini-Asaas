@@ -1,3 +1,4 @@
+<%@ page import="com.mini.asaas.utils.CpfCnpjUtils" %>
 <!doctype html>
 <html>
 <head>
@@ -12,7 +13,7 @@
         <input type="text" name="email" value="${customer.email}" disabled><br><br>
 
         <label for="cpfCnpj">CPF/CNPJ:</label><br>
-        <input type="text" name="cpfCnpj" value="${customer.cpfCnpj}" disabled><br><br>
+        <input type="text" name="cpfCnpj" value="${CpfCnpjUtils.applyMask(customer.cpfCnpj)}" disabled><br><br>
 
         <label for="tipo">Tipo de pessoa:</label><br>
         <input type="text" name="tipo" value="${customer.personType.getLabel()}" disabled><br><br>

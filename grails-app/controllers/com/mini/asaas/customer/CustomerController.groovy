@@ -2,6 +2,7 @@ package com.mini.asaas.customer
 
 import com.mini.asaas.address.AddressService
 import com.mini.asaas.dto.customer.CustomerDTO
+import com.mini.asaas.repositories.CustomerRepository
 import grails.compiler.GrailsCompileStatic
 import grails.validation.ValidationException
 import grails.plugin.springsecurity.annotation.Secured
@@ -23,6 +24,7 @@ class CustomerController {
     def index() {}
 
     def save() {
+        Long customerIdByParams = params.getLong("id")
         try {
             CustomerDTO customerDTO = new CustomerDTO(params)
             Customer customer = customerService.save(customerDTO)
@@ -35,6 +37,7 @@ class CustomerController {
     }
 
     def show() {
+        Long customerIdByParams = params.getLong("id")
         try {
             Customer customer = userService.getCustomerByUser()
             List<User> userList = UserRepository.listByCustomer(customer.id)
@@ -45,6 +48,7 @@ class CustomerController {
     }
 
     def edit() {
+        Long customerIdByParams = params.getLong("id")
         try {
             Customer customer = userService.getCustomerByUser()
             return [customer: customer]
@@ -54,6 +58,7 @@ class CustomerController {
     }
 
     def update() {
+        Long customerIdByParams = params.getLong("id")
         try {
             CustomerDTO customerDTO = new CustomerDTO(params)
             Customer customer = userService.getCustomerByUser()
