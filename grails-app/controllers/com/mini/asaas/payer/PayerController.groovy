@@ -1,14 +1,16 @@
 package com.mini.asaas.payer
 
-import com.mini.asaas.payer.Payer
-import com.mini.asaas.payer.PayerService
 import com.mini.asaas.customer.Customer
+import com.mini.asaas.customer.CustomerService
 import com.mini.asaas.dto.payer.PayerDTO
-import grails.validation.ValidationException
+import com.mini.asaas.repositories.PayerRepository
 import grails.compiler.GrailsCompileStatic
+import grails.validation.ValidationException
 
 @GrailsCompileStatic
 class PayerController {
+
+    CustomerService customerService
 
     PayerService payerService
 
@@ -23,89 +25,97 @@ class PayerController {
     }
 
     def save() {
+        Long payerIdByParams = params.getLong("id")
         try {
             PayerDTO payerDTO = new PayerDTO(params)
             Payer payer = payerService.save(payerDTO, customer.id)
             redirect(action: "show", id: payer.id)
         } catch (ValidationException validationException) {
-            log.error("PayerController.save >> Não foi possível salvar o Payer ${params.id}", validationException)
+            log.error("PayerController.save >> Não foi possível salvar o Payer ${payerIdByParams}", validationException)
             params.errorMessage = "Não foi possível salvar o pagador, ocorreram os seguintes erros: " + validationException.errors.allErrors.defaultMessage.join(", ")
             redirect(action: "create", params: params)
         } catch (Exception exception) {
-            log.error("PayerController.save >> Não foi possível salvar o Payer ${params.id}", exception)
+            log.error("PayerController.save >> Não foi possível salvar o Payer ${payerIdByParams}", exception)
             params.errorMessage = "Não foi possível salvar o pagador"
             redirect(action: "create", params: params)
         }
     }
 
     def show() {
+        Long payerIdByParams = params.getLong("id")
         try {
-            Payer payer = Payer.get(params.getLong("id"))
+            Boolean deletedOnly = false
+            Payer payer = PayerRepository.findByIdAndCustomerId(payerIdByParams, customer.id, deletedOnly)
             if (!payer) throw new Exception("Payer não encontrado")
             return [payer: payer]
         } catch (Exception exception) {
-            log.error("PayerController.show >> Não foi possível buscar o Payer ${params.id}", exception)
+            log.error("PayerController.show >> Não foi possível buscar o Payer ${payerIdByParams}", exception)
             params.errorMessage = "Não foi possível buscar o pagador"
             redirect(action: "index", params: params)
         }
     }
 
     def edit() {
+        Long payerIdByParams = params.getLong("id")
         try {
-            Payer payer = payerService.findByIdAndCustomerId(params.getLong("id"), customer.id, false)
+            Payer payer = PayerRepository.findByIdAndCustomerId(payerIdByParams, customer.id, false)
             return [payer: payer]
-        } catch (Exception exception) { 
-            log.error("PayerController.edit >> Não foi possível buscar o Payer ${params.id}", exception)
+        } catch (Exception exception) {
+            log.error("PayerController.edit >> Não foi possível buscar o Payer ${payerIdByParams}", exception)
             params.errorMessage = "Não foi possível buscar o pagador"
             redirect(action: "show", params: params)
         }
-    }    
+    }
 
-   def update() {
+    def update() {
+        Long payerIdByParams = params.getLong("id")
         try {
             PayerDTO payerDTO = new PayerDTO(params)
-            Payer payer = payerService.update(payerDTO, params.getLong("id"), customer.id)
+            Payer payer = payerService.update(payerDTO, payerIdByParams, customer.id)
             redirect(action: "show", id: payer.id)
         } catch (ValidationException validationException) {
-            log.error("PayerController.update >> Não foi possível atualizar o Payer ${params.id}", validationException)
+            log.error("PayerController.update >> Não foi possível atualizar o Payer ${payerIdByParams}", validationException)
             params.errorMessage = "Não foi possível atualizar o pagador, ocorreram os seguintes erros: " + validationException.errors.allErrors.defaultMessage.join(", ")
-            redirect(action: "edit", params: params, id: params.getLong("id"))
+            redirect(action: "edit", params: params, id: payerIdByParams)
         } catch (Exception exception) {
-            log.error("PayerController.update >> Não foi possível atualizar o Payer ${params.id}", exception)
+            log.error("PayerController.update >> Não foi possível atualizar o Payer ${payerIdByParams}", exception)
             params.errorMessage = "Não foi possível atualizar o pagador"
-            redirect(action: "edit", params: params, id: params.getLong("id"))
+            redirect(action: "edit", params: params, id: payerIdByParams)
         }
-    }   
+    }
 
     def delete() {
+        Long payerIdByParams = params.getLong("id")
         try {
-            payerService.delete(params.getLong("id"), customer.id)
+            payerService.delete(payerIdByParams, customer.id)
             redirect(action: "index")
         } catch (Exception exception) {
-            log.error("PayerController.delete >> Não foi possível deletar o Payer ${params.id}", exception)
+            log.error("PayerController.delete >> Não foi possível deletar o Payer ${payerIdByParams}", exception)
             params.errorMessage = "Não foi possível deletar o pagador"
             redirect(action: "show", params: params)
         }
     }
 
     def restore() {
+        Long payerIdByParams = params.getLong("id")
         try {
-            payerService.restore(params.getLong("id"), customer.id)
+            payerService.restore(payerIdByParams, customer.id)
             redirect(action: "list")
-        } catch(Exception exception) {
-            log.error("PayerController.restore >> Não foi possível restaurar o Payer ${params.id}", exception)
+        } catch (Exception exception) {
+            log.error("PayerController.restore >> Não foi possível restaurar o Payer ${payerIdByParams}", exception)
             params.errorMessage = "Não foi possível restaurar os pagadores"
             redirect(action: "list", params: params)
         }
     }
 
     def list() {
+        Long payerIdByParams = params.getLong("id")
         try {
-            List<Payer> payerList = payerService.listByCustomer(customer.id, false)
-            List<Payer> deletedPayerList = payerService.listByCustomer(customer.id, true)
+            List<Payer> payerList = PayerRepository.listByCustomer(customer.id, false)
+            List<Payer> deletedPayerList = PayerRepository.listByCustomer(customer.id, true)
             return [payerList: payerList, deletedPayerList: deletedPayerList]
-        } catch(Exception exception) {
-            log.error("PayerController.list >> Não foi possível listar o Payers ${params.id}", exception)
+        } catch (Exception exception) {
+            log.error("PayerController.list >> Não foi possível listar o Payers ${payerIdByParams}", exception)
             redirect(action: "index", params: params)
         }
     }
