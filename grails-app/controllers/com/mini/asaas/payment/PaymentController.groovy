@@ -6,6 +6,7 @@ import com.mini.asaas.dto.payment.UpdatePaymentDTO
 import com.mini.asaas.exception.BusinessException
 import com.mini.asaas.payer.Payer
 import com.mini.asaas.payer.PayerService
+import com.mini.asaas.repositories.PayerRepository
 import com.mini.asaas.repositories.PaymentRepository
 
 class PaymentController {
