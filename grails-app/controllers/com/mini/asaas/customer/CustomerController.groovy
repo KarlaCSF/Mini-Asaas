@@ -11,6 +11,7 @@ import com.mini.asaas.repositories.UserRepository
 import com.mini.asaas.repositories.RoleRepository
 import com.mini.asaas.user.UserService
 import com.mini.asaas.dto.user.UserDTO
+import com.mini.asaas.email.EmailService
 
 @GrailsCompileStatic
 @Secured('ROLE_ADMIN')
@@ -21,6 +22,8 @@ class CustomerController {
     AddressService addressService
 
     UserService userService
+
+    EmailService emailService
 
     def index() {}
 
@@ -95,7 +98,9 @@ class CustomerController {
             UserDTO userDTO = new UserDTO(params)
 
             Role role = Role.findByAuthority(params.role)
-            userService.save(userDTO, role)
+            User user = userService.save(userDTO, role)
+
+            emailService.notifyOnNewUser(user)
 
             redirect(action: 'users')
         } catch (Exception exception) {
