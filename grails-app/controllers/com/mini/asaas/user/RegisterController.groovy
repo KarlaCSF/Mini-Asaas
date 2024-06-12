@@ -17,7 +17,7 @@ class RegisterController {
         try {
             UserDTO userDTO = new UserDTO(params)
             Role adminRole = Role.findByAuthority('ROLE_ADMIN')
-            userService.save(userDTO.username, userDTO.password, adminRole)
+            userService.save(userDTO, adminRole)
             redirect(controller: 'customer')
         } catch (Exception exception) {
             log.error("RegisterController.register >> Não foi possível registrar o usuário", exception)

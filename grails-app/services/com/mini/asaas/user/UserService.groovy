@@ -4,17 +4,22 @@ import grails.gorm.transactions.Transactional
 import grails.compiler.GrailsCompileStatic
 import grails.plugin.springsecurity.SpringSecurityService
 import com.mini.asaas.customer.Customer
+import com.mini.asaas.dto.user.UserDTO
 
 @GrailsCompileStatic
 @Transactional
 class UserService {
     SpringSecurityService springSecurityService
 
-    User save(String username, String password, Role role) {
-        def user = new User(username: username, password: password)
+    public User save(UserDTO userDTO, Role role) {
+        def user = new User(username: userDTO.username, password: userDTO.password)
+        user.customer = userDTO.customer
+
         user.save(failOnError: true)
     
         UserRole.create(user, role)
+
+        
 
         return user
     }

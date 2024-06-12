@@ -85,10 +85,17 @@ class CustomerController {
 
     def addUser() {
         try {
-            UserDTO userDTO = new UserDTO(params)
-            Role role = Role.findByAuthority(params.role)
             String randomPassword = new Random()
-            userService.save(userDTO.username, randomPassword, role)
+            params.password = randomPassword
+
+            Customer customer = userService.getCustomerByUser()
+            params.customer = customer
+
+            UserDTO userDTO = new UserDTO(params)
+
+            Role role = Role.findByAuthority(params.role)
+            userService.save(userDTO, role)
+
             redirect(action: 'users')
         } catch (Exception exception) {
             log.error("RegisterController.register >> Não foi possível registrar o usuário", exception)
