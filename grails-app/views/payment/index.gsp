@@ -7,8 +7,9 @@
         <title>Cobrança - Asaas</title>
     </head>
 
-    <body>
-        <h2>Payments</h2>
-        <a href="${createLink(controller: 'payment', action: 'create')}">Criar Cobrança</a>
-    </body>
+<body>
+    <h2>Payments</h2>
+    <a href="${createLink(controller: 'payment', action: 'create')}">Criar Cobrança</a>
+    <a href="${createLink(controller: 'payment', action: 'list')}">Listar Cobranças</a>
+</body>
 </html>

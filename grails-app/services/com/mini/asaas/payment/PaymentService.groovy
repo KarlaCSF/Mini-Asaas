@@ -41,31 +41,40 @@ class PaymentService {
         payment.billingType = createPaymentDTO.billingType
         payment.status = createPaymentDTO.status
 
-        return payment.save(failOnError: true)
+        payment.save(failOnError: true)
+        emailService.notifyOnCreatePayment(payment)
+        return payment
     }
 
     public Payment update(UpdatePaymentDTO updatePaymentDTO, Long paymentId, Long customerId) {
-        Payment payment = PaymentRepository.findByIdAndCustomerId(paymentId, customerId)
+        Boolean deletedOnly = false
+        Payment payment = PaymentRepository.findByIdAndCustomerId(paymentId, customerId, deletedOnly)
         if (!payment.canEdit()) throw new BusinessException("Essa cobrança não pode ser modificada")
 
         payment.value = updatePaymentDTO.value
         payment.dueDate = updatePaymentDTO.dueDate
         payment.billingType = updatePaymentDTO.billingType
 
-        return payment.save(failOnError: true)
+        payment.save(failOnError: true)
+        emailService.notifyOnUpdatePayment(payment)
+
+        return payment
     }
 
     public void delete(Long paymentId, Long customerId) {
-        Payment payment = PaymentRepository.findByIdAndCustomerId(paymentId, customerId)
+        Boolean deletedOnly = false
+        Payment payment = PaymentRepository.findByIdAndCustomerId(paymentId, customerId, deletedOnly)
         if (!payment.canEdit()) throw new BusinessException("Essa cobrança não pode ser modificada")
 
         payment.deleted = true
 
         payment.save(failOnError: true)
+        emailService.notifyOnDeletePayment(payment)
     }
 
     public Payment pay(Long paymentId, Long customerId) {
-        Payment payment = PaymentRepository.findByIdAndCustomerId(paymentId, customerId)
+        Boolean deletedOnly = false
+        Payment payment = PaymentRepository.findByIdAndCustomerId(paymentId, customerId, deletedOnly)
         if (!payment.canEdit()) throw new BusinessException("Essa cobrança não pode ser modificada")
 
         payment.status = PaymentStatus.PAID
@@ -89,11 +98,18 @@ class PaymentService {
         return dueDate.before(currentDate)
     }
 
+    public Payment restore(Long paymentId, Long customerId) {
+        Boolean deletedOnly = true
+        Payment payment = PaymentRepository.findByIdAndCustomerId(paymentId, customerId, deletedOnly)
+        payment.deleted = false
+        payment.save(failOnError: true)   
+    }
+    
     public void notifyWaitingPayments() {
         List<Payment> paymentList = PaymentRepository.listByStatus(PaymentStatus.WAITING)
 
         paymentList.each { payment ->
-            emailService.sendEmailToVerifyPayment(payment)
+            emailService.notifyToVerifyPayment(payment)
         }
     }
 
@@ -108,7 +124,8 @@ class PaymentService {
     private void updateStatusToOverdueIfPossible(Payment payment) {
         if (!verifyIfOverdue(payment)) return
 
-        payment.status = PaymentStatus.OVERDUE;
-        payment.save();
+        payment.status = PaymentStatus.OVERDUE
+        payment.save()
+        emailService.notifyOnOverduePayment(payment)
     }
 }
