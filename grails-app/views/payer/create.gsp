@@ -1,85 +1,121 @@
-<%@ page 
-import="com.mini.asaas.enums.States"
-contentType="text/html;charset=UTF-8" %>
+<%@ page
+        import="com.mini.asaas.enums.States"
+        contentType="text/html;charset=UTF-8" %>
 <html>
-<head>
-    <title>Criar pagador</title>
-</head>
+    <head>
+        <meta name="layout" content="main"/>
+        <title>Criar pagador - Mini Asaas</title>
+    </head>
 
-<body>
-<form action="${createLink(controller: "payer", action: "save")}" method="POST">
+    <body>
+        <atlas-section header="Pagadores">
+            <g:if test="${flash.message}">
+                <atlas-alert message="${flash.message}" type="${flash.type}"></atlas-alert>
+            </g:if>
 
-    <fieldset>
-        <legend>Cadastro</legend>
-        
-        <g:if test="${params.errorMessage}">
-            <span>${params.errorMessage}</span>
-        </g:if>
-            
-        <fieldset>
-            <legend>Dados do Pagador</legend>
-            
-            <div>
-                <label for="name">Nome</label><br>
-                <input type="text" placeholder="Insira seu Nome" name="name" value="${params.name}" id="name" required><br>
-            </div><br>
-            
-            <div>
-                <label for="email">Email</label><br>
-                <input type="email" placeholder="Insira seu Email" name="email" value="${params.email}" id="email" required><br>
-            </div><br>
-        
-            <div>
-                <label for="cpfCnpj">CPF/CPNJ</label><br>
-                <input type="text" placeholder="Insira seu Cpf/Cnpj" name="cpfCnpj" value="${params.cpfCnpj}" id="cpfCnpj" required><br>
-            </div><br>
+            <atlas-panel header="Criar Pagador">
+                <atlas-form action="${createLink(controller: "payer", action: "save")}" method="post">
+                    <atlas-panel header="Dados Do Pagador">
+                        <atlas-input
+                                label="Nome"
+                                placeholder="Insira o nome do pagador"
+                                name="name"
+                                value="${params.name}"
+                                required="true">
+                        </atlas-input>
 
-        </fieldset>
-        
-  
-        <fieldset>
-            <legend>Endereço</legend>
+                        <atlas-masked-input
+                                label="Email"
+                                placeholder="Insira o email do pagador"
+                                name="email"
+                                mask-alias="email"
+                                value="${params.email}"
+                                required="true">
+                        </atlas-masked-input>
 
-            <div>
-                <label for="cep">CEP</label><br>
-                <input type="text" placeholder="Insira o seu CEP" name="cep" value="${params.cep}" id="cep" required><br>
-                <a href="https://buscacepinter.correios.com.br/app/endereco/index.php">Não sei meu cep</a><br>
-            </div><br>
-            
-            <div>
-                <label for="state">Estado</label><br>
-                <g:select name="state" from="${States.values()}" noSelection="['':'Selecione um estado']" required="true"/><br><br>
-            </div><br>
-                        
-            <div>
-                <label for="city">Cidade</label><br>
-                <input type="text" placeholder="Insira a sua Cidade" name="city" value="${params.city}" id="city" required><br>
-            </div><br>
-            
-            <div>
-                <label for="district">Bairro</label><br>
-                <input type="text" placeholder="Insira o seu Bairro" name="district" value="${params.district}" id="district" required><br>
-            </div><br>
-            
-            <div>
-                <label for="street">Logradouro</label><br>
-                <input type="text" placeholder="Insira o seu Logradouro" name="street" value="${params.street}" id="street" required><br>
-            </div><br>
-            
-            <div>
-                <label for="number">Número</label><br>
-                <input type="text" placeholder="Insira o seu Número" name="number" value="${params.number}" id="number" required><br>
-            </div><br>
+                        <atlas-masked-input
+                                label="Cpf ou Cnpj"
+                                placeholder="Insira o cpf do pagador"
+                                name="cpfCnpj"
+                                mask-alias="cpf-cnpj"
+                                value="${params.cpfCnpj}"
+                                required="true">
+                        </atlas-masked-input>
+                    </atlas-panel>
+                    <atlas-panel header="Endeço do Pagador">
+                        <atlas-postal-code
+                                label="Cep"
+                                placeholder="Insira o cep do pagador"
+                                name="cep"
+                                value="${params.cep}"
+                                required="true">
+                        </atlas-postal-code>
+                        <a href="https://buscacepinter.correios.com.br/app/endereco/index.php"
+                           target="_blank">Não sei meu cep</a>
 
-            <div>
-                <label for="complement">Complemento</label><br>
-                <input type="text" placeholder="Insira o complemento" name="complement" value="${params.complement}" id="complement"><br>
-            </div><br>
-            
-        </fieldset>
+                        <atlas-select
+                                label="Estado"
+                                name="state"
+                                value="${params.state}"
+                                required="true">
+                            <atlasFormTagLib:optionList
+                                    from="${States.values()}"
+                                    noSelectionLabel="Escolha o estado do pagador"/>
+                        </atlas-select>
 
-        <input type="submit" value="Cadastrar">
-    </fieldset>
-</form>
-</body>
+                        <atlas-input
+                                label="Cidade"
+                                placeholder="Insira a cidade do pagador"
+                                name="city"
+                                value="${params.city}"
+                                required="true">
+                        </atlas-input>
+
+                        <atlas-input
+                                label="Bairro"
+                                placeholder="Insira o bairro do pagador"
+                                name="district"
+                                value="${params.district}"
+                                required="true">
+                        </atlas-input>
+
+                        <atlas-input
+                                label="Lougradoro"
+                                placeholder="Insira o lougradoro do pagador"
+                                name="street"
+                                value="${params.street}"
+                                required="true">
+                        </atlas-input>
+
+                        <atlas-input
+                                label="Número"
+                                placeholder="Insira o número do pagador"
+                                name="number"
+                                value="${params.number}"
+                                required="true">
+                        </atlas-input>
+
+                        <atlas-input
+                                label="Complemento"
+                                placeholder="Insira o complemento do pagador"
+                                name="complement"
+                                value="${params.complement}">
+                        </atlas-input>
+
+                    </atlas-panel>
+                    <atlas-layout inline gap="2" col="2">
+                        <atlas-button
+                                submit
+                                description="Salvar Pagador">
+                        </atlas-button>
+                        <atlas-button
+                                href="${createLink(controller: 'payer', action: 'list')}"
+                                theme="secondary"
+                                description="Cancelar">
+                        </atlas-button>
+                    </atlas-layout>
+                </atlas-form>
+            </atlas-panel>
+        </atlas-section>
+    </body>
 </html>

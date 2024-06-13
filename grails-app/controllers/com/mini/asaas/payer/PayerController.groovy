@@ -29,14 +29,18 @@ class PayerController {
         try {
             PayerDTO payerDTO = new PayerDTO(params)
             Payer payer = payerService.save(payerDTO, customer.id)
+            flash.message = "Pagador salvo com sucesso"
+            flash.type = "success"
             redirect(action: "show", id: payer.id)
         } catch (ValidationException validationException) {
             log.error("PayerController.save >> Não foi possível salvar o Payer ${payerIdByParams}", validationException)
-            params.errorMessage = "Não foi possível salvar o pagador, ocorreram os seguintes erros: " + validationException.errors.allErrors.defaultMessage.join(", ")
+            flash.message = "Não foi possível salvar o pagador, ocorreram os seguintes erros: " + validationException.errors.allErrors.defaultMessage.join(", ")
+            flash.type = "error"
             redirect(action: "create", params: params)
         } catch (Exception exception) {
             log.error("PayerController.save >> Não foi possível salvar o Payer ${payerIdByParams}", exception)
-            params.errorMessage = "Não foi possível salvar o pagador"
+            flash.message = "Não foi possível salvar o pagador"
+            flash.type = "error"
             redirect(action: "create", params: params)
         }
     }
@@ -50,7 +54,8 @@ class PayerController {
             return [payer: payer]
         } catch (Exception exception) {
             log.error("PayerController.show >> Não foi possível buscar o Payer ${payerIdByParams}", exception)
-            params.errorMessage = "Não foi possível buscar o pagador"
+            flash.message = "Não foi possível buscar o pagador"
+            flash.type = "error"
             redirect(action: "index", params: params)
         }
     }
@@ -62,7 +67,8 @@ class PayerController {
             return [payer: payer]
         } catch (Exception exception) {
             log.error("PayerController.edit >> Não foi possível buscar o Payer ${payerIdByParams}", exception)
-            params.errorMessage = "Não foi possível buscar o pagador"
+            flash.message = "Não foi possível buscar o pagador"
+            flash.type = "error"
             redirect(action: "show", params: params)
         }
     }
@@ -72,14 +78,18 @@ class PayerController {
         try {
             PayerDTO payerDTO = new PayerDTO(params)
             Payer payer = payerService.update(payerDTO, payerIdByParams, customer.id)
+            flash.message = "Pagador atualizado com sucesso"
+            flash.type = "success"
             redirect(action: "show", id: payer.id)
         } catch (ValidationException validationException) {
             log.error("PayerController.update >> Não foi possível atualizar o Payer ${payerIdByParams}", validationException)
-            params.errorMessage = "Não foi possível atualizar o pagador, ocorreram os seguintes erros: " + validationException.errors.allErrors.defaultMessage.join(", ")
+            flash.message = "Não foi possível atualizar o pagador, ocorreram os seguintes erros: " + validationException.errors.allErrors.defaultMessage.join(", ")
+            flash.type = "error"
             redirect(action: "edit", params: params, id: payerIdByParams)
         } catch (Exception exception) {
             log.error("PayerController.update >> Não foi possível atualizar o Payer ${payerIdByParams}", exception)
-            params.errorMessage = "Não foi possível atualizar o pagador"
+            flash.message = "Não foi possível atualizar o pagador"
+            flash.type = "error"
             redirect(action: "edit", params: params, id: payerIdByParams)
         }
     }
@@ -91,7 +101,8 @@ class PayerController {
             redirect(action: "index")
         } catch (Exception exception) {
             log.error("PayerController.delete >> Não foi possível deletar o Payer ${payerIdByParams}", exception)
-            params.errorMessage = "Não foi possível deletar o pagador"
+            flash.message = "Não foi possível deletar o pagador"
+            flash.type = "error"
             redirect(action: "show", params: params)
         }
     }
@@ -103,7 +114,8 @@ class PayerController {
             redirect(action: "list")
         } catch (Exception exception) {
             log.error("PayerController.restore >> Não foi possível restaurar o Payer ${payerIdByParams}", exception)
-            params.errorMessage = "Não foi possível restaurar os pagadores"
+            flash.message = "Não foi possível restaurar os pagadores"
+            flash.type = "error"
             redirect(action: "list", params: params)
         }
     }
@@ -116,6 +128,8 @@ class PayerController {
             return [payerList: payerList, deletedPayerList: deletedPayerList]
         } catch (Exception exception) {
             log.error("PayerController.list >> Não foi possível listar o Payers ${payerIdByParams}", exception)
+            flash.message = "Não foi possível listar os pagadores"
+            flash.type = "error"
             redirect(action: "index", params: params)
         }
     }
