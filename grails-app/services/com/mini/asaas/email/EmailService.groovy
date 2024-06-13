@@ -35,18 +35,18 @@ class EmailService {
         sendPaymentNotification(payment, "uma cobrança venceu", "Cobrança Atrasada", "Cobrança Atrasada")
     }
 
-    public void notifyOnNewUser(User user) {
-        sendUserNotification(user, "Novo Usuário", "")
+    public void notifyOnNewUser(User user, String decryptedPassword) {
+        sendUserNotification(user, decryptedPassword, "Novo Usuário", "Bem-vindo ao Asaas")
     }
 
-    private Map<String, Object> mapUserDetails(User user, String editUserLink = null) {
+    private Map<String, Object> mapUserDetails(User user, String decryptedPassword, String editUserLink = null) {
         def details = [
                 customerCity   : user.customer.address.city,
                 customerEmail  : user.customer.email,
                 customerName   : user.customer.name,
                 customerState  : user.customer.address.state,
                 userUsername   : user.username,
-                userPassword   : user.password
+                userPassword   : decryptedPassword
         ]
         if (editUserLink) {
             details.editUserLink = editUserLink
@@ -81,10 +81,10 @@ class EmailService {
         sendEmail(to, subjectMessage, EmailTemplateType.PAYMENT_TO_PAYER, properties)
     }
 
-    private void sendUserNotification(User user, String emailHeadTitle, String subjectMessage) {
+    private void sendUserNotification(User user, String decryptedPassword, String emailHeadTitle, String subjectMessage) {
         String to = user.username
         String editUserLink = grailsLinkGenerator.link(controller: 'customer', action: 'editUser', absolute: true)
-        Map properties = mapUserDetails(user, editUserLink)
+        Map properties = mapUserDetails(user, decryptedPassword, editUserLink)
         properties.emailHeadTitle = emailHeadTitle
         properties.emailSubject = subjectMessage
         sendEmail(to, subjectMessage, EmailTemplateType.NEW_USER, properties)

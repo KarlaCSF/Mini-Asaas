@@ -100,7 +100,7 @@ class CustomerController {
             Role role = Role.findByAuthority(params.role)
             User user = userService.save(userDTO, role)
 
-            emailService.notifyOnNewUser(user)
+            emailService.notifyOnNewUser(user, params.password.toString())
 
             redirect(action: 'users')
         } catch (Exception exception) {

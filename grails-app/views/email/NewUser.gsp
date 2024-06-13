@@ -21,48 +21,30 @@
 
             <div style="border-top:1px solid #cdcdcd;width:100%"></div>
 
-            <table style="background-color:#fff;color:#212529;padding:16px 40px;font-size:20px;line-height:24px;font-weight:600;margin:0 auto;width:100%;max-width:872px;border-collapse:separate">
-                <tbody>
-                <tr>
-                    <td>
-                        <p style="margin:0;text-align:center">
-                            ${properties.emailSubject}
-                        </p>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <div style="border-bottom:1px solid #cdcdcd;height:16px;width:100%"></div>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-
-
-        <div style="max-width:792px;padding:0 40px;color:#212529;font-size:14px;line-height:20px;margin:0 auto;text-align:left">
+        <div style="max-width:792px;padding:0 40px;color:#212529;font-size:16px;line-height:20px;margin:20px auto;text-align:left">
             <p style="font-weight:600;margin:0 0">
-                Olá, ${properties.userName}.
+                Olá, ${properties.userUsername}.
             </p>
 
             <p style="margin:0 0 16px">
-                Você foi adicionado como usuário na conta de ${properties.customerName}
+                Você foi adicionado como usuário na conta de ${properties.customerName}.
             </p>
 
             <p style="margin:0 0 16px">
                 Sua senha de acesso: 
 
                 <span style="font-weight:600">
-                    ${properties.password}
+                    ${properties.userPassword}
                 </span>
             </p>
 
-            <g:if test="${properties.editUser}">
+            <g:if test="${properties.editUserLink}">
                 <p style="margin:0 0 16px;margin:0">
                     Caso deseje redefinir a senha, 
                     <a style="color:#0d6efd"
-                       href=${properties.editUser}
+                       href=${properties.editUserLink}
                        target="_blank"
-                       data-saferedirecturl= ${properties.editUser}>
+                       data-saferedirecturl= ${properties.editUserLink}>
                         <wbr>
                         clique aqui
                     </a>
