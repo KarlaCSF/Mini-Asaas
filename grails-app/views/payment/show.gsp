@@ -6,10 +6,11 @@
     </head>
 
     <body>
+        <atlas-section header="Cobranças">
         <g:if test="${flash.message}">
             <atlas-alert message="${flash.message}" type="${flash.type}"></atlas-alert>
         </g:if>
-        <atlas-form-panel header="Cobrança: ${payment.id}">
+            <atlas-form-panel header="Cobrança: ${payment.id}">
             <atlas-button
                     slot="actions"
                     href="${createLink(controller: 'payment', action: 'edit', id: payment.id)}"
@@ -80,12 +81,13 @@
                         </atlas-button>
 
                         <atlas-button
-                                href="${createLink(controller: 'payment', action: 'index')}"
+                                href="${createLink(controller: 'payment', action: 'list')}"
                                 description="Voltar"
                                 theme="secondary">
                         </atlas-button>
                     </atlas-layout>
                 </atlas-layout>
         </atlas-form-panel>
+        </atlas-section>
     </body>
 </html>
