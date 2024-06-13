@@ -132,8 +132,9 @@ class PaymentController {
     }
 
     def restore() {
+        Long paymentIdByParams = params.getLong("id")
         try {
-            paymentService.restore(params.getLong("id"), customer.id)
+            paymentService.restore(paymentIdByParams, customer.id)
             redirect(action: "list")
         } catch (Exception exception) {
             log.error("PaymentController.restore >> Não foi possível restaurar a Payment ${paymentIdByParams}", exception)
@@ -144,6 +145,7 @@ class PaymentController {
     }
 
     def list() {
+        Long paymentIdByParams = params.getLong("id")
         Boolean deletedOnly = false
         try {
             List<Payment> paymentList = PaymentRepository.listByCustomer(customer.id, deletedOnly)
