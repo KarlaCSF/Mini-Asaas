@@ -1,5 +1,5 @@
 <%@ page import="com.mini.asaas.repositories.NotificationRepository" %>
-<% int noReadNotification = NotificationRepository.countUnreadByCustomerId(customerId); %>
+<% int noReadNotification = NotificationRepository.countUnreadByCustomerId(currentUserId); %>
 
 <div slot="actions">
         <atlas-button

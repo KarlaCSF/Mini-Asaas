@@ -8,7 +8,6 @@ import com.mini.asaas.payer.Payer
 import com.mini.asaas.payer.PayerService
 import com.mini.asaas.repositories.PayerRepository
 import com.mini.asaas.repositories.PaymentRepository
-import com.mini.asaas.repositories.PayerRepository
 
 class PaymentController {
 
@@ -19,7 +18,7 @@ class PaymentController {
     Customer customer = Customer.get(1) // todo: fix customer Id in 1 while don't have authentication
 
     def index() {
-        return [view: "index", customerId: customer.id]
+        return [view: "index"]
     }
 
     def create() {
@@ -109,7 +108,7 @@ class PaymentController {
         try {
             paymentService.restore(params.getLong("id"), customer.id)
             redirect(action: "list")
-        } catch(Exception exception) {
+        } catch (Exception exception) {
             log.error("PaymentController.restore >> Não foi possível restaurar a Payment ${paymentIdByParams}", exception)
             params.errorMessage = "Não foi possível restaurar a cobrança"
             redirect(action: "list", params: params)
@@ -123,9 +122,9 @@ class PaymentController {
 
             deletedOnly = true
             List<Payment> deletedPaymentList = PaymentRepository.listByCustomer(customer.id, deletedOnly)
-            
+
             return [paymentList: paymentList, deletedPaymentList: deletedPaymentList]
-        } catch(Exception exception) {
+        } catch (Exception exception) {
             log.error("PaymentController.list >> Não foi possível listar as Payments ${paymentIdByParams}", exception)
             params.errorMessage = "Não foi possível listar as cobranças"
             redirect(action: "index", params: params)

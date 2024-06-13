@@ -15,15 +15,16 @@
 
         <atlas-dropdown-item
                 icon="cog"
-                theme="secondary">
-                Meu perfil
+                theme="secondary"
+                href="${createLink(controller: 'user', action: 'show', id: currentUserId)}">
+            Meu perfil
         </atlas-dropdown-item>
 
         <atlas-dropdown-item
-                href="${createLink(controller: "user", action: "logout")}"
+                href="${createLink(uri: '/logout')}"
                 icon="power"
                 theme="danger">
-                Sair
+            Sair
         </atlas-dropdown-item>
     </atlas-dropdown>
 </div>
