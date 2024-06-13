@@ -10,8 +10,8 @@
 
     <body>
         <atlas-panel header="Criando Cobrança">
-            <g:if test="${params.errorMessage}">
-                <span>${params.errorMessage}</span>
+            <g:if test="${flash.message}">
+                <atlas-alert message="${flash.message}" type="${flash.type}"></atlas-alert>
             </g:if>
 
             <atlas-form action="${createLink(controller: "payment", action: "save")}" method="post">

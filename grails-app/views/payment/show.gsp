@@ -6,6 +6,9 @@
     </head>
 
     <body>
+        <g:if test="${flash.message}">
+            <atlas-alert message="${flash.message}" type="${flash.type}"></atlas-alert>
+        </g:if>
         <atlas-form-panel header="Cobrança: ${payment.id}">
             <atlas-button
                     slot="actions"

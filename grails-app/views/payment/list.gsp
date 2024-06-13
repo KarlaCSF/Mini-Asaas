@@ -1,13 +1,14 @@
 <%@ page
 contentType="text/html;charset=UTF-8" %>
 <html>
-<head>
-    <title>Cobranças</title>
-</head>
+    <head>
+        <meta name="layout" content="main"/>
+        <title>Listar Cobranças - Mini Asaas</title>
+    </head>
 
 <body>
-    <g:if test="${params.errorMessage}">
-            <span>${params.errorMessage}</span>
+    <g:if test="${flash.message}">
+        <atlas-alert message="${flash.message}" type="${flash.type}"></atlas-alert>
     </g:if>
 
     <h2>Cobranças Ativas</h2>
