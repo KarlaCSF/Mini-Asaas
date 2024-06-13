@@ -56,7 +56,9 @@ class PaymentController {
             return [payment: payment]
         } catch (Exception exception) {
             log.error("PaymentController.show >> Não foi possível buscar a Payment ${paymentIdByParams}", exception)
-            render "Cobrança não encontrada"
+            flash.message = "Cobrança não encontrada"
+            flash.type = "warning"
+            redirect(action: "list")
         }
     }
 
@@ -68,7 +70,7 @@ class PaymentController {
             redirect(action: "show", id: payment.id)
         } catch (Exception exception) {
             log.error("PaymentController.save >> Não foi possível salvar a Payment ${paymentIdByParams}", exception)
-            flash.message = "Não foi possível realizar a cobrança"
+            flash.message = "Não foi possível realizar o salvamento da cobrança"
             flash.type = "error"
             redirect(action: "create", params: params)
         }

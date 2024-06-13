@@ -54,9 +54,17 @@
                                     value="${params.billingType}"/>
                         </atlas-select>
 
-                        <atlas-button submit
-                                      description="Criar Cobrança">
-                        </atlas-button>
+                        <atlas-layout inline gap="2" col="2">
+                            <atlas-button
+                                    submit
+                                    description="Criar Cobrança">
+                            </atlas-button>
+                            <atlas-button
+                                    href="${createLink(controller: 'payment', action: 'list')}"
+                                    theme="secondary"
+                                    description="Cancelar">
+                            </atlas-button>
+                        </atlas-layout>
                     </atlas-layout>
                 </atlas-form>
             </atlas-panel>
