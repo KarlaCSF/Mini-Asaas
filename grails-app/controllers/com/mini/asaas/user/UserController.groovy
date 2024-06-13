@@ -3,99 +3,80 @@ package com.mini.asaas.user
 import grails.validation.ValidationException
 import static org.springframework.http.HttpStatus.*
 import grails.plugin.springsecurity.annotation.Secured
+import com.mini.asaas.customer.Customer
+import com.mini.asaas.user.User
+import com.mini.asaas.user.Role
+import com.mini.asaas.repositories.UserRepository
+import com.mini.asaas.repositories.RoleRepository
+import com.mini.asaas.user.UserService
+import com.mini.asaas.dto.user.UserDTO
+import com.mini.asaas.email.EmailService
 
 @Secured('ROLE_ADMIN')
 class UserController {
 
-    UserService userService
+    UserService UserService
 
-    static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
+    EmailService emailService
 
-    def index(Integer max) {
-        params.max = Math.min(max ?: 10, 100)
-        respond userService.list(params), model:[userCount: userService.count()]
-    }
-
-    def show(Long id) {
-        respond userService.get(id)
-    }
-
-    def create() {
-        respond new User(params)
-    }
-
-    def save(User user) {
-        if (user == null) {
-            notFound()
-            return
-        }
-
+    def users() {
         try {
-            userService.save(user)
-        } catch (ValidationException e) {
-            respond user.errors, view:'create'
-            return
-        }
-
-        request.withFormat {
-            form multipartForm {
-                flash.message = message(code: 'default.created.message', args: [message(code: 'user.label', default: 'User'), user.id])
-                redirect user
-            }
-            '*' { respond user, [status: CREATED] }
+            Customer customer = userService.getCustomerByUser()
+            List<User> userList = UserRepository.listByCustomer(customer.id)
+            List<Role> roleList = RoleRepository.listAll()
+            return [userList: userList, roleList: roleList]
+        } catch (Exception exception) {
+            log.error("UserController.users >> Não foi possível listar os Users", exception)
+            params.errorMessage = "Não foi possível listar os usuários"
+            redirect(view: "edit", params: params)
         }
     }
 
-    def edit(Long id) {
-        respond userService.get(id)
-    }
-
-    def update(User user) {
-        if (user == null) {
-            notFound()
-            return
-        }
-
+    def add() {
         try {
-            userService.save(user)
-        } catch (ValidationException e) {
-            respond user.errors, view:'edit'
-            return
-        }
+            Random randomPassword = new Random()
+            int maxLenght = 999999
+            params.password = randomPassword.nextInt(maxLenght)
 
-        request.withFormat {
-            form multipartForm {
-                flash.message = message(code: 'default.updated.message', args: [message(code: 'user.label', default: 'User'), user.id])
-                redirect user
-            }
-            '*'{ respond user, [status: OK] }
-        }
-    }
+            Customer customer = userService.getCustomerByUser()
+            params.customer = customer
+ 
+            params.role = Role.findByAuthority(params.role)
+            UserDTO userDTO = new UserDTO(params)
 
-    def delete(Long id) {
-        if (id == null) {
-            notFound()
-            return
-        }
+            User user = userService.create(userDTO)
 
-        userService.delete(id)
+            emailService.notifyOnNewUser(user, params.password.toString())
 
-        request.withFormat {
-            form multipartForm {
-                flash.message = message(code: 'default.deleted.message', args: [message(code: 'user.label', default: 'User'), id])
-                redirect action:"index", method:"GET"
-            }
-            '*'{ render status: NO_CONTENT }
+            redirect(action: 'users')
+        } catch (Exception exception) {
+            log.error("UserController.add >> Não foi possível adicionar o User", exception)
+            params.errorMessage = "Não foi possível adicionar o usuário"
+            redirect(action: 'users', params: params)
         }
     }
 
-    protected void notFound() {
-        request.withFormat {
-            form multipartForm {
-                flash.message = message(code: 'default.not.found.message', args: [message(code: 'user.label', default: 'User'), params.id])
-                redirect action: "index", method: "GET"
-            }
-            '*'{ render status: NOT_FOUND }
+    def edit() {
+        try {
+            User user = userService.getCurrentUser()
+            return [user: user]
+        } catch (Exception exception) {
+            log.error("UserController.edit >> Não foi possível buscar o User", exception)
+            params.errorMessage = "Não foi possível buscar o usuário"
+            redirect(action: "users", params: params)
+        }
+    }
+
+    def update() {
+        try {
+            User user = userService.getCurrentUser()
+            UserDTO userDTO = new UserDTO(params)
+            userService.update(userDTO, user)
+            redirect(action: 'users')
+        } catch (Exception exception) {
+            log.error("UserController.update >> Não foi possível atualizar o usuário", exception)
+            params.errorMessage = "Não foi possível atualizar o usuário"
+            redirect(action: 'edit', params: params)
         }
     }
 }
