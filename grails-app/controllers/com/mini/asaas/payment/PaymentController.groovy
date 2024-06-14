@@ -113,6 +113,22 @@ class PaymentController {
         }
     }
 
+    def pay() {
+        Long paymentIdByParams = params.getLong("id")
+        try {
+            Payment payment = paymentService.pay(paymentIdByParams, customer.id)
+            redirect(action: "show", id: payment.id)
+        } catch (BusinessException businessException) {
+            log.error(businessException.message, businessException)
+            params.errorMessage = businessException.message
+            redirect(action: "show", params: params)
+        } catch (Exception exception) {
+            log.error(exception.message, exception)
+            params.errorMessage = "Não foi possível pagar a cobrança"
+            redirect(action: "show", params: params)
+        }
+    }
+
     def restore() {
         try {
             Long customerId = userService.getCurrentCustomerIdForLoggedUser()
