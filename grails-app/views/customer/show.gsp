@@ -1,47 +1,119 @@
-<%@ page import="com.mini.asaas.utils.CpfCnpjUtils" %>
+<%@ page 
+import="com.mini.asaas.enums.States"
+contentType="text/html;charset=UTF-8" %>
 <!doctype html>
 <html>
 <head>
     <meta name="layout" content="main"/>
 </head>
 <body>
-    <form action="${createLink(controller: "customer", action: "show")}">
-        <label for="name">Name:</label><br>
-        <input type="text" name="name" value="${customer.name}" disabled><br>
-        
-        <label for="email">Email:</label><br>
-        <input type="text" name="email" value="${customer.email}" disabled><br><br>
+    <g:if test="${flash.message}">
+        <atlas-alert message="${flash.message}" type="${flash.type}"></atlas-alert>
+    </g:if>
 
-        <label for="cpfCnpj">CPF/CNPJ:</label><br>
-        <input type="text" name="cpfCnpj" value="${CpfCnpjUtils.applyMask(customer.cpfCnpj)}" disabled><br><br>
+    <atlas-form-panel header="${customer.name}" action="${createLink(controller: "customer", action: "update", id: customer.id)}" method="POST">
+        <atlas-button 
+            slot="actions" 
+            description="Editar" 
+            icon="pencil"
+            data-panel-start-editing="true">
+        </atlas-button>
 
-        <label for="tipo">Tipo de pessoa:</label><br>
-        <input type="text" name="tipo" value="${customer.personType.getLabel()}" disabled><br><br>
+        <atlas-layout gap="4">
+            <atlas-panel header="Dados da Conta">
+                <atlas-input
+                    label="Nome"
+                    placeholder="Ex: João da Silva"
+                    name="name"
+                    value="${customer.name}"
+                    required="true">
+                </atlas-input>
 
-        <div>Endereço
-            <label for="cep">CEP:</label><br>
-            <input type="text" name="cep" value="${customer.address.cep}" disabled><br><br>
+                <atlas-input
+                    label="Email"
+                    placeholder="Ex: joao.silva@gmail.com"
+                    name="email"
+                    value="${customer.email}"
+                    required="true">
+                </atlas-input>
 
-            <label for="city">Cidade:</label><br>
-            <input type="text" name="city" value="${customer.address.city}" disabled><br><br>
+                <atlas-masked-input
+                    label="CPF/CNPJ"
+                    placeholder="000.000.000-00"
+                    name="cpfCnpj"
+                    mask-alias="cpf-cnpj"
+                    value="${customer.cpfCnpj}"
+                    required="true">
+                </atlas-masked-input>
 
-            <label for="state">Estado:</label><br>
-            <input type="text" name="state" value="${customer.address.state}" disabled><br><br>
+                <atlas-labeled-content label="Tipo de Pessoa">
+                    <atlas-heading 
+                        theme="primary" 
+                        size="h6">
+                        ${customer.personType.getLabel()}
+                    </atlas-heading>
+                </atlas-labeled-content>
+            </atlas-panel>
 
-            <label for="district">Bairro:</label><br>
-            <input type="text" name="district" value="${customer.address.district}" disabled><br><br>
+            <atlas-panel header="Endereço">
+                <atlas-input
+                    label="CEP"
+                    placeholder="00000-000"
+                    name="cep"
+                    value="${customer.address.cep}"
+                    required="true">
+                </atlas-input>
 
-            <label for="street">Rua:</label><br>
-            <input type="text" name="street" value="${customer.address.street}" disabled><br><br>
+                <atlas-input
+                    label="Cidade"
+                    placeholder="Ex: Joinville"
+                    name="city"
+                    value="${customer.address.city}"
+                    required="true">
+                </atlas-input>
 
-            <label for="number">Número:</label><br>
-            <input type="text" name="number" value="${customer.address.number}" disabled><br><br>
+                <atlas-select
+                    label="Estado"
+                    name="state"
+                    value="${customer.address.state}"
+                    required="true">
+                    <atlasFormTagLib:optionList
+                        from="${States.values()}"
+                        noSelectionLabel="Selecione o estado"/>
+                </atlas-select>
 
-            <label for="complement">Complemento:</label><br>
-            <input type="text" name="complement" value="${customer.address.complement}" disabled><br><br>
+                <atlas-input
+                    label="Bairro"
+                    placeholder="Ex: Bom Retiro"
+                    name="district"
+                    value="${customer.address.district}"
+                    required="true">
+                </atlas-input>
 
-            <a href="${createLink(controller: 'customer', action: 'edit', id: customer.id)}">Editar Cliente</a>
-        </div>
-    </form>
+                <atlas-input
+                    label="Rua"
+                    placeholder="Ex: Rua João da Silva"
+                    name="street"
+                    value="${customer.address.street}"
+                    required="true">
+                </atlas-input>
+
+                <atlas-integer-input
+                    label="Número"
+                    placeholder="000"
+                    name="number"
+                    value="${customer.address.number}"
+                    required="true">
+                </atlas-integer-input>
+
+                <atlas-input
+                    label="Complemento"
+                    placeholder="Ex: Apartamento 00, Bloco 00"
+                    name="complement"
+                    value="${customer.address.complement}">
+                </atlas-input>
+            </atlas-panel>  
+        </atlas-layout>
+    </atlas-form-panel>
 </body>
 </html>

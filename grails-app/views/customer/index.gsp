@@ -7,15 +7,14 @@ contentType="text/html;charset=UTF-8" %>
     <meta name="layout" content="notLogged"/>
 </head>
 <body>
+    <g:if test="${flash.message}">
+        <atlas-alert message="${flash.message}" type="${flash.type}"></atlas-alert>
+    </g:if>
+
     <atlas-page >
         <atlas-page-header page-name="Cadastro" slot="header"></atlas-page-header>
         <atlas-page-content slot="content">
             <atlas-panel header="Cliente">
-
-                <g:if test="${params.errorMessage}">
-                    <span>${params.errorMessage}</span>
-                </g:if>
-
                 <atlas-form action="${createLink(controller: "customer", action: "save")}" method="post">
                     <atlas-panel header="Dados da Conta">       
                         <atlas-input
@@ -99,8 +98,7 @@ contentType="text/html;charset=UTF-8" %>
                             label="Complemento"
                             placeholder="Ex: Apartamento 00, Bloco 00"
                             name="complement"
-                            value="${params.complement}"
-                            required="true">
+                            value="${params.complement}">
                         </atlas-input>
                         
                         <atlas-button

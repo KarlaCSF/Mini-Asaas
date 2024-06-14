@@ -21,10 +21,13 @@ class CustomerController {
         try {
             CustomerDTO customerDTO = new CustomerDTO(params)
             Customer customer = customerService.save(customerDTO)
+            flash.message = "Dados salvos com sucesso"
+            flash.type = "success"
             redirect(action: "show", id: customer.id)
         } catch (ValidationException exception) {
             log.error("CustomerController.save >> Não foi possível salvar o Customer ${customerIdByParams}", exception)
-            params.errorMessage = "Não foi possível salvar o cliente, ocorreram os seguintes erros: " + exception.errors.allErrors.defaultMessage.join(", ")
+            flash.message = "Não foi possível salvar o cliente, ocorreram os seguintes erros: " + exception.errors.allErrors.defaultMessage.join(", ")
+            flash.type = "error"
             redirect(view: "index", params: params)
         }
     }
@@ -36,16 +39,8 @@ class CustomerController {
             return [customer: customer]
         } catch (Exception exception) {
             log.error("CustomerController.show >> Não foi possível buscar o Customer ${customerIdByParams}", exception)
-        }
-    }
-
-    def edit() {
-        Long customerIdByParams = params.getLong("id")
-        try {
-            Customer customer = CustomerRepository.findById(customerIdByParams)
-            return [customer: customer]
-        } catch (Exception exception) {
-            log.error("CustomerController.edit >> Não foi possível buscar o Customer ${customerIdByParams}", exception)
+            flash.message = "Não foi possível buscar o cliente"
+            flash.type = "error"
         }
     }
 
@@ -54,11 +49,14 @@ class CustomerController {
         try {
             CustomerDTO customerDTO = new CustomerDTO(params)
             Customer customer = customerService.update(customerDTO, customerIdByParams)
+            flash.message = "Dados atualizados com sucesso"
+            flash.type = "success"
             redirect(action: "show", id: customer.id)
         } catch (ValidationException exception) {
             log.error("CustomerController.update >> Não foi possível atualizar o Customer ${customerIdByParams}", exception)
-            params.errorMessage = "Não foi possível editar o cliente, ocorreram os seguintes erros: " + exception.errors.allErrors.defaultMessage.join(", ")
-            redirect(action: "edit", params: params, id: customerIdByParams)
+            flash.message = "Não foi possível editar o cliente, ocorreram os seguintes erros: " + exception.errors.allErrors.defaultMessage.join(", ")
+            flash.type = "error"
+            redirect(action: "edit", id: customerIdByParams)
         }
     }
 }
