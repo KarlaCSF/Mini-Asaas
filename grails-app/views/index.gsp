@@ -22,7 +22,7 @@
             <atlas-card>
                 <atlas-layout gap="4" inline alignment="top" justify="center">
                     <atlas-empty-state illustration="airplane-check-success">
-                        <atlas-heading size="h4">Seja bem vindo!</atlas-heading>
+                        <atlas-heading size="h4">Seja bem vindo ${currentUserCustomer.name}!</atlas-heading>
                     </atlas-empty-state>
                 </atlas-layout>
             </atlas-card>
