@@ -2,8 +2,6 @@ package com.mini.asaas.user
 
 import grails.gorm.DetachedCriteria
 import groovy.transform.ToString
-
-import org.codehaus.groovy.util.HashCodeHelper
 import grails.compiler.GrailsCompileStatic
 
 @GrailsCompileStatic
@@ -21,18 +19,6 @@ class UserRole implements Serializable {
 		if (other instanceof UserRole) {
 			other.userId == user?.id && other.roleId == role?.id
 		}
-	}
-
-    @Override
-	int hashCode() {
-	    int hashedCode = HashCodeHelper.initHash()
-        if (user) {
-            hashedCode = HashCodeHelper.updateHash(hashedCode, user.id)
-		}
-		if (role) {
-		    hashedCode = HashCodeHelper.updateHash(hashedCode, role.id)
-		}
-		hashedCode
 	}
 
 	static UserRole get(long userId, long roleId) {
