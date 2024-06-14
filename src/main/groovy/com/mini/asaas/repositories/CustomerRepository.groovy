@@ -12,6 +12,8 @@ class CustomerRepository implements Repository {
     }
 
     public static Customer findById(Long customerId) {
-        return CustomerRepository.query([id: customerId]).get()
+        Customer customer = CustomerRepository.query([id: customerId]).get()
+        if (!customer) throw new Exception("Customer inexistente.")
+        return customer
     }
 }
