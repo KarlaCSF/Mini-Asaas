@@ -9,7 +9,7 @@ import java.text.SimpleDateFormat
 @GrailsCompileStatic
 class StringUtils {
     public static removeNonNumeric(String text) {
-        return text.replaceAll(/[^\d.]/, '')
+        return text.replaceAll("[^\\d]", "")
     }
 
     public static BigDecimal parseStringToBigDecimal(String numberString) throws ParseException {
