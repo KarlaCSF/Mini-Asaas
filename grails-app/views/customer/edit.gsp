@@ -11,7 +11,7 @@ contentType="text/html;charset=UTF-8" %>
         <atlas-alert message="${flash.message}" type="${flash.type}"></atlas-alert>
     </g:if>
 
-    <atlas-form-panel header="${customer.name}" action="${createLink(controller: "customer", action: "update", id: customer.id)}" method="POST">
+    <atlas-form-panel header="${customer.name}" action="${createLink(controller: "customer", action: "update")}" method="POST">
         <atlas-button 
             slot="actions" 
             description="Editar" 
