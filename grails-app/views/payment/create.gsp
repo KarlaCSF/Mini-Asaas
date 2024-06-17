@@ -10,9 +10,6 @@
 
     <body>
         <atlas-section header="Cobranças">
-            <g:if test="${flash.message}">
-                <atlas-alert message="${flash.message}" type="${flash.type}"></atlas-alert>
-            </g:if>
             <atlas-panel header="Criar Cobrança">
                 <atlas-form action="${createLink(controller: "payment", action: "save")}" method="post">
                     <atlas-layout row gap="4">
