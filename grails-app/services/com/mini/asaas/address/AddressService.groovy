@@ -2,7 +2,7 @@ package com.mini.asaas.address
 
 
 import com.mini.asaas.dto.AddressDTO
-
+import com.mini.asaas.utils.StringUtils
 import grails.gorm.transactions.Transactional
 import grails.compiler.GrailsCompileStatic
 
@@ -12,7 +12,7 @@ class AddressService {
 
     public Address save(AddressDTO addressDTO) {
         Address address = new Address()
-        address.cep = addressDTO.cep
+        address.cep = StringUtils.removeNonNumeric(addressDTO.cep)
         address.city = addressDTO.city
         address.state = addressDTO.state
         address.district = addressDTO.district
@@ -25,10 +25,10 @@ class AddressService {
     public Address update(AddressDTO addressDTO, Long addressId) {
         Address address = Address.where {
             id == addressId
-            && deleted == false
+                    && deleted == false
         }.first()
 
-        address.cep = addressDTO.cep
+        address.cep = StringUtils.removeNonNumeric(addressDTO.cep)
         address.city = addressDTO.city
         address.state = addressDTO.state
         address.district = addressDTO.district
