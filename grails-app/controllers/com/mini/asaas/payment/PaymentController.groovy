@@ -123,16 +123,17 @@ class PaymentController {
             params.errorMessage = businessException.message
             redirect(action: "show", params: params)
         } catch (Exception exception) {
-            log.error(exception.message, exception)
+            log.error("PaymentController.pay >> Não foi possível pagar a Payment ${paymentIdByParams}", exception)
             params.errorMessage = "Não foi possível pagar a cobrança"
             redirect(action: "show", params: params)
         }
     }
 
     def restore() {
+        Long paymentIdByParams = params.getLong("id")
         try {
             Long customerId = userService.getCurrentCustomerIdForLoggedUser()
-            paymentService.restore(params.getLong("id"), customerId)
+            paymentService.restore(paymentIdByParams, customerId)
             redirect(action: "list")
         } catch(Exception exception) {
             log.error("PaymentController.restore >> Não foi possível restaurar a Payment ${paymentIdByParams}", exception)
@@ -152,7 +153,7 @@ class PaymentController {
             
             return [paymentList: paymentList, deletedPaymentList: deletedPaymentList]
         } catch(Exception exception) {
-            log.error("PaymentController.list >> Não foi possível listar as Payments ${paymentIdByParams}", exception)
+            log.error("PaymentController.list >> Não foi possível listar as Payments", exception)
             params.errorMessage = "Não foi possível listar as cobranças"
             redirect(action: "index", params: params)
         }
