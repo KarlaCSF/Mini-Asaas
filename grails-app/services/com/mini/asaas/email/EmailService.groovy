@@ -2,6 +2,7 @@ package com.mini.asaas.email
 
 import com.mini.asaas.enums.email.EmailTemplateType
 import com.mini.asaas.payment.Payment
+import com.mini.asaas.user.User
 import grails.gorm.transactions.Transactional
 import grails.gsp.PageRenderer
 import grails.plugins.mail.MailService
@@ -34,6 +35,25 @@ class EmailService {
         sendPaymentNotification(payment, "uma cobrança venceu", "Cobrança Atrasada", "Cobrança Atrasada")
     }
 
+    public void notifyOnNewUser(User user, String decryptedPassword) {
+        sendUserNotification(user, decryptedPassword, "Novo Usuário", "Bem-vindo ao Asaas")
+    }
+
+    private Map<String, Object> mapUserDetails(User user, String decryptedPassword, String editUserLink = null) {
+        def details = [
+                customerCity   : user.customer.address.city,
+                customerEmail  : user.customer.email,
+                customerName   : user.customer.name,
+                customerState  : user.customer.address.state,
+                userUsername   : user.username,
+                userPassword   : decryptedPassword
+        ]
+        if (editUserLink) {
+            details.editUserLink = editUserLink
+        }
+        return details
+    }
+
     private Map<String, Object> mapPaymentDetails(Payment payment, String paymentLink = null) {
         def details = [
                 customerCity   : payment.customer.address.city,
@@ -59,6 +79,15 @@ class EmailService {
         properties.emailHeadTitle = emailHeadTitle
         properties.emailSubject = subjectMessage
         sendEmail(to, subjectMessage, EmailTemplateType.PAYMENT_TO_PAYER, properties)
+    }
+
+    private void sendUserNotification(User user, String decryptedPassword, String emailHeadTitle, String subjectMessage) {
+        String to = user.username
+        String editUserLink = grailsLinkGenerator.link(controller: 'customer', action: 'editUser', absolute: true)
+        Map properties = mapUserDetails(user, decryptedPassword, editUserLink)
+        properties.emailHeadTitle = emailHeadTitle
+        properties.emailSubject = subjectMessage
+        sendEmail(to, subjectMessage, EmailTemplateType.NEW_USER, properties)
     }
 
     private void sendEmail(String email, String subjectMessage, EmailTemplateType templateType, Map properties) {
