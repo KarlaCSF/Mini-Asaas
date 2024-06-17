@@ -32,13 +32,13 @@ class CustomerController {
         }
     }
 
-    def show() {
+    def edit() {
         Long customerIdByParams = params.getLong("id")
         try {
             Customer customer = CustomerRepository.findById(customerIdByParams)
             return [customer: customer]
         } catch (Exception exception) {
-            log.error("CustomerController.show >> Não foi possível buscar o Customer ${customerIdByParams}", exception)
+            log.error("CustomerController.edit >> Não foi possível buscar o Customer ${customerIdByParams}", exception)
             flash.message = "Não foi possível buscar o cliente"
             flash.type = "error"
         }
@@ -51,7 +51,7 @@ class CustomerController {
             Customer customer = customerService.update(customerDTO, customerIdByParams)
             flash.message = "Dados atualizados com sucesso"
             flash.type = "success"
-            redirect(action: "show", id: customer.id)
+            redirect(action: "edit", id: customer.id)
         } catch (ValidationException exception) {
             log.error("CustomerController.update >> Não foi possível atualizar o Customer ${customerIdByParams}", exception)
             flash.message = "Não foi possível editar o cliente, ocorreram os seguintes erros: " + exception.errors.allErrors.defaultMessage.join(", ")
