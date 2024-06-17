@@ -14,10 +14,6 @@
     </head>
 
     <body>
-        <g:if test="${flash.message}">
-            <atlas-alert message="${flash.message}" type="${flash.type}"></atlas-alert>
-        </g:if>
-
         <atlas-section header="Resumo">
             <atlas-card>
                 <atlas-layout gap="4" inline alignment="top" justify="center">
