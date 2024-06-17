@@ -8,7 +8,7 @@
     </head>
 
     <body>
-        <h2>Payments</h2>
+        <h2>Cobranças</h2>
         <a href="${createLink(controller: 'payment', action: 'create')}">Criar Cobrança</a>
         <a href="${createLink(controller: 'payment', action: 'list')}">Listar Cobranças</a>
     </body>
