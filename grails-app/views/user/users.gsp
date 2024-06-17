@@ -1,32 +1,45 @@
 <!doctype html>
 <html>
 <head>
+    <meta name="layout" content="main"/>
 </head>
 <body>
-    <div>
-        <h2>Usuários</h2>
+    <atlas-page>
+        <atlas-page-header page-name="Usuários" slot="header"></atlas-page-header>
+        <atlas-page-content slot="content">
+            <atlas-panel header="Usuários que tem acesso a essa conta">
+                <g:each var="user" in="${userList}">
+                    <ul class="atlas-simple-list" style="margin: 0; padding: 0 10px;">${user.username}</ul>
+                </g:each> 
+            </atlas-panel>
 
-        <g:each var="user" in="${userList}">
-            <span>Email: ${user.username}</span><br>
-        </g:each> 
-            
-        <g:form action="add" method="post">
-            <h3>Adicionar Usuário</h3>
+            <atlas-panel header="Adicionar usuário">
+                <atlas-form action="add" method="post">
+                    <atlas-input
+                        label="Email"
+                        placeholder="Ex: joao.silva@gmail.com"
+                        name="email"
+                        value="${params.email}"
+                        required="true">
+                    </atlas-input>
 
-            <g:if test="${params.errorMessage}">
-                <span>${params.errorMessage}</span>
-            </g:if>
+                    <atlas-select
+                        label="Função"
+                        name="role"
+                        value="${params.role}"
+                        required="true">
+                        <atlasFormTagLib:optionList
+                            from="${roleList.authority}"
+                            valueMessagePrefix="Role"/>                        
+                    </atlas-select>
 
-            <div>
-                <label for="email">Email:</label>
-                <g:textField name="email" required="true"/><br>
-                
-                <label for="role">Função:</label>
-                <g:select name="role" from="${roleList.authority}" valueMessagePrefix="Role" required="true"/><br><br>
-        
-                <g:submitButton name="add" value="Adicionar" />
-            </div>
-        </g:form>        
-    </div>
+                    <atlas-button
+                        submit=""
+                        description="Adicionar">
+                    </atlas-button>
+                </atlas-form>
+            </atlas-panel>
+        </atlas-page-content>
+    </atlas-page>
 </body>
 </html>
