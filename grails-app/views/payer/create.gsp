@@ -37,6 +37,14 @@
                                 value="${params.cpfCnpj}"
                                 required="true">
                         </atlas-masked-input>
+
+                        <atlas-masked-input
+                                label="Telefone"
+                                name="phone"
+                                mask-alias="phone"
+                                value="${params.phone}"
+                                required="true">
+                        </atlas-masked-input>
                     </atlas-panel>
                     <atlas-panel header="Endeço do Pagador">
                         <atlas-postal-code

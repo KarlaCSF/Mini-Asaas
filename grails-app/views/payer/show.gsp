@@ -55,6 +55,15 @@
                                 required="true"
                                 disabled="true">
                         </atlas-masked-input>
+
+                        <atlas-masked-input
+                                label="Telefone"
+                                name="phone"
+                                mask-alias="phone"
+                                value="${payer.phone}"
+                                required="true"
+                                disabled="true">
+                        </atlas-masked-input>
                     </atlas-panel>
                     <atlas-panel header="Endeço do Pagador">
                         <atlas-postal-code

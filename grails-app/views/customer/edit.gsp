@@ -46,6 +46,14 @@ contentType="text/html;charset=UTF-8" %>
                     required="true">
                 </atlas-masked-input>
 
+                <atlas-masked-input
+                        label="Telefone"
+                        name="cpfCnpj"
+                        mask-alias="phone"
+                        value="${customer.phone}"
+                        required="true">
+                </atlas-masked-input>
+
                 <atlas-labeled-content label="Tipo de Pessoa">
                     <atlas-heading 
                         theme="primary" 
