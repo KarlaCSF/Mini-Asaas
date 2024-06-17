@@ -11,7 +11,7 @@ contentType="text/html;charset=UTF-8" %>
         <span>${params.errorMessage}</span>
     </g:if>
 
-    <form action="${createLink(controller: "customer", action: "update", id: customer.id)}" method="POST">
+    <form action="${createLink(controller: "customer", action: "update")}" method="POST">
         <label for="name">Name:</label><br>
         <input type="text" name="name" value="${customer.name}"><br>
         
@@ -49,5 +49,6 @@ contentType="text/html;charset=UTF-8" %>
 
         <input type="submit" value="Atualizar">
     </form>
+    <a href="${createLink(controller: 'customer', action: 'users')}">Usuários</a>
 </body>
 </html>

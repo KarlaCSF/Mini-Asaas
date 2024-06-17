@@ -40,8 +40,8 @@
             <label for="complement">Complemento:</label><br>
             <input type="text" name="complement" value="${customer.address.complement}" disabled><br><br>
 
-            <a href="${createLink(controller: 'customer', action: 'edit', id: customer.id)}">Editar Cliente</a>
         </div>
     </form>
+    <a href="${createLink(controller: 'customer', action: 'edit')}">Editar Cliente</a>
 </body>
 </html>
