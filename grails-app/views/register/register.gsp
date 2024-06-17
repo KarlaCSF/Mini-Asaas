@@ -1,22 +1,39 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta name="layout" content="main"/>
     <title>Registrar</title>
 </head>
 <body>
-    <h1>Registrar</h1>
-    <g:form action="register" method="post">
-        <div>
-            <label for="email">Email:</label>
-            <g:textField name="email" required="" />
-        </div>
-        <div>
-            <label for="password">Senha:</label>
-            <g:passwordField name="password" required="" />
-        </div>
-        <div>
-            <g:submitButton name="register" value="Registrar" />
-        </div>
-    </g:form>
+    <atlas-page>
+        <atlas-page-content slot="content">
+                <atlas-layout alignment="center" gap="4">
+                    <atlas-panel header="Crie sua conta" style="max-width: 600px;">
+                        <atlas-form action="register" method="post">
+                            
+                            <atlas-input
+                                label="Email"
+                                placeholder="Ex: joao.silva@gmail.com"
+                                name="email"
+                                value="${params.email}"
+                                required="true">
+                            </atlas-input>
+
+                            <atlas-password-input   
+                                label="Senha"
+                                name="password"
+                                value="${params.password}"
+                                required="true">
+                            </atlas-password-input>
+
+                            <atlas-button
+                                submit
+                                description="Salvar">
+                            </atlas-button>
+                        </atlas-form>
+                    </atlas-panel>
+                </atlas-layout>
+        </atlas-page-content>
+    </atlas-page>
 </body>
 </html>
