@@ -9,10 +9,6 @@
 
     <body>
         <atlas-section header="Pagadores">
-            <g:if test="${flash.message}">
-                <atlas-alert message="${flash.message}" type="${flash.type}"></atlas-alert>
-            </g:if>
-
             <atlas-panel header="Criar Pagador">
                 <atlas-form action="${createLink(controller: "payer", action: "save")}" method="post">
                     <atlas-panel header="Dados Do Pagador">
