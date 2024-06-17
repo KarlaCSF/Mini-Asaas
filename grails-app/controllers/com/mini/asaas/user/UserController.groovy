@@ -19,16 +19,20 @@ class UserController {
 
     EmailService emailService
 
+    def index() {
+        redirect(action: "users")
+    }
+
     def users() {
         try {
-            Customer customer = userService.getCustomerByUser()
-            List<User> userList = UserRepository.listByCustomer(customer.id)
+            Long customerId = userService.getCurrentCustomerIdForLoggedUser()
+            List<User> userList = UserRepository.listByCustomer(customerId)
             List<Role> roleList = RoleRepository.listAll()
             return [userList: userList, roleList: roleList]
         } catch (Exception exception) {
             log.error("UserController.users >> Não foi possível listar os Users", exception)
             params.errorMessage = "Não foi possível listar os usuários"
-            redirect(view: "edit", params: params)
+            render("Não foi possível listar os usuários")
         }
     }
 
@@ -38,7 +42,7 @@ class UserController {
             int maxLenght = 999999
             params.password = randomPassword.nextInt(maxLenght)
 
-            Customer customer = userService.getCustomerByUser()
+            Customer customer = userService.getCurrentCustomerForLoggedUser()
             params.customer = customer
  
             params.role = Role.findByAuthority(params.role)
