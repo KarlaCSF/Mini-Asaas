@@ -16,15 +16,15 @@ class NotificationRepository implements Repository {
             }
 
             if (search.containsKey("description")) {
-                eq("value", search.value)
+                eq("description", search.description)
             }
 
             if (search.containsKey("isRead")) {
-                eq("dueDate", search.dueDate)
+                eq("isRead", search.isRead)
             }
 
             if (search.containsKey("title")) {
-                eq("status", search.status)
+                eq("title", search.title)
             }
         }
 
@@ -45,6 +45,10 @@ class NotificationRepository implements Repository {
 
     public static List<Notification> listUnreadByCustomer(Long customerId) {
         return query([customerId: customerId, isRead: false]).list()
+    }
+
+    public static int countUnreadByCustomerId(Long customerId) {
+        return query([column: "id", customerId: customerId, isRead: false]).list(max: 10).size()
     }
 
     public static List<Notification> listReadByCustomer(Long customerId) {

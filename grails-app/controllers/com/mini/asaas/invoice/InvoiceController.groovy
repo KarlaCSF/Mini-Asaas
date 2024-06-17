@@ -18,8 +18,8 @@ class InvoiceController {
     def show() {
         Long paymentIdByParams = params.getLong("id")
         try {
-            Customer customer = userService.getCustomerByUser()
-            Payment payment = PaymentRepository.findByIdAndCustomerId(paymentIdByParams, customer.id)
+            Long customerId = userService.getCurrentCustomerIdForLoggedUser()
+            Payment payment = PaymentRepository.findByIdAndCustomerId(paymentIdByParams, customerId)
             return [payment: payment]
         } catch (Exception exception) {
             log.error(exception.message, exception)
@@ -30,8 +30,8 @@ class InvoiceController {
     def pay() {
         Long paymentIdByParams = params.getLong("id")
         try {
-            Customer customer = userService.getCustomerByUser()
-            Payment payment = paymentService.pay(paymentIdByParams, customer.id)
+            Long customerId = userService.getCurrentCustomerIdForLoggedUser()
+            Payment payment = paymentService.pay(paymentIdByParams, customeId)
             redirect(action: "show", id: payment.id)
         } catch (BusinessException businessException) {
             log.error(businessException.message, businessException)
