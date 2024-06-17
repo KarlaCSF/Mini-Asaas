@@ -19,10 +19,13 @@ abstract class PersonEntity extends BaseEntity {
 
     Address address
 
+    String phone
+
     static constraints = {
         name blank: false
         email blank: false, email: true
         personType blank: false
         cpfCnpj blank: false, minSize: 11, maxSize: 14
+        phone blank: false, minSize: 10, maxSize: 11
     }
 }

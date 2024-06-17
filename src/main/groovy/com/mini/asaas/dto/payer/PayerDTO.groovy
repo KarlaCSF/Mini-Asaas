@@ -12,12 +12,15 @@ class PayerDTO {
     
     String cpfCnpj
 
+    String phone
+
     AddressDTO addressDTO
 
     public PayerDTO(Map params){
         this.name = params.name
         this.email = params.email
         this.cpfCnpj = params.cpfCnpj
-        this.addressDTO = new AddressDTO(params)     
+        this.phone = params.phone
+        this.addressDTO = new AddressDTO(params)
     } 
 }

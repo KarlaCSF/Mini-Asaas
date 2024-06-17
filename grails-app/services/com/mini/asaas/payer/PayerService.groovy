@@ -24,6 +24,7 @@ class PayerService {
         validatedPayer.name = payerDTO.name
         validatedPayer.email = payerDTO.email
         validatedPayer.cpfCnpj = StringUtils.removeNonNumeric(payerDTO.cpfCnpj)
+        validatedPayer.phone = StringUtils.removeNonNumeric(payerDTO.phone)
         validatedPayer.customer = CustomerRepository.findById(customerId)
         validatedPayer.personType = CpfCnpjUtils.getPersonType(validatedPayer.cpfCnpj)
 
@@ -42,6 +43,7 @@ class PayerService {
         validatedPayer.name = payerDTO.name
         validatedPayer.email = payerDTO.email
         validatedPayer.cpfCnpj = StringUtils.removeNonNumeric(payerDTO.cpfCnpj)
+        validatedPayer.phone = StringUtils.removeNonNumeric(payerDTO.phone)
         validatedPayer.personType = CpfCnpjUtils.getPersonType(validatedPayer.cpfCnpj)
         validatedPayer.address = addressService.update(payerDTO.addressDTO, validatedPayer.address.id)
 

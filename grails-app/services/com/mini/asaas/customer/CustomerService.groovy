@@ -23,6 +23,7 @@ class CustomerService {
         validatedCustomer.name = customerDTO.name
         validatedCustomer.email = customerDTO.email
         validatedCustomer.cpfCnpj = StringUtils.removeNonNumeric(customerDTO.cpfCnpj)
+        validatedCustomer.phone = StringUtils.removeNonNumeric(customerDTO.phone)
         validatedCustomer.personType = CpfCnpjUtils.getPersonType(validatedCustomer.cpfCnpj)
 
         validatedCustomer.address = addressService.save(customerDTO.addressDTO)
@@ -40,6 +41,7 @@ class CustomerService {
         validatedCustomer.name = customerDTO.name
         validatedCustomer.email = customerDTO.email
         validatedCustomer.cpfCnpj = StringUtils.removeNonNumeric(customerDTO.cpfCnpj)
+        validatedCustomer.phone = StringUtils.removeNonNumeric(customerDTO.phone)
         validatedCustomer.personType = CpfCnpjUtils.getPersonType(validatedCustomer.cpfCnpj)
         validatedCustomer.address = addressService.update(customerDTO.addressDTO, validatedCustomer.address.id)
 
