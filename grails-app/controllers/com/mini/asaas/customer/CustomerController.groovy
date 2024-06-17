@@ -2,63 +2,105 @@ package com.mini.asaas.customer
 
 import com.mini.asaas.address.AddressService
 import com.mini.asaas.dto.customer.CustomerDTO
-import com.mini.asaas.repositories.CustomerRepository
 import grails.compiler.GrailsCompileStatic
 import grails.validation.ValidationException
+import grails.plugin.springsecurity.annotation.Secured
+import com.mini.asaas.user.User
+import com.mini.asaas.user.Role
+import com.mini.asaas.repositories.UserRepository
+import com.mini.asaas.repositories.RoleRepository
+import com.mini.asaas.user.UserService
+import com.mini.asaas.dto.user.UserDTO
 
 @GrailsCompileStatic
+@Secured('ROLE_ADMIN')
 class CustomerController {
 
     CustomerService customerService
 
     AddressService addressService
 
+    UserService userService
 
     def index() {}
 
     def save() {
-        Long customerIdByParams = params.getLong("id")
         try {
             CustomerDTO customerDTO = new CustomerDTO(params)
             Customer customer = customerService.save(customerDTO)
-            redirect(action: "show", id: customer.id)
+            redirect(action: "show")
         } catch (ValidationException exception) {
-            log.error("CustomerController.save >> Não foi possível salvar o Customer ${customerIdByParams}", exception)
-            params.errorMessage = "Não foi possível salvar o cliente, ocorreram os seguintes erros: " + exception.errors.allErrors.defaultMessage.join(", ")
+            log.error("CustomerController.save >> Não foi possível salvar o Customer", exception)
+            params.errorMessage = "Não foi possível salvar o cliente"
             redirect(view: "index", params: params)
         }
     }
 
     def show() {
-        Long customerIdByParams = params.getLong("id")
         try {
-            Customer customer = CustomerRepository.findById(customerIdByParams)
+            Customer customer = userService.getCurrentCustomerForLoggedUser()
             return [customer: customer]
         } catch (Exception exception) {
-            log.error("CustomerController.show >> Não foi possível buscar o Customer ${customerIdByParams}", exception)
+            log.error("CustomerController.show >> Não foi possível buscar o Customer", exception)
+            render("Não foi possível buscar o Cliente")
         }
     }
 
     def edit() {
-        Long customerIdByParams = params.getLong("id")
         try {
-            Customer customer = CustomerRepository.findById(customerIdByParams)
+            Customer customer = userService.getCurrentCustomerForLoggedUser()
             return [customer: customer]
         } catch (Exception exception) {
-            log.error("CustomerController.edit >> Não foi possível buscar o Customer ${customerIdByParams}", exception)
+            log.error("CustomerController.edit >> Não foi possível buscar o Customer", exception)
+            params.errorMessage = "Não foi possível buscar o cliente"
+            redirect(view: "index", params: params)
         }
     }
 
     def update() {
-        Long customerIdByParams = params.getLong("id")
         try {
             CustomerDTO customerDTO = new CustomerDTO(params)
-            Customer customer = customerService.update(customerDTO, customerIdByParams)
-            redirect(action: "show", id: customer.id)
+            Customer customer = userService.getCurrentCustomerForLoggedUser()
+            customerService.update(customerDTO, customer)
+            redirect(action: "show")
         } catch (ValidationException exception) {
-            log.error("CustomerController.update >> Não foi possível atualizar o Customer ${customerIdByParams}", exception)
-            params.errorMessage = "Não foi possível editar o cliente, ocorreram os seguintes erros: " + exception.errors.allErrors.defaultMessage.join(", ")
-            redirect(action: "edit", params: params, id: customerIdByParams)
+            log.error("CustomerController.update >> Não foi possível atualizar o Customer", exception)
+            params.errorMessage = "Não foi possível editar o cliente"
+            redirect(action: "edit", params: params)
+        }
+    }
+
+    def users() {
+        try {
+            Long customerId = userService.getCurrentCustomerIdForLoggedUser()
+            List<User> userList = UserRepository.listByCustomer(customerId)
+            List<Role> roleList = RoleRepository.listAll()
+            return [userList: userList, roleList: roleList]
+        } catch (Exception exception) {
+            log.error("CustomerController.users >> Não foi possível listar os Users", exception)
+            params.errorMessage = "Não foi possível listar os usuários"
+            redirect(view: "edit", params: params)
+        }
+    }
+
+    def addUser() {
+        try {
+            String randomPassword = new Random()
+            params.password = randomPassword
+
+            Customer customer = userService.getCurrentCustomerForLoggedUser()
+            params.customer = customer
+
+            UserDTO userDTO = new UserDTO(params)
+
+            Role role = Role.findByAuthority(params.role)
+            userService.save(userDTO, role)
+
+            redirect(action: 'users')
+        } catch (Exception exception) {
+            log.error("RegisterController.register >> Não foi possível registrar o usuário", exception)
+            params.errorMessage = "Não foi possível registrar o usuário"
+            redirect(action: 'edit', params: params)
         }
     }
 }

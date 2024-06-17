@@ -5,18 +5,21 @@ import com.mini.asaas.payment.PaymentService
 import com.mini.asaas.customer.Customer
 import com.mini.asaas.exception.BusinessException
 import com.mini.asaas.repositories.PaymentRepository
+import com.mini.asaas.user.UserService
+import grails.plugin.springsecurity.annotation.Secured
 
+@Secured('permitAll')
 class InvoiceController {
 
     PaymentService paymentService
 
-
-    Customer customer = Customer.get(1) // todo: fix customer Id in 1 while don't have authentication
+    UserService userService
 
     def show() {
         Long paymentIdByParams = params.getLong("id")
         try {
-            Payment payment = PaymentRepository.findByIdAndCustomerId(paymentIdByParams, customer.id)
+            Long customerId = userService.getCurrentCustomerIdForLoggedUser()
+            Payment payment = PaymentRepository.findByIdAndCustomerId(paymentIdByParams, customerId)
             return [payment: payment]
         } catch (Exception exception) {
             log.error(exception.message, exception)
@@ -27,7 +30,8 @@ class InvoiceController {
     def pay() {
         Long paymentIdByParams = params.getLong("id")
         try {
-            Payment payment = paymentService.pay(paymentIdByParams, customer.id)
+            Long customerId = userService.getCurrentCustomerIdForLoggedUser()
+            Payment payment = paymentService.pay(paymentIdByParams, customeId)
             redirect(action: "show", id: payment.id)
         } catch (BusinessException businessException) {
             log.error(businessException.message, businessException)
