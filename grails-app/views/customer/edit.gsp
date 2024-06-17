@@ -49,6 +49,6 @@ contentType="text/html;charset=UTF-8" %>
 
         <input type="submit" value="Atualizar">
     </form>
-    <a href="${createLink(controller: 'customer', action: 'users')}">Usuários</a>
+    <a href="${createLink(controller: 'user', action: 'users')}">Usuários</a>
 </body>
 </html>
