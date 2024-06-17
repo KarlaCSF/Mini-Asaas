@@ -35,7 +35,7 @@ class PaymentRepository implements Repository {
 
         return query
     }
-    
+
     public static Payment findByIdAndCustomerId(Long paymentId, Long customerId, Boolean deletedOnly) {
         Payment payment = PaymentRepository.query([id: paymentId, customerId: customerId, deletedOnly: deletedOnly]).get()
         if (!payment) throw new Exception("Cobrança inexistente.")
@@ -48,6 +48,10 @@ class PaymentRepository implements Repository {
 
     public static List<Payment> listByStatus(PaymentStatus status) {
         return PaymentRepository.query([status: status]).list()
+    }
+
+    public static int countByCustomerIdAndStatus(Long customerId, PaymentStatus status) {
+        return query([column: "id", customerId: customerId, status: status]).list().size()
     }
 
     private static List<String> allowedFilters() {
