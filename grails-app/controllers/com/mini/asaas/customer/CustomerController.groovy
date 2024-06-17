@@ -90,7 +90,7 @@ class CustomerController {
         try {
             Random randomPassword = new Random()
             int maxLength = 999999
-            params.password = randomPassword.nextInt(maxLenght)
+            params.password = randomPassword.nextInt(maxLength)
 
             Customer customer = userService.getCurrentCustomerForLoggedUser()
             params.customer = customer
