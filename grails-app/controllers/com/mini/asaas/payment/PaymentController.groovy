@@ -135,7 +135,7 @@ class PaymentController {
             Long customerId = userService.getCurrentCustomerIdForLoggedUser()
             paymentService.restore(paymentIdByParams, customerId)
             redirect(action: "list")
-        } catch(Exception exception) {
+        } catch (Exception exception) {
             log.error("PaymentController.restore >> Não foi possível restaurar a Payment ${paymentIdByParams}", exception)
             params.errorMessage = "Não foi possível restaurar a cobrança"
             redirect(action: "list", params: params)
