@@ -32,8 +32,13 @@ class UserService {
         return (User) springSecurityService.getCurrentUser()
     }
 
-    public Customer getCustomerByUser() {
+    public Customer getCurrentCustomerForLoggedUser() {
         User user = (User) springSecurityService.getCurrentUser()
         return user.customer
+    }
+
+    public Long getCurrentCustomerIdForLoggedUser() {
+        User user = (User) springSecurityService.getCurrentUser()
+        return user.customer.id
     }
 }

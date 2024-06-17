@@ -4,7 +4,7 @@
     <title>Register</title>
 </head>
 <body>
-    <h1>Register</h1>
+    <h1>Registrar</h1>
     <g:form action="register" method="post">
         <div>
             <label for="email">Email:</label>

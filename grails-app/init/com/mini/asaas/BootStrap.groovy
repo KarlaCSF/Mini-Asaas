@@ -7,7 +7,8 @@ import com.mini.asaas.user.UserRole
 import grails.gorm.transactions.Transactional
 
 class BootStrap {
-def init = {
+
+    def init = {
         addTestUser()
     }
 
@@ -23,7 +24,7 @@ def init = {
             adminRole.save(failOnError: true)
         }
 
-        if(!User.findByUsername('admin')) {
+        if (!User.findByUsername('admin')) {
             def testUser = new User(username: 'admin', password: 'admin')
             testUser.save(failOnError: true)
             UserRole.create(testUser, adminRole, true)
