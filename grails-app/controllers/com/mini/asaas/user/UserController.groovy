@@ -31,7 +31,8 @@ class UserController {
             return [userList: userList, roleList: roleList]
         } catch (Exception exception) {
             log.error("UserController.users >> Não foi possível listar os Users", exception)
-            params.errorMessage = "Não foi possível listar os usuários"
+            flash.message = "Não foi possível listar os usuários."
+            flash.type = "error"
             render("Não foi possível listar os usuários")
         }
     }
@@ -52,35 +53,45 @@ class UserController {
 
             emailService.notifyOnNewUser(user, params.password.toString())
 
+            flash.message = "Usuário adicionado com sucesso!"
+            flash.type = "success"
             redirect(action: 'users')
         } catch (Exception exception) {
             log.error("UserController.add >> Não foi possível adicionar o User", exception)
-            params.errorMessage = "Não foi possível adicionar o usuário"
-            redirect(action: 'users', params: params)
+            flash.message = "Não foi possível adicionar o usuário."
+            flash.type = "error"
+            redirect(action: 'users')
         }
     }
 
     def edit() {
+        User user
         try {
-            User user = userService.getCurrentUser()
+            user = userService.getCurrentUser()
             return [user: user]
         } catch (Exception exception) {
-            log.error("UserController.edit >> Não foi possível buscar o User", exception)
-            params.errorMessage = "Não foi possível buscar o usuário"
-            redirect(action: "users", params: params)
+            log.error("UserController.edit >> Não foi possível buscar o User ${user.id}", exception)
+            flash.message = "Não foi possível buscar o usuário."
+            flash.type = "error"
+            redirect(action: "users")
         }
     }
 
     def update() {
+        User user
         try {
-            User user = userService.getCurrentUser()
+            user = userService.getCurrentUser()
             UserDTO userDTO = new UserDTO(params)
             userService.update(userDTO, user)
-            redirect(action: 'users')
+
+            flash.message = "Senha alterada com sucesso!"
+            flash.type = "success"
+            redirect(action: 'edit')
         } catch (Exception exception) {
-            log.error("UserController.update >> Não foi possível atualizar o usuário", exception)
-            params.errorMessage = "Não foi possível atualizar o usuário"
-            redirect(action: 'edit', params: params)
+            log.error("UserController.update >> Não foi possível atualizar o usuário ${user.id}", exception)
+            flash.message = "Não foi possível alterar a senha."
+            flash.type = "error"
+            redirect(action: 'edit')
         }
     }
 }
