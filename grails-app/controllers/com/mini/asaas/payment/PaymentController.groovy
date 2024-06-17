@@ -8,7 +8,6 @@ import com.mini.asaas.payer.Payer
 import com.mini.asaas.payer.PayerService
 import com.mini.asaas.repositories.PayerRepository
 import com.mini.asaas.repositories.PaymentRepository
-import com.mini.asaas.repositories.PayerRepository
 
 class PaymentController {
 
@@ -105,6 +104,22 @@ class PaymentController {
         }
     }
 
+    def pay() {
+        Long paymentIdByParams = params.getLong("id")
+        try {
+            Payment payment = paymentService.pay(paymentIdByParams, customer.id)
+            redirect(action: "show", id: payment.id)
+        } catch (BusinessException businessException) {
+            log.error(businessException.message, businessException)
+            params.errorMessage = businessException.message
+            redirect(action: "show", params: params)
+        } catch (Exception exception) {
+            log.error(exception.message, exception)
+            params.errorMessage = "Não foi possível pagar a cobrança"
+            redirect(action: "show", params: params)
+        }
+    }
+
     def restore() {
         try {
             paymentService.restore(params.getLong("id"), customer.id)
@@ -123,7 +138,7 @@ class PaymentController {
 
             deletedOnly = true
             List<Payment> deletedPaymentList = PaymentRepository.listByCustomer(customer.id, deletedOnly)
-            
+
             return [paymentList: paymentList, deletedPaymentList: deletedPaymentList]
         } catch(Exception exception) {
             log.error("PaymentController.list >> Não foi possível listar as Payments ${paymentIdByParams}", exception)
