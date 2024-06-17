@@ -14,12 +14,9 @@ class UserService {
     public User save(UserDTO userDTO, Role role) {
         def user = new User(username: userDTO.username, password: userDTO.password)
         user.customer = userDTO.customer
-
         user.save(failOnError: true)
     
         UserRole.create(user, role)
-
-        
 
         return user
     }
@@ -28,8 +25,13 @@ class UserService {
         return (User) springSecurityService.getCurrentUser()
     }
 
-    public Customer getCustomerByUser() {
+    public Customer getCurrentCustomerForLoggedUser() {
         User user = (User) springSecurityService.getCurrentUser()
         return user.customer
+    }
+
+    public Long getCurrentCustomerIdForLoggedUser() {
+        User user = (User) springSecurityService.getCurrentUser()
+        return user.customer.id
     }
 }

@@ -41,7 +41,7 @@ class CustomerController {
 
     def show() {
         try {
-            Customer customer = userService.getCustomerByUser()
+            Customer customer = userService.getCurrentCustomerForLoggedUser()
             return [customer: customer]
         } catch (Exception exception) {
             log.error("CustomerController.show >> Não foi possível buscar o Customer", exception)
@@ -51,7 +51,7 @@ class CustomerController {
 
     def edit() {
         try {
-            Customer customer = userService.getCustomerByUser()
+            Customer customer = userService.getCurrentCustomerForLoggedUser()
             return [customer: customer]
         } catch (Exception exception) {
             log.error("CustomerController.edit >> Não foi possível buscar o Customer", exception)
@@ -63,7 +63,7 @@ class CustomerController {
     def update() {
         try {
             CustomerDTO customerDTO = new CustomerDTO(params)
-            Customer customer = userService.getCustomerByUser()
+            Customer customer = userService.getCurrentCustomerForLoggedUser()
             customerService.update(customerDTO, customer)
             redirect(action: "show")
         } catch (ValidationException exception) {
@@ -75,8 +75,8 @@ class CustomerController {
 
     def users() {
         try {
-            Customer customer = userService.getCustomerByUser()
-            List<User> userList = UserRepository.listByCustomer(customer.id)
+            Long customerId = userService.getCurrentCustomerIdForLoggedUser()
+            List<User> userList = UserRepository.listByCustomer(customerId)
             List<Role> roleList = RoleRepository.listAll()
             return [userList: userList, roleList: roleList]
         } catch (Exception exception) {
@@ -92,7 +92,7 @@ class CustomerController {
             int maxLength = 999999
             params.password = randomPassword.nextInt(maxLenght)
 
-            Customer customer = userService.getCustomerByUser()
+            Customer customer = userService.getCurrentCustomerForLoggedUser()
             params.customer = customer
 
             UserDTO userDTO = new UserDTO(params)

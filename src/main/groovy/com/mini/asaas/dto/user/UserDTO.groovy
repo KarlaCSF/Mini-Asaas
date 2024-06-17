@@ -15,6 +15,6 @@ class UserDTO {
     public UserDTO(Map params){
         this.username = params.email
         this.password = params.password
-        this.customer = (Customer) params.customer
+        this.customer = params.customer as Customer
     } 
 }
