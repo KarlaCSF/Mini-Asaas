@@ -124,7 +124,7 @@ class PaymentController {
         try {
             paymentService.restore(params.getLong("id"), customer.id)
             redirect(action: "list")
-        } catch(Exception exception) {
+        } catch (Exception exception) {
             log.error("PaymentController.restore >> Não foi possível restaurar a Payment ${paymentIdByParams}", exception)
             params.errorMessage = "Não foi possível restaurar a cobrança"
             redirect(action: "list", params: params)
@@ -140,7 +140,7 @@ class PaymentController {
             List<Payment> deletedPaymentList = PaymentRepository.listByCustomer(customer.id, deletedOnly)
 
             return [paymentList: paymentList, deletedPaymentList: deletedPaymentList]
-        } catch(Exception exception) {
+        } catch (Exception exception) {
             log.error("PaymentController.list >> Não foi possível listar as Payments ${paymentIdByParams}", exception)
             params.errorMessage = "Não foi possível listar as cobranças"
             redirect(action: "index", params: params)
