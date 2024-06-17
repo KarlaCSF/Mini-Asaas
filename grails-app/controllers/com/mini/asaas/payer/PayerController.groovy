@@ -6,16 +6,20 @@ import com.mini.asaas.dto.payer.PayerDTO
 import com.mini.asaas.repositories.PayerRepository
 import grails.compiler.GrailsCompileStatic
 import grails.validation.ValidationException
+import grails.compiler.GrailsCompileStatic
+import com.mini.asaas.user.UserService
+import grails.plugin.springsecurity.annotation.Secured
 
 @GrailsCompileStatic
+@Secured(['ROLE_ADMIN', 'ROLE_SELLER'])
 class PayerController {
 
     CustomerService customerService
 
     PayerService payerService
 
-    Customer customer = Customer.get(1) // fixed Customer in 1 while don't have authentication
-
+    UserService userService
+    
     def index() {
         return [params: params]
     }
@@ -27,8 +31,9 @@ class PayerController {
     def save() {
         Long payerIdByParams = params.getLong("id")
         try {
+            Long customerId = userService.getCurrentCustomerIdForLoggedUser()
             PayerDTO payerDTO = new PayerDTO(params)
-            Payer payer = payerService.save(payerDTO, customer.id)
+            Payer payer = payerService.save(payerDTO, customerId)
             redirect(action: "show", id: payer.id)
         } catch (ValidationException validationException) {
             log.error("PayerController.save >> Não foi possível salvar o Payer ${payerIdByParams}", validationException)
@@ -44,8 +49,9 @@ class PayerController {
     def show() {
         Long payerIdByParams = params.getLong("id")
         try {
+            Long customerId = userService.getCurrentCustomerIdForLoggedUser()
             Boolean deletedOnly = false
-            Payer payer = PayerRepository.findByIdAndCustomerId(payerIdByParams, customer.id, deletedOnly)
+            Payer payer = PayerRepository.findByIdAndCustomerId(payerIdByParams, customerId, deletedOnly)
             if (!payer) throw new Exception("Payer não encontrado")
             return [payer: payer]
         } catch (Exception exception) {
@@ -58,7 +64,8 @@ class PayerController {
     def edit() {
         Long payerIdByParams = params.getLong("id")
         try {
-            Payer payer = PayerRepository.findByIdAndCustomerId(payerIdByParams, customer.id, false)
+            Long customerId = userService.getCurrentCustomerIdForLoggedUser()
+            Payer payer = PayerRepository.findByIdAndCustomerId(payerIdByParams, customerId, false)
             return [payer: payer]
         } catch (Exception exception) {
             log.error("PayerController.edit >> Não foi possível buscar o Payer ${payerIdByParams}", exception)
@@ -70,8 +77,9 @@ class PayerController {
     def update() {
         Long payerIdByParams = params.getLong("id")
         try {
+            Long customerId = userService.getCurrentCustomerIdForLoggedUser()
             PayerDTO payerDTO = new PayerDTO(params)
-            Payer payer = payerService.update(payerDTO, payerIdByParams, customer.id)
+            Payer payer = payerService.update(payerDTO, payerIdByParams, customerId)
             redirect(action: "show", id: payer.id)
         } catch (ValidationException validationException) {
             log.error("PayerController.update >> Não foi possível atualizar o Payer ${payerIdByParams}", validationException)
@@ -87,7 +95,8 @@ class PayerController {
     def delete() {
         Long payerIdByParams = params.getLong("id")
         try {
-            payerService.delete(payerIdByParams, customer.id)
+            Long customerId = userService.getCurrentCustomerIdForLoggedUser()
+            payerService.delete(payerIdByParams, customerId)
             redirect(action: "index")
         } catch (Exception exception) {
             log.error("PayerController.delete >> Não foi possível deletar o Payer ${payerIdByParams}", exception)
@@ -99,7 +108,8 @@ class PayerController {
     def restore() {
         Long payerIdByParams = params.getLong("id")
         try {
-            payerService.restore(payerIdByParams, customer.id)
+            Long customerId = userService.getCurrentCustomerIdForLoggedUser()
+            payerService.restore(payerIdByParams, customerId)
             redirect(action: "list")
         } catch (Exception exception) {
             log.error("PayerController.restore >> Não foi possível restaurar o Payer ${payerIdByParams}", exception)
@@ -111,8 +121,9 @@ class PayerController {
     def list() {
         Long payerIdByParams = params.getLong("id")
         try {
-            List<Payer> payerList = PayerRepository.listByCustomer(customer.id, false)
-            List<Payer> deletedPayerList = PayerRepository.listByCustomer(customer.id, true)
+            Long customerId = userService.getCurrentCustomerIdForLoggedUser()
+            List<Payer> payerList = PayerRepository.listByCustomer(customerId, false)
+            List<Payer> deletedPayerList = PayerRepository.listByCustomer(customerId, true)
             return [payerList: payerList, deletedPayerList: deletedPayerList]
         } catch (Exception exception) {
             log.error("PayerController.list >> Não foi possível listar o Payers ${payerIdByParams}", exception)
