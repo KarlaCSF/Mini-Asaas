@@ -24,8 +24,9 @@ class UserController {
     }
 
     def users() {
+        Long customerId
         try {
-            Long customerId = userService.getCurrentCustomerIdForLoggedUser()
+            customerId = userService.getCurrentCustomerIdForLoggedUser()
             List<User> userList = UserRepository.listByCustomer(customerId)
             List<Role> roleList = RoleRepository.listAll()
             return [userList: userList, roleList: roleList]
@@ -38,12 +39,13 @@ class UserController {
     }
 
     def add() {
+        Customer customer
         try {
             Random randomPassword = new Random()
-            int maxLenght = 999999
-            params.password = randomPassword.nextInt(maxLenght)
+            int maxLength = 999999
+            params.password = randomPassword.nextInt(maxLength)
 
-            Customer customer = userService.getCurrentCustomerForLoggedUser()
+            customer = userService.getCurrentCustomerForLoggedUser()
             params.customer = customer
  
             params.role = Role.findByAuthority(params.role)
@@ -57,7 +59,7 @@ class UserController {
             flash.type = "success"
             redirect(action: 'users')
         } catch (Exception exception) {
-            log.error("UserController.add >> Não foi possível adicionar o User", exception)
+            log.error("UserController.add >> Não foi possível adicionar o User no Customer ${customer.id}", exception)
             flash.message = "Não foi possível adicionar o usuário."
             flash.type = "error"
             redirect(action: 'users')
@@ -88,7 +90,7 @@ class UserController {
             flash.type = "success"
             redirect(action: 'edit')
         } catch (Exception exception) {
-            log.error("UserController.update >> Não foi possível atualizar o usuário ${user.id}", exception)
+            log.error("UserController.update >> Não foi possível atualizar o User ${user.id}", exception)
             flash.message = "Não foi possível alterar a senha."
             flash.type = "error"
             redirect(action: 'edit')
