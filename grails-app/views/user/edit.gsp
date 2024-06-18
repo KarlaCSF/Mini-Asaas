@@ -27,12 +27,12 @@
 
                             <atlas-password-input   
                                 label="Senha"
+                                required="true"
                                 name="password">
                             </atlas-password-input>
 
                             <atlas-button
                                 submit
-                                required="true"
                                 description="Salvar">
                             </atlas-button>
                         </atlas-form>
