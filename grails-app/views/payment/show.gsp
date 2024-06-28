@@ -1,56 +1,90 @@
-<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ page import="com.mini.asaas.enums.payment.BillingType; com.mini.asaas.utils.StringUtils; com.mini.asaas.utils.DateUtils" contentType="text/html;charset=UTF-8" %>
 <html>
-<head>
-    <title></title>
-</head>
+    <head>
+        <meta name="layout" content="main"/>
+        <title>Exibir Cobrança - Mini Asaas</title>
+    </head>
 
-<body>
-<form>
+    <body>
+        <atlas-section header="Cobranças">
+            <atlas-form-panel header="Cobrança: ${payment.id}">
+            <atlas-button
+                    slot="actions"
+                    href="${createLink(controller: 'payment', action: 'edit', id: payment.id)}"
+                    description="Editar"
+                    icon="pencil"
+                    data-panel-start-editing
+                ${!payment.canEdit() ? "disabled" : ""}>
+            </atlas-button>
+            <atlas-button
+                    slot="actions"
+                    href="${createLink(controller: 'payment', action: 'delete', id: payment.id)}"
+                    description="Excluir"
+                    icon="trash"
+                    data-panel-start-editing
+                    theme="danger"
+                ${!payment.canEdit() ? "disabled" : ""}>
+            </atlas-button>
+            <atlas-layout gap="2">
+                <atlas-layout row gap="4">
+                    <atlas-input
+                            label="Responsável pela cobrança"
+                            name="customerName"
+                            value="${payment.customer.name}"
+                            disabled="true"
+                            required="true">
+                    </atlas-input>
 
-    <fieldset>
-        <legend>ID da cobrança: ${payment.id}</legend>
-        
-        <g:if test="${params.errorMessage}">
-            <span>${params.errorMessage}</span>
-        </g:if>
-        
-        <fieldset>         
-            <div>
-                <label for="payerId">Responsável pela cobrança</label><br>
-                <input type="text" value="${payment.customer.name}" disabled><br>
-            </div><br>
+                    <atlas-input
+                            label="Pagador"
+                            name="payerName"
+                            value="${payment.payer.name}"
+                            disabled="true"
+                            required="true">
+                    </atlas-input>
 
-            <div>
-                <label for="payerId">Pagador</label><br>
-                <input type="text" value="${payment.payer.name}" disabled><br>
-            </div><br>
+                    <atlas-money
+                            label="Valor da cobrança"
+                            name="value"
+                            value="${StringUtils.formatCurrencyWithoutSymbol(payment.value.toString())}"
+                            required="true">
+                    </atlas-money>
 
-            <div>
-                <label for="name">Valor da cobrança</label><br>
-                <input type="number" value="${payment.value}" disabled><br>
-            </div><br>
+                    <atlas-datepicker
+                            label="Data de Vencimento"
+                            name="dueDate"
+                            value="${DateUtils.formatDate(payment.dueDate)}"
+                            required="true">
+                    </atlas-datepicker>
 
-            <div>
-                <label for="email">Data de Vencimento</label><br>
-                <g:textField name="dueDate" value="${g.formatDate(format: 'dd/MM/yyyy', date: payment.dueDate)}" disabled="true"/>
-            </div><br>
- 
-            <div>
-                <label for="billingType">Tipo de Pagamento</label><br>
-                <input type="text" value="${payment.billingType.getMessage()}" disabled><br>        
-            </div><br>
-    
-            <div>
-                <label for="status">Estado da cobrança</label><br>
-                <input type="text" value="${payment.status.getMessage()}" disabled><br>
-            </div><br>
+                    <atlas-input label="Forma de pagamento"
+                                 name="billingType"
+                                 value="${payment.billingType.getMessage()}"
+                                 required="true">
+                    </atlas-input>
 
-            <a href="${createLink(controller: 'payment', action: 'edit', id: payment.id)}">Editar Cobrança</a>
-            <a href="${createLink(controller: 'payment', action: 'delete', id: payment.id)}">Excluir Cobrança</a>
-        </fieldset>
-     
-    </fieldset>
+                    <atlas-input label="Estado da Cobrança"
+                                 name="status"
+                                 value="${payment.status.getMessage()}"
+                                 required="true">
+                    </atlas-input>
 
-</form>
-</body>
+                    <atlas-layout inline gap="2">
+                        <atlas-button
+                                href="${createLink(controller: 'payment', action: 'pay', id: payment.id)}"
+                                description="Confirmar pagamento em dinheiro"
+                                theme="success"
+                            ${!payment.canEdit() ? "disabled" : ""}>
+                        </atlas-button>
+
+                        <atlas-button
+                                href="${createLink(controller: 'payment', action: 'list')}"
+                                description="Voltar"
+                                theme="secondary">
+                        </atlas-button>
+                    </atlas-layout>
+                </atlas-layout>
+        </atlas-form-panel>
+        </atlas-section>
+    </body>
 </html>
