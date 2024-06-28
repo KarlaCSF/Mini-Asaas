@@ -7,10 +7,6 @@ contentType="text/html;charset=UTF-8" %>
     <meta name="layout" content="notLogged"/>
 </head>
 <body>
-    <g:if test="${flash.message}">
-        <atlas-alert message="${flash.message}" type="${flash.type}"></atlas-alert>
-    </g:if>
-
     <atlas-page >
         <atlas-page-header page-name="Cadastro" slot="header"></atlas-page-header>
         <atlas-page-content slot="content">
