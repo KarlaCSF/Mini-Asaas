@@ -32,7 +32,8 @@ class PaymentController {
             return [view: "create", listPayersByCustomer: listPayersByCustomer]
         } catch (Exception exception) {
             log.error(exception.message, exception)
-            params.errorMessage = "Não foi possível buscar os pagadores"
+            flash.message = "Não foi possível buscar os pagadores"
+            flash.type = "error"
             redirect(action: "create", params: params)
         }
     }
@@ -46,7 +47,8 @@ class PaymentController {
             return [payment: payment, id: payment.id]
         } catch (Exception exception) {
             log.error("PaymentController.edit >> Não foi possível buscar a Payment ${paymentIdByParams}", exception)
-            params.errorMessage = "Não foi possível buscar a cobrança"
+            flash.message = "Não foi possível buscar a cobrança"
+            flash.type = "error"
             redirect(action: "show", params: params)
         }
     }
@@ -60,7 +62,9 @@ class PaymentController {
             return [payment: payment]
         } catch (Exception exception) {
             log.error("PaymentController.show >> Não foi possível buscar a Payment ${paymentIdByParams}", exception)
-            render "Cobrança não encontrada"
+            flash.message = "Cobrança não encontrada"
+            flash.type = "warning"
+            redirect(action: "list")
         }
     }
 
@@ -73,7 +77,8 @@ class PaymentController {
             redirect(action: "show", id: payment.id)
         } catch (Exception exception) {
             log.error("PaymentController.save >> Não foi possível salvar a Payment ${paymentIdByParams}", exception)
-            params.errorMessage = "Não foi possível realizar a cobrança"
+            flash.message = "Não foi possível realizar o salvamento da cobrança"
+            flash.type = "error"
             redirect(action: "create", params: params)
         }
     }
@@ -86,12 +91,14 @@ class PaymentController {
             Payment payment = paymentService.update(updatePaymentDTO, paymentIdByParams, customerId)
             redirect(action: "show", id: payment.id)
         } catch (BusinessException businessException) {
-            log.error("PaymentController.update >> Não foi possível atualizar o Payment ${paymentIdByParams}", exception)
-            params.errorMessage = exception.message
+            log.error("PaymentController.update >> Não foi possível atualizar o Payment ${paymentIdByParams}", businessException)
+            flash.message = businessException.message
+            flash.type = "error"
             redirect(action: "edit", params: params)
         } catch (Exception exception) {
             log.error("PaymentController.update >> Não foi possível atualizar a Payment ${paymentIdByParams}", exception)
-            params.errorMessage = "Não foi possível editar a cobrança"
+            flash.message = "Não foi possível apagar a cobrança"
+            flash.type = "error"
             redirect(action: "edit", params: params)
         }
     }
@@ -103,12 +110,14 @@ class PaymentController {
             paymentService.delete(paymentIdByParams, customerId)
             redirect(action: "index")
         } catch (BusinessException businessException) {
-            log.error(exception.message, exception)
-            params.errorMessage = exception.message
+            log.error(businessException.message, businessException)
+            flash.message = businessException.message
+            flash.type = "error"
             redirect(action: "show", params: params)
         } catch (Exception exception) {
             log.error("PaymentController.delete >> Não foi possível deletar a Payment ${paymentIdByParams}", exception)
-            params.errorMessage = "Não foi possível apagar a cobrança"
+            flash.message = "Não foi possível apagar a cobrança"
+            flash.type = "error"
             redirect(action: "show", params: params)
         }
     }
@@ -117,14 +126,18 @@ class PaymentController {
         Long paymentIdByParams = params.getLong("id")
         try {
             Payment payment = paymentService.pay(paymentIdByParams, customer.id)
-            redirect(action: "show", id: payment.id)
+            flash.message = "Cobrança Paga com Sucesso"
+            flash.type = "success"
+            redirect(action: "show", id: payment.id, params: params)
         } catch (BusinessException businessException) {
             log.error(businessException.message, businessException)
-            params.errorMessage = businessException.message
+            flash.message = businessException.message
+            flash.type = "error"
             redirect(action: "show", params: params)
         } catch (Exception exception) {
             log.error("PaymentController.pay >> Não foi possível pagar a Payment ${paymentIdByParams}", exception)
-            params.errorMessage = "Não foi possível pagar a cobrança"
+            flash.message = "Não foi possível pagar a cobrança"
+            flash.type = "error"
             redirect(action: "show", params: params)
         }
     }
@@ -137,12 +150,14 @@ class PaymentController {
             redirect(action: "list")
         } catch (Exception exception) {
             log.error("PaymentController.restore >> Não foi possível restaurar a Payment ${paymentIdByParams}", exception)
-            params.errorMessage = "Não foi possível restaurar a cobrança"
+            flash.message = "Não foi possível restaurar a cobrança"
+            flash.type = "error"
             redirect(action: "list", params: params)
         }
     }
 
     def list() {
+        Long paymentIdByParams = params.getLong("id")
         Boolean deletedOnly = false
         try {
             Long customerId = userService.getCurrentCustomerIdForLoggedUser()
@@ -150,11 +165,12 @@ class PaymentController {
 
             deletedOnly = true
             List<Payment> deletedPaymentList = PaymentRepository.listByCustomer(customerId, deletedOnly)
-            
+
             return [paymentList: paymentList, deletedPaymentList: deletedPaymentList]
-        } catch(Exception exception) {
-            log.error("PaymentController.list >> Não foi possível listar as Payments", exception)
-            params.errorMessage = "Não foi possível listar as cobranças"
+        } catch (Exception exception) {
+            log.error("PaymentController.list >> Não foi possível listar as Payments ${paymentIdByParams}", exception)
+            flash.message = "Não foi possível listar as cobranças"
+            flash.type = "error"
             redirect(action: "index", params: params)
         }
     }

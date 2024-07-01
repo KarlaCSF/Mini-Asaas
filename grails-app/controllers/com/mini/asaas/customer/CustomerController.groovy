@@ -5,10 +5,6 @@ import com.mini.asaas.dto.customer.CustomerDTO
 import grails.compiler.GrailsCompileStatic
 import grails.validation.ValidationException
 import grails.plugin.springsecurity.annotation.Secured
-import com.mini.asaas.user.User
-import com.mini.asaas.user.Role
-import com.mini.asaas.repositories.UserRepository
-import com.mini.asaas.repositories.RoleRepository
 import com.mini.asaas.user.UserService
 import com.mini.asaas.dto.user.UserDTO
 import com.mini.asaas.email.EmailService
@@ -22,8 +18,6 @@ class CustomerController {
     AddressService addressService
 
     UserService userService
-
-    EmailService emailService
 
     def index() {}
 
@@ -69,43 +63,6 @@ class CustomerController {
             flash.message = "Não foi possível editar o cliente, ocorreram os seguintes erros: " + exception.errors.allErrors.defaultMessage.join(", ")
             flash.type = "error"
             redirect(action: "edit", params: params)
-        }
-    }
-
-    def users() {
-        try {
-            Long customerId = userService.getCurrentCustomerIdForLoggedUser()
-            List<User> userList = UserRepository.listByCustomer(customerId)
-            List<Role> roleList = RoleRepository.listAll()
-            return [userList: userList, roleList: roleList]
-        } catch (Exception exception) {
-            log.error("CustomerController.users >> Não foi possível listar os Users", exception)
-            params.errorMessage = "Não foi possível listar os usuários"
-            redirect(view: "edit", params: params)
-        }
-    }
-
-    def addUser() {
-        try {
-            Random randomPassword = new Random()
-            int maxLength = 999999
-            params.password = randomPassword.nextInt(maxLength)
-
-            Customer customer = userService.getCurrentCustomerForLoggedUser()
-            params.customer = customer
-
-            UserDTO userDTO = new UserDTO(params)
-
-            Role role = Role.findByAuthority(params.role)
-            User user = userService.save(userDTO, role)
-
-            emailService.notifyOnNewUser(user, params.password.toString())
-
-            redirect(action: 'users')
-        } catch (Exception exception) {
-            log.error("RegisterController.register >> Não foi possível registrar o usuário", exception)
-            params.errorMessage = "Não foi possível registrar o usuário"
-            redirect(action: 'edit', params: params)
         }
     }
 }

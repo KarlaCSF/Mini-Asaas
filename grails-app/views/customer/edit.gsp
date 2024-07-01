@@ -112,5 +112,7 @@ contentType="text/html;charset=UTF-8" %>
             </atlas-panel>  
         </atlas-layout>
     </atlas-form-panel>
+
+    <a href="${createLink(controller: 'user', action: 'users')}">Usuários</a>
 </body>
 </html>

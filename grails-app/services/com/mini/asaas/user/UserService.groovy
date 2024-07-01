@@ -11,14 +11,21 @@ import com.mini.asaas.dto.user.UserDTO
 class UserService {
     SpringSecurityService springSecurityService
 
-    public User save(UserDTO userDTO, Role role) {
+    public User create(UserDTO userDTO) {
         def user = new User(username: userDTO.username, password: userDTO.password)
         user.customer = userDTO.customer
         user.save(failOnError: true)
     
-        UserRole.create(user, role)
-
+        UserRole.create(user, userDTO.role)
+    
         return user
+    }
+
+    public User update(UserDTO userDTO, User user) {
+        user.password = userDTO.password
+
+        user.save(failOnError: true)
+        return user        
     }
 
     public User getCurrentUser() {

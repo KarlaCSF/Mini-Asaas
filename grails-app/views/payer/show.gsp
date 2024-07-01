@@ -1,89 +1,128 @@
-<%@ page import="com.mini.asaas.utils.CpfCnpjUtils" %>
-<%@page contentType="text/html;charset=UTF-8" %>
+<%@ page
+        import="com.mini.asaas.enums.States"
+        contentType="text/html;charset=UTF-8" %>
 <html>
-<head>
-    <title></title>
-</head>
+    <head>
+        <meta name="layout" content="main"/>
+        <title>Exibir pagador - Mini Asaas</title>
+    </head>
 
-<body>
+    <body>
+        <atlas-section header="Pagadores">
+            <atlas-panel header="${payer.name}">
+                <atlas-button
+                        slot="actions"
+                        href="${createLink(controller: 'payer', action: 'edit', id: payer.id)}"
+                        description="Editar"
+                        icon="pencil"
+                        data-panel-start-editing>
+                </atlas-button>
+                <atlas-button
+                        slot="actions"
+                        href="${createLink(controller: 'payer', action: 'delete', id: payer.id)}"
+                        description="Excluir"
+                        icon="trash"
+                        data-panel-start-editing
+                        theme="danger">
+                </atlas-button>
+                <atlas-form action="${createLink(controller: "payer", action: "update")}" method="post">
+                    <atlas-panel header="Dados Do Pagador">
+                        <atlas-input
+                                label="Nome"
+                                placeholder="Insira o nome do pagador"
+                                name="name"
+                                value="${payer.name}"
+                                required="true"
+                                disabled="true">
+                        </atlas-input>
 
-<form>
+                        <atlas-masked-input
+                                label="Email"
+                                placeholder="Insira o email do pagador"
+                                name="email"
+                                mask-alias="email"
+                                value="${payer.email}"
+                                required="true"
+                                disabled="true">
+                        </atlas-masked-input>
 
-    <fieldset>
-            <legend>${payer.name}</legend>
-        
-        <g:if test="${params.errorMessage}">
-            <span>${params.errorMessage}</span>
-        </g:if>
-                        
-        <fieldset>
-            <legend>Dados do Pagador</legend>
-            
-            <div>
-                <label for="name">Vinculado ao Cliente</label><br>
-                <input type="text" value="${payer.customer.name}" disabled="true"><br>
-            </div><br>
-            
-            <div>
-                <label for="name">Nome</label><br>
-                <input type="text" value="${payer.name}" disabled="true"><br>
-            </div><br>
-            
-            <div>
-                <label for="email">Email</label><br>
-                <input type="email" value="${payer.email}" disabled="true"><br>
-            </div><br>
-        
-            <div>
-                <label for="cpfCnpj">CPF/CPNJ</label><br>
-                <input type="text" value="${CpfCnpjUtils.applyMask(payer.cpfCnpj.toString())}" disabled="true"><br>
-            </div><br>
-        </fieldset>
-        
-  
-        <fieldset>
-            <legend>Endereço</legend>
+                        <atlas-masked-input
+                                label="Cpf ou Cnpj"
+                                placeholder="Insira o cpf do pagador"
+                                name="cpfCnpj"
+                                mask-alias="cpf-cnpj"
+                                value="${payer.cpfCnpj}"
+                                required="true"
+                                disabled="true">
+                        </atlas-masked-input>
+                    </atlas-panel>
+                    <atlas-panel header="Endeço do Pagador">
+                        <atlas-postal-code
+                                label="Cep"
+                                placeholder="Insira o cep do pagador"
+                                name="cep"
+                                value="${payer.address.cep}"
+                                required="true"
+                                disabled="true">
+                        </atlas-postal-code>
 
-            <div>
-                <label for="cep">CEP</label><br>
-                <input type="text" value="${payer.address.cep}" disabled="true"><br>
-            </div><br>
-            
-            <div>
-                <label for="state">Estado</label><br>
-                <input type="text" value="${payer.address.state}" maxlength="2" disabled="true"><br>
-            </div><br>
-                        
-            <div>
-                <label for="city">Cidade</label><br>
-                <input type="text" value="${payer.address.city}" disabled="true"><br>
-            </div><br>
-            
-            <div>
-                <label for="district">Bairro</label><br>
-                <input type="text" value="${payer.address.district}" disabled="true"><br>
-            </div><br>
-            
-            <div>
-                <label for="street">Logradouro</label><br>
-                <input type="text" value="${payer.address.street}" disabled="true"><br>
-            </div><br>
-            
-            <div>
-                <label for="number">Número</label><br>
-                <input type="text" value="${payer.address.number}" disabled="true"><br>
-            </div><br>
+                        <atlas-select
+                                label="Estado"
+                                name="state"
+                                value="${payer.address.state}"
+                                required="true"
+                                disabled="true">
+                            <atlasFormTagLib:optionList
+                                    from="${States.values()}"
+                                    noSelectionLabel="Escolha o estado do pagador"/>
+                        </atlas-select>
 
-            <div>
-                <label for="complement">Complemento</label><br>
-                <input type="text" value="${payer.address.complement}" disabled="true"><br>
-            </div><br>
-            
-        </fieldset>
+                        <atlas-input
+                                label="Cidade"
+                                placeholder="Insira a cidade do pagador"
+                                name="city"
+                                value="${payer.address.city}"
+                                required="true"
+                                disabled="true">
+                        </atlas-input>
 
-        <a href="${createLink(controller: 'payer', action: 'edit', id: payer.id)}">Editar Pagador</a>
-        <a href="${createLink(controller: 'payer', action: 'delete', id: payer.id)}">Excluir Pagador</a>
-    </fieldset>
-</form>
-</body>
+                        <atlas-input
+                                label="Bairro"
+                                placeholder="Insira o bairro do pagador"
+                                name="district"
+                                value="${payer.address.district}"
+                                required="true"
+                                disabled="true">
+                        </atlas-input>
+
+                        <atlas-input
+                                label="Lougradoro"
+                                placeholder="Insira o lougradoro do pagador"
+                                name="street"
+                                value="${payer.address.street}"
+                                required="true"
+                                disabled="true">
+                        </atlas-input>
+
+                        <atlas-input
+                                label="Número"
+                                placeholder="Insira o número do pagador"
+                                name="number"
+                                value="${payer.address.number}"
+                                required="true"
+                                disabled="true">
+                        </atlas-input>
+
+                        <atlas-input
+                                label="Complemento"
+                                name="complement"
+                                value="${payer.address.complement}"
+                                disabled="true">
+                        </atlas-input>
+
+                    </atlas-panel>
+                </atlas-form>
+            </atlas-panel>
+        </atlas-section>
+    </body>
 </html>
