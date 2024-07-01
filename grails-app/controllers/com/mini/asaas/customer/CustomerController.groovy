@@ -25,44 +25,43 @@ class CustomerController {
         try {
             CustomerDTO customerDTO = new CustomerDTO(params)
             Customer customer = customerService.save(customerDTO)
+            flash.message = "Dados salvos com sucesso"
+            flash.type = "success"
             redirect(action: "show")
         } catch (ValidationException exception) {
             log.error("CustomerController.save >> Não foi possível salvar o Customer", exception)
-            params.errorMessage = "Não foi possível salvar o cliente"
+            flash.message = "Não foi possível salvar o cliente, ocorreram os seguintes erros: " + exception.errors.allErrors.defaultMessage.join(", ")
+            flash.type = "error"
             redirect(view: "index", params: params)
-        }
-    }
-
-    def show() {
-        try {
-            Customer customer = userService.getCurrentCustomerForLoggedUser()
-            return [customer: customer]
-        } catch (Exception exception) {
-            log.error("CustomerController.show >> Não foi possível buscar o Customer", exception)
-            render("Não foi possível buscar o Cliente")
         }
     }
 
     def edit() {
+        Customer customer
         try {
-            Customer customer = userService.getCurrentCustomerForLoggedUser()
+            customer = userService.getCurrentCustomerForLoggedUser()
             return [customer: customer]
         } catch (Exception exception) {
-            log.error("CustomerController.edit >> Não foi possível buscar o Customer", exception)
-            params.errorMessage = "Não foi possível buscar o cliente"
-            redirect(view: "index", params: params)
+            log.error("CustomerController.edit >> Não foi possível buscar o Customer ${customer.id}", exception)
+            flash.message = "Não foi possível buscar o cliente"
+            flash.type = "error"
+            redirect(action: "index")
         }
     }
 
     def update() {
+        Customer customer
         try {
             CustomerDTO customerDTO = new CustomerDTO(params)
-            Customer customer = userService.getCurrentCustomerForLoggedUser()
+            customer = userService.getCurrentCustomerForLoggedUser()
             customerService.update(customerDTO, customer)
-            redirect(action: "show")
+            flash.message = "Dados atualizados com sucesso"
+            flash.type = "success"
+            redirect(action: "edit")
         } catch (ValidationException exception) {
-            log.error("CustomerController.update >> Não foi possível atualizar o Customer", exception)
-            params.errorMessage = "Não foi possível editar o cliente"
+            log.error("CustomerController.update >> Não foi possível atualizar o Customer ${customer.id}", exception)
+            flash.message = "Não foi possível editar o cliente, ocorreram os seguintes erros: " + exception.errors.allErrors.defaultMessage.join(", ")
+            flash.type = "error"
             redirect(action: "edit", params: params)
         }
     }

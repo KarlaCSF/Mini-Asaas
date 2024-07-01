@@ -4,48 +4,107 @@ contentType="text/html;charset=UTF-8" %>
 <!doctype html>
 <html>
 <head>
-    <meta name="layout" content="main"/>
+    <meta name="layout" content="notLogged"/>
 </head>
 <body>
-    <g:if test="${params.errorMessage}">
-        <span>${params.errorMessage}</span>
-    </g:if>
+    <atlas-page >
+        <atlas-page-header page-name="Cadastro" slot="header"></atlas-page-header>
+        <atlas-page-content slot="content">
+            <atlas-panel header="Cliente">
+                <atlas-form action="${createLink(controller: "customer", action: "save")}" method="post">
+                    <atlas-panel header="Dados da Conta">       
+                        <atlas-input
+                            label="Nome"
+                            placeholder="Ex: João da Silva"
+                            name="name"
+                            value="${params.name}"
+                            required="true">
+                        </atlas-input>
 
-    <form action="${createLink(controller: "customer", action: "save")}">
-        <label for="name">Nome:</label><br>
-        <input type="text" name="name" value="${params.name}"><br>
-        
-        <label for="email">Email:</label><br>
-        <input type="text" name="email" value="${params.email}"><br><br>
+                        <atlas-input
+                            label="Email"
+                            placeholder="Ex: joao.silva@gmail.com"
+                            name="email"
+                            value="${params.email}"
+                            required="true">
+                        </atlas-input>
 
-        <label for="cpfCnpj">CPF/CNPJ:</label><br>
-        <input type="text" name="cpfCnpj" value="${params.cpfCnpj}"><br><br>
+                        <atlas-masked-input
+                            label="CPF/CNPJ"
+                            placeholder="000.000.000-00"
+                            name="cpfCnpj"
+                            mask-alias="cpf-cnpj"
+                            value="${params.cpfCnpj}"
+                            required="true">
+                        </atlas-masked-input>
+                    </atlas-panel>
 
-        <div>Endereço 
-            <br>
-            <label for="cep">CEP:</label><br>
-            <input type="text" name="cep" value="${params.cep}"><br><br>
+                    <atlas-panel header="Endereço">  
+                        <atlas-integer-input
+                            label="CEP"
+                            placeholder="00000-000"
+                            name="cep"
+                            value="${params.cep}"
+                            required="true">
+                        </atlas-integer-input>
 
-            <label for="city">Cidade:</label><br>
-            <input type="text" name="city" value="${params.city}"><br><br>
+                        <atlas-input
+                            label="Cidade"
+                            placeholder="Ex: Joinville"
+                            name="city"
+                            value="${params.city}"
+                            required="true">
+                        </atlas-input>
 
-            <label for="state">Estado:</label><br>
-            <g:select name="state" value="${params.state}" from="${States.values()}" noSelection="['':'Selecione um estado']" required="true"/><br><br>
+                        <atlas-select
+                            label="Estado"
+                            name="state"
+                            value="${params.state}"
+                            required="true">
+                            <atlasFormTagLib:optionList
+                                from="${States.values()}"
+                                noSelectionLabel="Selecione o estado"/>
+                        </atlas-select>
 
-            <label for="district">Bairro:</label><br>
-            <input type="text" name="district" value="${params.district}"><br><br>
+                        <atlas-input
+                            label="Bairro"
+                            placeholder="Ex: Bom Retiro"
+                            name="district"
+                            value="${params.district}"
+                            required="true">
+                        </atlas-input>
 
-            <label for="street">Rua:</label><br>
-            <input type="text" name="street" value="${params.street}"><br><br>
+                        <atlas-input
+                            label="Rua"
+                            placeholder="Ex: Rua João da Silva"
+                            name="street"
+                            value="${params.street}"
+                            required="true">
+                        </atlas-input>
 
-            <label for="number">Número:</label><br>
-            <input type="text" name="number" value="${params.number}"><br><br>
+                        <atlas-integer-input
+                            label="Número"
+                            placeholder="000"
+                            name="number"
+                            value="${params.number}"
+                            required="true">
+                        </atlas-integer-input>
 
-            <label for="complement">Complemento:</label><br>
-            <input type="text" name="complement" value="${params.complement}"><br><br>
-        </div>
-
-        <input type="submit" value="Submit">
-    </form>
+                        <atlas-input
+                            label="Complemento"
+                            placeholder="Ex: Apartamento 00, Bloco 00"
+                            name="complement"
+                            value="${params.complement}">
+                        </atlas-input>
+                        
+                        <atlas-button
+                                submit
+                                description="Salvar">
+                        </atlas-button>
+                    </atlas-panel>
+                </atlas-form>
+            </atlas-panel>
+        </atlas-page-content>
+    </atlas-page>
 </body>
 </html>
